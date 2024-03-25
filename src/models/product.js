@@ -46,10 +46,31 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
+    Product.hasMany(db.Wishlist, {
+      foreignKey: {
+        name: 'productId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
 
-    Product.hasOne(db.ProductDetail, {
+    Product.hasMany(db.ProductDetail, {
       foreignKey: {
         name: 'productDetailId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    Product.hasOne(db.OrderItem, {
+      foreignKey: {
+        name: 'productId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    Product.hasOne(db.Discount, {
+      foreignKey: {
+        name: 'productId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',

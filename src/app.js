@@ -12,7 +12,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 8000;
 
-// db.sequelize.sync({force:true});
+// db.sequelize.sync({force: true});
 // db.sequelize.drop();
 
 app.listen(port, () => console.log(`server running on port ${port}`));

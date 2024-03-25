@@ -25,5 +25,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
+
+  Address.associate = (db) => {
+    Address.belongsTo(db.User, {
+      foreignKey: {
+        name: 'userId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
   return Address;
 };

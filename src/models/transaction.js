@@ -29,5 +29,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
+  Transaction.associate = (db) => {
+    Transaction.belongsTo(db.Order, {
+      foreignKey: {
+        name: 'orderId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
   return Transaction;
 };

@@ -7,5 +7,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
+  Discount.associate = (db) => {
+    Discount.belongsTo(db.Product, {
+      foreignKey: {
+        name: 'productId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
   return Discount;
 };
