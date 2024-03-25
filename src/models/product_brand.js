@@ -9,5 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
+  ProductBrand.associate = (db) => {
+    ProductBrand.hasOne(db.Product, {
+      foreignKey: {
+        name: 'productBrandId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
+
   return ProductBrand;
 };

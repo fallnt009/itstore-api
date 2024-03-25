@@ -30,5 +30,31 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
+
+  Product.associate = (db) => {
+    Product.belongsTo(db.ProductBrand, {
+      foreignKey: {
+        name: 'productBrandId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    Product.belongsTo(db.ProductCategory, {
+      foreignKey: {
+        name: 'productCategoryId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+
+    Product.hasOne(db.ProductDetail, {
+      foreignKey: {
+        name: 'productDetailId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
+
   return Product;
 };

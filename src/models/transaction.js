@@ -10,21 +10,21 @@ module.exports = (sequelize, DataTypes) => {
     'Transaction',
     {
       amount: {
-        Type: DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       payment_type: {
-        Type: DataTypes.ENUM(BANKTRANSFER),
+        type: DataTypes.ENUM(BANKTRANSFER),
         allowNull: false,
         defaultValue: BANKTRANSFER,
       },
       payment_status: {
-        Type: DataTypes.ENUM(STATUS_PENDING, STATUS_CANCELED, STATUS_COMPLETED),
+        type: DataTypes.ENUM(STATUS_PENDING, STATUS_CANCELED, STATUS_COMPLETED),
         allowNull: false,
         defaultValue: STATUS_PENDING,
       },
       slip_image: {
-        Type: DataTypes.STRING,
+        type: DataTypes.STRING,
       },
     },
     {underscored: true}

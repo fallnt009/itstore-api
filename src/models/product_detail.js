@@ -13,5 +13,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
+  ProductDetail.associate = (db) => {
+    ProductDetail.belongsTo(db.Product, {
+      foreignKey: {
+        name: 'productDetailId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
   return ProductDetail;
 };

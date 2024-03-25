@@ -9,5 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
+  ProductCategory.associate = (db) => {
+    ProductCategory.hasOne(db.Product, {
+      foreignKey: {
+        name: 'productCategoryId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+  };
+
   return ProductCategory;
 };

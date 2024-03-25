@@ -2,8 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const Discount = sequelize.define(
     'Discount',
     {
-      type: {},
-      amount: {},
+      type: {type: DataTypes.STRING},
+      amount: {type: DataTypes.STRING},
     },
     {underscored: true}
   );
