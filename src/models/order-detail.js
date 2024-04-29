@@ -1,39 +1,43 @@
 module.exports = (sequelize, DataTypes) => {
-  const Address = sequelize.define(
-    'Address',
+  const OrderDetail = sequelize.define(
+    'OrderDetail',
     {
-      address: {
+      orderNumber: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      subdistrict: {
+      senderAddress: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      city: {
+      receiverAddress: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      province: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      deliveryDate: {
+        type: DataTypes.DATE,
       },
-      postalCode: {
+      eddDate: {
+        type: DataTypes.DATE,
+      },
+      deliveryName: {
         type: DataTypes.STRING,
-        allowNull: false,
+      },
+      trackingNumber: {
+        type: DataTypes.STRING,
       },
     },
     {underscored: true}
   );
-
-  Address.associate = (db) => {
-    Address.hasOne(db.UserAddress, {
+  OrderDetail.associate = (db) => {
+    OrderDetail.hasOne(db.Order, {
       foreignKey: {
-        name: 'addressId',
+        name: 'orderDetailId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
   };
-  return Address;
+
+  return OrderDetail;
 };

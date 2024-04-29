@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "ASUS"
+  },
+  {
+    "id": 2,
+    "title": "ASROCK"
+  },
+  {
+    "id": 3,
+    "title": "AORUS"
+  },
+  {
+    "id": 4,
+    "title": "AMD"
+  },
+  {
+    "id": 5,
+    "title": "NVIDIA"
+  },
+  {
+    "id": 6,
+    "title": "CORSAIR"
+  },
+  {
+    "id": 7,
+    "title": "SAMSUNG"
+  },
+  {
+    "id": 8,
+    "title": "GSKILL"
+  },
+  {
+    "id": 9,
+    "title": "KINGSTON"
+  },
+  {
+    "id": 10,
+    "title": "WESTERN DIGITAL"
+  }
+]

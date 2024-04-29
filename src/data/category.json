@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Component"
+  },
+  {
+    "id": 2,
+    "title": "Monitor"
+  },
+  {
+    "id": 3,
+    "title": "Gaming Gear"
+  },
+  {
+    "id": 4,
+    "title": "Network"
+  },
+  {
+    "id": 5,
+    "title": "UPS"
+  },
+  {
+    "id": 6,
+    "title": "Software"
+  },
+  {
+    "id": 7,
+    "title": "Comset"
+  },
+  {
+    "id": 8,
+    "title": "Accessories"
+  },
+  {
+    "id": 9,
+    "title": "Desktop PC"
+  },
+  {
+    "id": 10,
+    "title": "Laptop"
+  },
+  {
+    "id": 11,
+    "title": "Console"
+  }
+]

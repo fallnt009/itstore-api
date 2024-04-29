@@ -13,26 +13,29 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      payment_type: {
+      paymentType: {
         type: DataTypes.ENUM(BANKTRANSFER),
         allowNull: false,
         defaultValue: BANKTRANSFER,
       },
-      payment_status: {
+      paymentStatus: {
         type: DataTypes.ENUM(STATUS_PENDING, STATUS_CANCELED, STATUS_COMPLETED),
         allowNull: false,
         defaultValue: STATUS_PENDING,
       },
-      slip_image: {
+      paymentDate: {
+        type: DataTypes.DATE,
+      },
+      slipImage: {
         type: DataTypes.STRING,
       },
     },
     {underscored: true}
   );
   Transaction.associate = (db) => {
-    Transaction.belongsTo(db.Order, {
+    Transaction.hasOne(db.Order, {
       foreignKey: {
-        name: 'orderId',
+        name: 'transactionId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',

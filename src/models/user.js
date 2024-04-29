@@ -41,14 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = (db) => {
-    User.hasMany(db.Address, {
-      foreignKey: {
-        name: 'userId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-    User.hasMany(db.Order, {
+    User.hasMany(db.UserAddress, {
       foreignKey: {
         name: 'userId',
         allowNull: false,

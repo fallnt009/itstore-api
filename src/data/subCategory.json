@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "title": "CPU"
+  },
+  {
+    "id": 2,
+    "title": "Mainboard"
+  },
+  {
+    "id": 3,
+    "title": "Ram"
+  },
+  {
+    "id": 4,
+    "title": "Storage"
+  },
+  {
+    "id": 5,
+    "title": "Graphic Card"
+  },
+  {
+    "id": 6,
+    "title": "Case"
+  },
+  {
+    "id": 7,
+    "title": "Power Supply"
+  },
+  {
+    "id": 8,
+    "title": "CPU Cooler"
+  },
+  {
+    "id": 9,
+    "title": "Fan"
+  },
+  {
+    "id": 10,
+    "title": "Sound Card"
+  },
+  {
+    "id": 11,
+    "title": "Accessories"
+  },
+  {
+    "id": 12,
+    "title": "Keyboard"
+  },
+  {
+    "id": 13,
+    "title": "Headset"
+  },
+  {
+    "id": 14,
+    "title": "Mouse"
+  },
+  {
+    "id": 15,
+    "title": "Mouse Pad"
+  },
+  {
+    "id": 16,
+    "title": "Chair"
+  },
+  {
+    "id": 17,
+    "title": "Streaming"
+  },
+  {
+    "id": 18,
+    "title": "Speaker"
+  },
+  {
+    "id": 19,
+    "title": "Microphone"
+  },
+  {
+    "id": 20,
+    "title": "Desk"
+  },
+  {
+    "id": 21,
+    "title": "LAN"
+  },
+  {
+    "id": 22,
+    "title": "Router"
+  },
+  {
+    "id": 23,
+    "title": "Gaming Laptop"
+  },
+  {
+    "id": 24,
+    "title": "Working Laptop"
+  }
+]

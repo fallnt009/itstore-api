@@ -1,15 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-  const Wishlist = sequelize.define('Wishlist', {}, {underscored: true});
-
-  Wishlist.associate = (db) => {
-    Wishlist.belongsTo(db.User, {
+  const OrderItem = sequelize.define('OrderItem', {}, {underscored: true});
+  OrderItem.associate = (db) => {
+    OrderItem.belongsTo(db.Order, {
       foreignKey: {
-        name: 'userId',
+        name: 'orderId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
-    Wishlist.belongsTo(db.Product, {
+    OrderItem.belongsTo(db.Product, {
       foreignKey: {
         name: 'productId',
         allowNull: false,
@@ -17,5 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
     });
   };
-  return Wishlist;
+
+  return OrderItem;
 };

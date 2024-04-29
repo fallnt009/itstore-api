@@ -21,22 +21,28 @@ if (config.use_env_variable) {
   );
 }
 
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model;
-  });
+const loadModels = (directory, sequelize) => {
+  fs.readdirSync(directory)
+    .filter((file) => {
+      return (
+        file.indexOf('.') !== 0 &&
+        file !== basename &&
+        file.slice(-3) === '.js' &&
+        file.indexOf('.test.js') === -1
+      );
+    })
+    .forEach((file) => {
+      const fullPath = path.join(directory, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        loadModels(fullPath, sequelize);
+      } else {
+        const model = require(fullPath)(sequelize, Sequelize.DataTypes);
+        db[model.name] = model;
+      }
+    });
+};
+
+loadModels(__dirname, sequelize);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

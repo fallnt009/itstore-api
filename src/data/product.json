@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "title": "ASUS PRIME B760M-A WIFI D4 CSM",
+    "productImage": "",
+    "price": "4890",
+    "description": "LGA 1700 support PCIe 4.0 WIFI-6 2.5GB",
+    "isActive": true,
+    "onPromotion": false
+  },
+  {
+    "id": 2,
+    "title": "ASUS PRIME X670-P-CSM DDR5 ",
+    "productImage": "",
+    "price": "9590",
+    "description": "AM5 support DDR5 2.5GB Ethernet",
+    "isActive": true,
+    "onPromotion": false
+  },
+  {
+    "id": 3,
+    "title": "ASROCK B450M STEEL LEGEND",
+    "productImage": "",
+    "price": "2950",
+    "description": "AM4 support DDR4 Dual M.2",
+    "isActive": true,
+    "onPromotion": false
+  },
+  {
+    "id": 4,
+    "title": "ASROCK B650 LIVEMIXER",
+    "productImage": "",
+    "price": "7890",
+    "description": "AM5 support DDR5 2.5GB Ethernet",
+    "isActive": true,
+    "onPromotion": false
+  },
+  {
+    "id": 5,
+    "title": "GIGABYTE B760M AORUS ELITE (REV. 1.2)",
+    "productImage": "",
+    "price": "5150",
+    "description": "LGA 1700 support DDR5 2.5GB Ethernet",
+    "isActive": true,
+    "onPromotion": false
+  },
+  {
+    "id": 6,
+    "title": "GIGABYTE Z790 AORUS ELITE AX ICE (REV. 1.0)",
+    "productImage": "",
+    "price": "9790",
+    "description": "LGA 1700 support DDR5 WIFI-6E 2.5GB Ethernet",
+    "isActive": true,
+    "onPromotion": false
+  },
+  {
+    "id": 7,
+    "title": "ASUS ROG STRIX B760-I GAMING WIFI",
+    "productImage": "",
+    "price": "8390",
+    "description": "LGA 1700 support DDR5 WIFI-6E 2.5GB Ethernet",
+    "isActive": true,
+    "onPromotion": false
+  }
+]

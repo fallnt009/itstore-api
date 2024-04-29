@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const ProductBrand = sequelize.define(
-    'ProductBrand',
+  const SubCategory = sequelize.define(
+    'SubCategory',
     {
       title: {
         type: DataTypes.STRING,
@@ -9,15 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {underscored: true}
   );
-  ProductBrand.associate = (db) => {
-    ProductBrand.hasOne(db.Product, {
+  SubCategory.associate = (db) => {
+    SubCategory.hasOne(db.BrandCategorySub, {
       foreignKey: {
-        name: 'productBrandId',
+        name: 'subCategoryId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
   };
 
-  return ProductBrand;
+  return SubCategory;
 };

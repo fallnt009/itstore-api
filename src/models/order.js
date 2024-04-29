@@ -1,33 +1,27 @@
 const {
-  ORDER_PENDING,
-  ORDER_PROCESSING,
-  ORDER_COMPLETED,
-  ORDER_CANCELED,
+  STATUS_PENDING,
+  STATUS_PROCESSING,
+  STATUS_CANCELED,
+  STATUS_COMPLETED,
 } = require('../config/constants');
 
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define(
     'Order',
     {
-      status: {
+      orderStatus: {
         type: DataTypes.ENUM(
-          ORDER_PENDING,
-          ORDER_PROCESSING,
-          ORDER_COMPLETED,
-          ORDER_CANCELED
+          STATUS_PENDING,
+          STATUS_PROCESSING,
+          STATUS_CANCELED,
+          STATUS_COMPLETED
         ),
         allowNull: false,
-        defaultValue: ORDER_PENDING,
+        defaultValue: STATUS_PENDING,
       },
-      address: {
+      totalAmount: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      trackingNum: {
-        type: DataTypes.STRING,
-      },
-      shippingCoName: {
-        type: DataTypes.STRING,
       },
     },
     {underscored: true}
@@ -41,14 +35,21 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
-    Order.hasMany(db.OrderItem, {
+    Order.belongsTo(db.Transaction, {
       foreignKey: {
-        name: 'orderId',
+        name: 'transactionId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
-    Order.hasOne(db.Transaction, {
+    Order.belongsTo(db.OrderDetail, {
+      foreignKey: {
+        name: 'orderDetailId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    Order.hasMany(db.OrderItem, {
       foreignKey: {
         name: 'orderId',
         allowNull: false,

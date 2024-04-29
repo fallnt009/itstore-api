@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "subCategoryId": 2,
+    "brandCategoryId": 1
+  },
+  {
+    "id": 2,
+    "subCategoryId": 2,
+    "brandCategoryId": 2
+  },
+  {
+    "id": 3,
+    "subCategoryId": 2,
+    "brandCategoryId": 3
+  }
+]

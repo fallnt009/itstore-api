@@ -1,41 +1,127 @@
 const {validateProduct} = require('../../validators/product-validate');
-
-const {Product, ProductBrand, ProductCategory} = require('../../models');
+const {
+  Product,
+  ProductSubCategory,
+  BrandCategorySub,
+  BrandCategory,
+  MainCategory,
+  SubCategory,
+} = require('../../models');
 const createError = require('../../utils/create-error');
 
-exports.getAllProduct = async (req, res, next) => {};
-exports.getProductById = async (req, res, next) => {
+//GET NEW PRODUCT FOR HOMEPAGE
+exports.getNewProduct = async (req, res, next) => {
   try {
-    const product = await Product.findOne({
-      where: {
-        id: req.params.productId,
-      },
-      include: [
-        {
-          model: ProductCategory,
-          attributes: {
-            exclude: ['createdAt', 'updatedAt'],
-          },
-        },
-        {
-          model: ProductBrand,
-          attributes: {
-            exclude: ['createdAt', 'updatedAt'],
-          },
-        },
-      ],
+    const result = await Product.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 4,
     });
-
-    if (!product) {
-      createError('user with this id is not found', 400);
-    }
-    res.status(200).json({
-      product,
-    });
+    res.status(200).json({result});
   } catch (err) {
     next(err);
   }
 };
+
+exports.getProductByCategory = async (req, res, next) => {
+  try {
+    const {categoryName} = req.params;
+    const result = await Product.findAll({
+      include: [
+        {
+          model: ProductSubCategory,
+          required: true,
+          attributes: ['id'],
+          include: [
+            {
+              model: BrandCategorySub,
+              required: true,
+              attributes: ['id'],
+              include: [
+                {
+                  model: BrandCategory,
+                  required: true,
+                  attributes: ['id'],
+                  include: [
+                    {
+                      model: MainCategory,
+                      required: true,
+                      attributes: ['title'],
+                      where: {title: categoryName},
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json({result});
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getProductBySubCategory = async (req, res, next) => {
+  try {
+    const {categoryName, subCategoryName} = req.params;
+    const result = await Product.findAll({
+      include: [
+        {
+          model: ProductSubCategory,
+          required: true,
+          attributes: ['id'],
+          include: [
+            {
+              model: BrandCategorySub,
+              required: true,
+              attributes: ['id'],
+              include: [
+                {
+                  model: SubCategory,
+                  required: true,
+                  attributes: ['title'],
+                  where: {title: subCategoryName},
+                },
+                {
+                  model: BrandCategory,
+                  required: true,
+                  attributes: ['id'],
+                  include: [
+                    {
+                      model: MainCategory,
+                      required: true,
+                      attributes: ['title'],
+                      where: {title: categoryName},
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json({result});
+  } catch (err) {
+    next(err);
+  }
+};
+exports.getProductById = async (req, res, next) => {
+  try {
+    const {productId} = req.params;
+
+    const result = await Product.findOne({
+      where: {
+        id: productId,
+      },
+    });
+    res.status(200).json({result});
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createProduct = async (req, res, next) => {
   try {
     const value = validateProduct({
@@ -45,19 +131,18 @@ exports.createProduct = async (req, res, next) => {
       isActive: req.body.isActive,
       onPromotion: req.body.onPromotion,
     });
-    value.productCategoryId = req.body.productCategoryId;
-    value.productBrandId = req.body.productBrandId;
 
-    const product = await Product.create(value);
+    const result = await Product.create(value);
 
-    res.status(200).json({message: 'create product success', result: product});
+    res.status(200).json({message: 'create product success', result});
   } catch (err) {
     next(err);
   }
 };
 exports.updateProduct = async (req, res, next) => {
   try {
-    const productId = req.params.productId;
+    const {productId} = req.params;
+
     const value = validateProduct({
       title: req.body.title,
       price: req.body.price,
@@ -65,39 +150,25 @@ exports.updateProduct = async (req, res, next) => {
       isActive: req.body.isActive,
       onPromotion: req.body.onPromotion,
     });
-    value.productCategoryId = req.body.productCategoryId;
-    value.productBrandId = req.body.productBrandId;
 
-    const product = await Product.findOne({
-      where: {id: productId},
+    const result = await Product.update(value, {
+      where: {
+        id: productId,
+      },
     });
 
-    if (!product) {
-      createError('Product Not Found', 404);
-    }
-
-    await Product.update(value, {
-      where: {id: productId},
-    });
-
-    res.status(200).json({message: 'update success'});
+    res.status(200).json({message: 'update success', result});
   } catch (err) {
     next(err);
   }
 };
 exports.deleteProduct = async (req, res, next) => {
   try {
-    const productId = req.params.productId;
-    const product = await Product.findOne({
-      where: {id: productId},
-    });
-
-    if (!product) {
-      createError('Product Not Found', 404);
-    }
-
+    const {productId} = req.params;
     await Product.destroy({
-      where: {id: productId},
+      where: {
+        id: productId,
+      },
     });
     res.status(204).json({message: 'delete success'});
   } catch (err) {

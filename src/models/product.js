@@ -32,43 +32,35 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Product.associate = (db) => {
-    Product.belongsTo(db.ProductBrand, {
-      foreignKey: {
-        name: 'productBrandId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-    Product.belongsTo(db.ProductCategory, {
-      foreignKey: {
-        name: 'productCategoryId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-    Product.hasMany(db.Wishlist, {
+    Product.hasOne(db.ProductSubCategory, {
       foreignKey: {
         name: 'productId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
-
-    Product.hasMany(db.ProductDetail, {
+    Product.hasMany(db.ProductSpec, {
       foreignKey: {
-        name: 'productDetailId',
+        name: 'productId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    Product.hasOne(db.ProductDiscount, {
+      foreignKey: {
+        name: 'productId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    Product.hasOne(db.Wishlist, {
+      foreignKey: {
+        name: 'productId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
     Product.hasOne(db.OrderItem, {
-      foreignKey: {
-        name: 'productId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-    Product.hasOne(db.Discount, {
       foreignKey: {
         name: 'productId',
         allowNull: false,

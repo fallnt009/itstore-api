@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "brandCategorySubId": 1,
+    "productId": 1
+  },
+  {
+    "id": 2,
+    "brandCategorySubId": 1,
+    "productId": 2
+  },
+  {
+    "id": 3,
+    "brandCategorySubId": 2,
+    "productId": 3
+  },
+  {
+    "id": 4,
+    "brandCategorySubId": 2,
+    "productId": 4
+  },
+  {
+    "id": 5,
+    "brandCategorySubId": 3,
+    "productId": 5
+  },
+  {
+    "id": 6,
+    "brandCategorySubId": 3,
+    "productId": 6
+  },
+  {
+    "id": 7,
+    "brandCategorySubId": 3,
+    "productId": 7
+  }
+]

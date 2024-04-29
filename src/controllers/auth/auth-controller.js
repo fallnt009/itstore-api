@@ -11,8 +11,6 @@ exports.register = async (req, res, next) => {
   try {
     const value = validateRegister(req.body);
 
-    console.log(value);
-
     const user = await User.findOne({
       where: {
         email: value.email || '',
@@ -57,6 +55,7 @@ exports.login = async (req, res, next) => {
         email: user.email,
         mobile: user.mobile,
         profileImage: user.profileImage,
+        roles: user.roles,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
       },
@@ -69,6 +68,15 @@ exports.login = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.roles)) {
+      createError('You do not have permission to perform this action', 403);
+    }
+    next();
+  };
 };
 
 exports.getMyProfile = (req, res, next) => {

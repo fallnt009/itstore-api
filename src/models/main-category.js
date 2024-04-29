@@ -1,34 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
-  const OrderItem = sequelize.define(
-    'OrderItem',
+  const MainCategory = sequelize.define(
+    'MainCategory',
     {
-      quantity: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      totalPrice: {
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
       },
     },
     {underscored: true}
   );
-
-  OrderItem.associate = (db) => {
-    OrderItem.belongsTo(db.Order, {
+  MainCategory.associate = (db) => {
+    MainCategory.hasMany(db.BrandCategory, {
       foreignKey: {
-        name: 'orderId',
+        name: 'mainCategoryId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
-    OrderItem.belongsTo(db.Product, {
+    MainCategory.hasOne(db.SpecItem, {
       foreignKey: {
-        name: 'productId',
+        name: 'mainCategoryId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
   };
-  return OrderItem;
+
+  return MainCategory;
 };
