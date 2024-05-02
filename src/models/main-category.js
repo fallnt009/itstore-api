@@ -17,13 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
-    MainCategory.hasOne(db.SpecItem, {
-      foreignKey: {
-        name: 'mainCategoryId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
   };
 
   return MainCategory;

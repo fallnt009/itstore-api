@@ -13,5 +13,50 @@
     "id": 3,
     "subCategoryId": 2,
     "brandCategoryId": 3
+  },
+  {
+    "id": 4,
+    "subCategoryId": 1,
+    "brandCategoryId": 4
+  },
+  {
+    "id": 5,
+    "subCategoryId": 5,
+    "brandCategoryId": 4
+  },
+  {
+    "id": 6,
+    "subCategoryId": 5,
+    "brandCategoryId": 5
+  },
+  {
+    "id": 7,
+    "subCategoryId": 3,
+    "brandCategoryId": 6
+  },
+  {
+    "id": 8,
+    "subCategoryId": 4,
+    "brandCategoryId": 7
+  },
+  {
+    "id": 9,
+    "subCategoryId": 3,
+    "brandCategoryId": 8
+  },
+  {
+    "id": 10,
+    "subCategoryId": 3,
+    "brandCategoryId": 9
+  },
+  {
+    "id": 11,
+    "subCategoryId": 4,
+    "brandCategoryId": 10
+  },
+  {
+    "id": 12,
+    "subCategoryId": 1,
+    "brandCategoryId": 11
   }
 ]

@@ -17,3 +17,19 @@ const createProductSchema = Joi.object({
 });
 
 exports.validateProduct = validate(createProductSchema);
+
+const createSpecItem = Joi.object({
+  specName: Joi.string().required().messages({
+    'string.empty': 'spec name is required',
+  }),
+});
+
+exports.validateSpecItem = validate(createSpecItem);
+
+const createProductSpec = Joi.object({
+  description: Joi.string().trim().required().messages({
+    'string.empty': 'description is required',
+  }),
+});
+
+exports.validateProductSpec = validate(createProductSpec);

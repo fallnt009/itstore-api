@@ -22,10 +22,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: true,
       },
-      onPromotion: {
-        type: DataTypes.BOOLEAN,
+      qtyInStock: {
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: false,
+      },
+      productCode: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {underscored: true}

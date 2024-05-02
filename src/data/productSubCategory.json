@@ -31,7 +31,22 @@
   },
   {
     "id": 7,
-    "brandCategorySubId": 3,
+    "brandCategorySubId": 1,
     "productId": 7
+  },
+  {
+    "id": 8,
+    "brandCategorySubId": 4,
+    "productId": 8
+  },
+  {
+    "id": 9,
+    "brandCategorySubId": 12,
+    "productId": 9
+  },
+  {
+    "id": 10,
+    "brandCategorySubId": 12,
+    "productId": 10
   }
 ]

@@ -1,22 +1,24 @@
 module.exports = (sequelize, DataTypes) => {
-  const SpecItem = sequelize.define('SpecItem', {}, {underscored: true});
+  const SpecItem = sequelize.define(
+    'SpecItem',
+    {
+      specName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {underscored: true}
+  );
 
   SpecItem.associate = (db) => {
-    SpecItem.belongsTo(db.SpecName, {
+    SpecItem.belongsTo(db.SubCategory, {
       foreignKey: {
-        name: 'specNameId',
+        name: 'subCategoryId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
-    SpecItem.belongsTo(db.MainCategory, {
-      foreignKey: {
-        name: 'mainCategoryId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-    SpecItem.hasOne(db.ProductSpec, {
+    SpecItem.hasMany(db.ProductSpec, {
       foreignKey: {
         name: 'specItemId',
         allowNull: false,

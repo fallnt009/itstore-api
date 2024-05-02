@@ -107,6 +107,56 @@ exports.getProductBySubCategory = async (req, res, next) => {
     next(err);
   }
 };
+exports.getProductInfo = async (req, res, next) => {
+  try {
+    const {categoryName, subCategoryName, productName} = req.params;
+    const decodedProductName = decodeURIComponent(productName);
+
+    const result = await Product.findOne({
+      where: {title: decodedProductName},
+      include: [
+        {
+          model: ProductSubCategory,
+          required: true,
+          attributes: ['id'],
+          include: [
+            {
+              model: BrandCategorySub,
+              required: true,
+              attributes: ['id'],
+              include: [
+                {
+                  model: SubCategory,
+                  required: true,
+                  attributes: ['title'],
+                  where: {title: subCategoryName},
+                },
+                {
+                  model: BrandCategory,
+                  required: true,
+                  attributes: ['id'],
+                  include: [
+                    {
+                      model: MainCategory,
+                      required: true,
+                      attributes: ['title'],
+                      where: {title: categoryName},
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    res.status(200).json({result});
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getProductById = async (req, res, next) => {
   try {
     const {productId} = req.params;
@@ -129,7 +179,6 @@ exports.createProduct = async (req, res, next) => {
       price: req.body.price,
       description: req.body.description,
       isActive: req.body.isActive,
-      onPromotion: req.body.onPromotion,
     });
 
     const result = await Product.create(value);

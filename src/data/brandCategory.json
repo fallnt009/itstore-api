@@ -13,5 +13,40 @@
     "id": 3,
     "brandId": 3,
     "mainCategoryId": 1
+  },
+  {
+    "id": 4,
+    "brandId": 4,
+    "mainCategoryId": 1
+  },
+  {
+    "id": 5,
+    "brandId": 5,
+    "mainCategoryId": 1
+  },
+  {
+    "id": 6,
+    "brandId": 6,
+    "mainCategoryId": 1
+  },
+  {
+    "id": 7,
+    "brandId": 7,
+    "mainCategoryId": 1
+  },
+  {
+    "id": 8,
+    "brandId": 8,
+    "mainCategoryId": 1
+  },
+  {
+    "id": 9,
+    "brandId": 9,
+    "mainCategoryId": 1
+  },
+  {
+    "id": 10,
+    "brandId": 10,
+    "mainCategoryId": 1
   }
 ]
