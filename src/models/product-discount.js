@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     ProductDiscount.belongsTo(db.Discount, {
       foreignKey: {
         name: 'discountId',
-        allowNull: false,
       },
       onDelete: 'RESTRICT',
     });

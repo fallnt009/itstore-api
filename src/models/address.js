@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       streetNumber: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       addressLine1: {
         type: DataTypes.STRING,
@@ -16,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       addressLine2: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       city: {
         type: DataTypes.STRING,

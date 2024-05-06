@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     Discount.hasOne(db.ProductDiscount, {
       foreignKey: {
         name: 'discountId',
-        allowNull: false,
       },
       onDelete: 'RESTRICT',
     });

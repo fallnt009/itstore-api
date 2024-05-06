@@ -8,6 +8,8 @@ const {
   SubCategory,
 } = require('../../models');
 const createError = require('../../utils/create-error');
+const factory = require('../utils/handlerFactory');
+const {Op} = require('sequelize');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
@@ -159,11 +161,9 @@ exports.getProductInfo = async (req, res, next) => {
 
 exports.getProductById = async (req, res, next) => {
   try {
-    const {productId} = req.params;
-
     const result = await Product.findOne({
       where: {
-        id: productId,
+        id: req.params.id,
       },
     });
     res.status(200).json({result});
@@ -179,7 +179,19 @@ exports.createProduct = async (req, res, next) => {
       price: req.body.price,
       description: req.body.description,
       isActive: req.body.isActive,
+      qtyInStock: req.body.qtyInStock,
+      productCode: req.body.productCode,
     });
+
+    const existingCode = await Product.findAll({
+      where: {
+        productCode: value.productCode,
+      },
+    });
+
+    if (existingCode.length > 0) {
+      createError('Product code already exist', 400);
+    }
 
     const result = await Product.create(value);
 
@@ -190,37 +202,36 @@ exports.createProduct = async (req, res, next) => {
 };
 exports.updateProduct = async (req, res, next) => {
   try {
-    const {productId} = req.params;
-
     const value = validateProduct({
       title: req.body.title,
       price: req.body.price,
       description: req.body.description,
       isActive: req.body.isActive,
-      onPromotion: req.body.onPromotion,
+      qtyInStock: req.body.qtyInStock,
+      productCode: req.body.productCode,
     });
-
-    const result = await Product.update(value, {
+    const existingCode = await Product.findAll({
       where: {
-        id: productId,
+        productCode: value.productCode,
+        id: {
+          [Op.not]: req.params.id,
+        },
       },
     });
 
-    res.status(200).json({message: 'update success', result});
+    if (existingCode.length > 0) {
+      createError('Product code already exist', 400);
+    }
+
+    await Product.update(value, {
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.status(200).json({message: 'update success'});
   } catch (err) {
     next(err);
   }
 };
-exports.deleteProduct = async (req, res, next) => {
-  try {
-    const {productId} = req.params;
-    await Product.destroy({
-      where: {
-        id: productId,
-      },
-    });
-    res.status(204).json({message: 'delete success'});
-  } catch (err) {
-    next(err);
-  }
-};
+exports.deleteProduct = factory.deleteOne(Product);

@@ -13,7 +13,12 @@ const createProductSchema = Joi.object({
     'string.empty': 'description is required',
   }),
   isActive: Joi.boolean().required(),
-  onPromotion: Joi.boolean().required(),
+  qtyInStock: Joi.string().trim().required().messages({
+    'string.empty': 'quantity is required',
+  }),
+  productCode: Joi.string().trim().required().messages({
+    'string.empty': 'product code is required',
+  }),
 });
 
 exports.validateProduct = validate(createProductSchema);
@@ -33,3 +38,11 @@ const createProductSpec = Joi.object({
 });
 
 exports.validateProductSpec = validate(createProductSpec);
+
+const createProductBrand = Joi.object({
+  title: Joi.string().required().messages({
+    'string.empty': 'title is required',
+  }),
+});
+
+exports.validateProductBrand = validate(createProductBrand);

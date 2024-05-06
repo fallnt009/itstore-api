@@ -19,18 +19,6 @@ router
   .post(specController.createProductSpec);
 //GET new product
 router.route('/new').get(productController.getNewProduct);
-//GET By Main Category
-router
-  .route('/category/:categoryName')
-  .get(productController.getProductByCategory);
-//GET by Main and Sub Category
-router
-  .route('/category/:categoryName/:subCategoryName')
-  .get(productController.getProductBySubCategory);
-
-router
-  .route('/category/:categoryName/:subCategoryName/:productName')
-  .get(productController.getProductInfo);
 
 //Protected Route
 router.use(authenticate);
@@ -40,7 +28,7 @@ router.use(authController.restrictTo(EMPLOYEE));
 //Product CRUD
 router.route('/').post(productController.createProduct);
 router
-  .route('/:productId')
+  .route('/:id')
   .get(productController.getProductById)
   .patch(productController.updateProduct)
   .delete(productController.deleteProduct);
