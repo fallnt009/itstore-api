@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Discount.associate = (db) => {
-    Discount.hasOne(db.ProductDiscount, {
+    Discount.hasMany(db.ProductDiscount, {
       foreignKey: {
         name: 'discountId',
       },

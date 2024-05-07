@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Address.associate = (db) => {
-    Address.hasOne(db.UserAddress, {
+    Address.hasMany(db.UserAddress, {
       foreignKey: {
         name: 'addressId',
         allowNull: false,

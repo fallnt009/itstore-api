@@ -6,8 +6,8 @@ const {
 } = require('../config/constants');
 
 module.exports = (sequelize, DataTypes) => {
-  const Transaction = sequelize.define(
-    'Transaction',
+  const UserPayment = sequelize.define(
+    'UserPayment',
     {
       amount: {
         type: DataTypes.STRING,
@@ -26,20 +26,27 @@ module.exports = (sequelize, DataTypes) => {
       paymentDate: {
         type: DataTypes.DATE,
       },
-      slipImage: {
+      proofImage: {
         type: DataTypes.STRING,
       },
     },
     {underscored: true}
   );
-  Transaction.associate = (db) => {
-    Transaction.hasOne(db.Order, {
+  UserPayment.associate = (db) => {
+    UserPayment.hasOne(db.Order, {
       foreignKey: {
-        name: 'transactionId',
+        name: 'userPaymentId',
+        allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    UserPayment.belongsTo(db.User, {
+      foreignKey: {
+        name: 'userId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
   };
-  return Transaction;
+  return UserPayment;
 };

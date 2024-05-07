@@ -48,5 +48,10 @@
     "id": 10,
     "brandId": 10,
     "mainCategoryId": 1
+  },
+  {
+    "id": 11,
+    "brandId": 11,
+    "mainCategoryId": 1
   }
 ]
