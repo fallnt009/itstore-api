@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const chalk = require('chalk');
 const morgan = require('morgan');
 const db = require('../src/models/index');
 
@@ -13,6 +14,10 @@ const authRoute = require('./routes/auth-route');
 const userRoute = require('./routes/user-route');
 const wishlistRoute = require('./routes/wishlist-route');
 const addressRoute = require('./routes/address-route');
+const cartRoute = require('./routes/cart-route');
+
+const notFoundMiddleware = require('./middlewares/not-found');
+const errorMiddleware = require('./middlewares/error');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -25,10 +30,16 @@ app.use('/api/users', userRoute);
 app.use('/api/address', addressRoute);
 app.use('/api/wish', wishlistRoute);
 app.use('/api/mock', mockDataRoute);
+app.use('/api/cart', cartRoute);
+
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 const port = process.env.PORT || 8000;
 
 // db.sequelize.sync();
 // db.sequelize.drop();
 
-app.listen(port, () => console.log(`server running on port ${port}`));
+app.listen(port, () =>
+  console.log(chalk.yellowBright.italic.bold(`server running on port ${port}`))
+);

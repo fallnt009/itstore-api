@@ -4,7 +4,7 @@ const {
 } = require('../../validators/auth-validate');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {User} = require('../../models');
+const {User, Cart} = require('../../models');
 const createError = require('../../utils/create-error');
 
 exports.register = async (req, res, next) => {
@@ -21,7 +21,9 @@ exports.register = async (req, res, next) => {
       createError('email already in use', 400);
     }
     value.password = await bcrypt.hash(value.password, 12);
-    await User.create(value);
+    const newUser = await User.create(value);
+    await Cart.create({userId: newUser.id});
+
     res
       .status(201)
       .json({message: 'register success. please login to continue'});

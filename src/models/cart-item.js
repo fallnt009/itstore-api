@@ -3,14 +3,14 @@ module.exports = (sequelize, DataTypes) => {
     'CartItem',
     {
       qty: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {underscored: true}
   );
   CartItem.associate = (db) => {
-    CartItem.hasMany(db.Cart, {
+    CartItem.belongsTo(db.Cart, {
       foreignKey: {
         name: 'cartId',
         allowNull: false,
