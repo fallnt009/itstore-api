@@ -7,6 +7,8 @@ const {
   MainCategory,
   SubCategory,
 } = require('../../models');
+
+const generateNumber = require('../../controllers/utils/generateNumber');
 const createError = require('../../utils/create-error');
 const factory = require('../utils/handlerFactory');
 const {Op} = require('sequelize');
@@ -180,8 +182,9 @@ exports.createProduct = async (req, res, next) => {
       description: req.body.description,
       isActive: req.body.isActive,
       qtyInStock: req.body.qtyInStock,
-      productCode: req.body.productCode,
     });
+
+    value.productCode = generateNumber.generateProductCode(6);
 
     const existingCode = await Product.findAll({
       where: {

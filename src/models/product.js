@@ -23,12 +23,13 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: true,
       },
       qtyInStock: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       productCode: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
     },
     {underscored: true}

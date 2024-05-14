@@ -43,32 +43,36 @@ exports.createAddress = async (req, res, next) => {
 exports.deleteAddress = async (req, res, next) => {
   try {
     const del = await sequelize.transaction();
-    const existAddress = await UserAddress.findOne({
-      where: {
-        userId: req.user.id,
-        addressId: req.params.id,
-      },
-      transaction: del,
-    });
-    if (!existAddress) {
-      createError('Address not exist', 400);
+    try {
+      const existAddress = await UserAddress.findOne({
+        where: {
+          userId: req.user.id,
+          addressId: req.params.id,
+        },
+        transaction: del,
+      });
+      if (!existAddress) {
+        createError('Address not exist', 400);
+      }
+
+      //delete UserAddress entry
+      await existAddress.destroy({transaction: del});
+      //Delete Address
+
+      await Address.destroy({
+        where: {id: req.params.id},
+        transaction: del,
+      });
+      //commit transaction
+      await del.commit();
+      //res no content
+      res.status(204).json();
+    } catch (err) {
+      await del.rollback();
+      throw err;
     }
-
-    //delete UserAddress entry
-    await existAddress.destroy({transaction: del});
-    //Delete Address
-
-    await Address.destroy({
-      where: {id: req.params.id},
-      transaction: del,
-    });
-    //commit transaction
-    await del.commit();
-    //res no content
-    res.status(204).json();
   } catch (err) {
     //rollback if error
-    // await del.rollback();
     next(err);
   }
 };
