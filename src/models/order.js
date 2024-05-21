@@ -3,6 +3,7 @@ const {
   STATUS_PROCESSING,
   STATUS_CANCELED,
   STATUS_COMPLETED,
+  ORDER_EXPIRE,
 } = require('../config/constants');
 
 module.exports = (sequelize, DataTypes) => {
@@ -19,9 +20,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: STATUS_PENDING,
       },
+
       totalAmount: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      expireDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: ORDER_EXPIRE,
       },
     },
     {underscored: true}

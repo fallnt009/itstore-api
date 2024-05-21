@@ -8,6 +8,11 @@ const {
   Product,
   sequelize,
 } = require('../../models');
+const {
+  STATUS_PENDING,
+  STATUS_PROCESSING,
+  STATUS_COMPLETED,
+} = require('../../config/constants');
 const createError = require('../../utils/create-error');
 const {generateOrderNumber} = require('../utils/generateNumber');
 
@@ -70,7 +75,7 @@ exports.createOrder = async (req, res, next) => {
     const stockChange = [];
 
     for (const item of cartItems) {
-      totalPrice += item.qty * item.Product.price;
+      totalPrice += item.qty * item.Product.price; //?need? vat 7%
       //keep the original stock and the change made
       stockChange.push({
         productId: item.productId,
@@ -109,21 +114,28 @@ exports.createOrder = async (req, res, next) => {
         price: item.Product.price,
       });
 
-      //Decrease Stock
+      //Reduce Stock
       const product = item.Product;
       product.qtyInStock -= item.qty;
       await product.save({transaction: od});
     }
 
     //and send into Order Item
-    const orderItems = await OrderItem.bulkCreate(orderItemsData, {
+    await OrderItem.bulkCreate(orderItemsData, {
       transaction: od,
     });
+    // sent on req.body.order
+    req.body.order = order;
+    //Set time out for expire date
+
+    setTimeout(() => {
+      module.exports.checkOrderExpireDate(req, res, next);
+    }, 35 * 60 * 1000); // 35 mins 35 * 60 * 1000
 
     //transaction commit
     await od.commit();
 
-    res.status(200).json({orderItems});
+    res.status(200).json({order});
   } catch (err) {
     await od.rollback();
     next(err);
@@ -131,7 +143,8 @@ exports.createOrder = async (req, res, next) => {
 };
 exports.cancelOrder = async (req, res, next) => {
   const userId = req.user.id;
-  const orderId = req.params.orderId;
+  const orderId = req.params.orderId || req.body.order.id;
+
   const od = await sequelize.transaction();
   try {
     //find the order and item
@@ -147,7 +160,10 @@ exports.cancelOrder = async (req, res, next) => {
     if (!order) {
       createError('Order not found', 404);
     }
-
+    //check status if processing or completed cannot cancel order ????
+    if (order.orderStatus !== STATUS_PENDING) {
+      createError('Your order cannot cancel due to processing', 400);
+    }
     //Update the Stock for each based on order items
     for (const orderItem of order.OrderItems) {
       const product = await Product.findByPk(orderItem.productId, {
@@ -158,17 +174,82 @@ exports.cancelOrder = async (req, res, next) => {
         await product.save({transaction: od});
       }
     }
-    //find and delete associated order items
+    // //find and delete associated order items
     await OrderItem.destroy({where: {orderId: order.id}, transaction: od});
 
-    //delete Order
+    // //delete Order
     await order.destroy({transaction: od});
+    //delete userPayment
+    await UserPayment.destroy({
+      where: {id: order.userPaymentId},
+      transaction: od,
+    });
 
     //commit
     await od.commit();
-    res.status(200).json({message: 'Order canceled Success'});
+    res.status(200).json({message: 'Order canceled Success', order});
   } catch (err) {
     await od.rollback();
+    next(err);
+  }
+};
+
+exports.checkOrderExpireDate = async (req, res, next) => {
+  try {
+    const currentDate = new Date();
+    const order = req.body.order;
+    const od = await sequelize.transaction();
+    if (currentDate > order.expireDate) {
+      //check order status not process or completed cancel order
+      if (
+        order.orderStatus !== STATUS_PROCESSING ||
+        order.orderStatus !== STATUS_COMPLETED
+      ) {
+        //cancel order
+        try {
+          const findOrder = await Order.findOne({
+            where: {
+              id: order.id,
+              userId: order.userId,
+            },
+            include: OrderItem,
+            transaction: od,
+          });
+
+          //Update the Stock for each based on order items
+          for (const orderItem of findOrder.OrderItems) {
+            const product = await Product.findByPk(orderItem.productId, {
+              transaction: od,
+            });
+
+            if (product) {
+              product.qtyInStock += orderItem.qty; // return stock
+              await product.save({transaction: od});
+            }
+          }
+          //find and delete associated order items
+          await OrderItem.destroy({
+            where: {orderId: findOrder.id},
+            transaction: od,
+          });
+
+          //delete Order
+          await findOrder.destroy({transaction: od});
+          //delete userPayment
+          await UserPayment.destroy({
+            where: {id: findOrder.userPaymentId},
+            transaction: od,
+          });
+
+          //commit
+          await od.commit();
+        } catch (err) {
+          await od.rollback();
+          next(err);
+        }
+      }
+    }
+  } catch (err) {
     next(err);
   }
 };

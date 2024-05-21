@@ -23,6 +23,7 @@ const errorMiddleware = require('./middlewares/error');
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
+app.use('/static', express.static('public'));
 
 app.use('/api/products', productRoute);
 app.use('/api/categories', categoryRoute);

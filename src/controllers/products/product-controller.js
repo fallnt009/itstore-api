@@ -6,6 +6,7 @@ const {
   BrandCategory,
   MainCategory,
   SubCategory,
+  ProductImage,
 } = require('../../models');
 
 const generateNumber = require('../../controllers/utils/generateNumber');
@@ -176,6 +177,8 @@ exports.getProductById = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
+    const productImg = req.file?.path;
+    console.log(productImg);
     const value = validateProduct({
       title: req.body.title,
       price: req.body.price,
@@ -196,9 +199,16 @@ exports.createProduct = async (req, res, next) => {
       createError('Product code already exist', 400);
     }
 
-    const result = await Product.create(value);
+    // const product = await Product.create(value);
 
-    res.status(200).json({message: 'create product success', result});
+    //Map Image
+
+    //If have Image
+    // if (productImg) {
+    //   await ProductImage.create({productId: product.id, path: productImg});
+    // }
+
+    res.status(200).json({message: 'create product success', value});
   } catch (err) {
     next(err);
   }

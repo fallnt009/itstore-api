@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'OrderItem',
     {
       qty: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       price: {

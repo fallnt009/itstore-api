@@ -10,3 +10,6 @@ exports.STATUS_PENDING = 'PENDING';
 exports.STATUS_PROCESSING = 'PROCESSING';
 exports.STATUS_COMPLETED = 'COMPLETED';
 exports.STATUS_CANCELED = 'CANCELED';
+
+//order expire
+exports.ORDER_EXPIRE = new Date(new Date().getTime() + 30 * 60 * 1000); // 30 mins
