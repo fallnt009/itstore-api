@@ -103,9 +103,8 @@ exports.createOrder = async (req, res, next) => {
       {transaction: od}
     );
 
-    const orderItemsData = [];
-
     // Pack data into array
+    const orderItemsData = [];
     for (const item of cartItems) {
       orderItemsData.push({
         orderId: order.id,

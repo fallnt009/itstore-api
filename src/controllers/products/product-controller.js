@@ -7,17 +7,51 @@ const {
   MainCategory,
   SubCategory,
   ProductImage,
+  sequelize,
+  Brand,
 } = require('../../models');
 
 const generateNumber = require('../../controllers/utils/generateNumber');
 const createError = require('../../utils/create-error');
-const factory = require('../utils/handlerFactory');
 const {Op} = require('sequelize');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
   try {
     const result = await Product.findAll({
+      include: [
+        {
+          model: ProductSubCategory,
+          required: true,
+          attributes: ['id'],
+          include: [
+            {
+              model: BrandCategorySub,
+              required: true,
+              attributes: ['id'],
+              include: [
+                {
+                  model: SubCategory,
+                  required: true,
+                  attributes: ['title'],
+                },
+                {
+                  model: BrandCategory,
+                  required: true,
+                  attributes: ['id'],
+                  include: [
+                    {
+                      model: MainCategory,
+                      required: true,
+                      attributes: ['title'],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
       order: [['createdAt', 'DESC']],
       limit: 4,
     });
@@ -147,6 +181,11 @@ exports.getProductInfo = async (req, res, next) => {
                       attributes: ['title'],
                       where: {title: categoryName},
                     },
+                    {
+                      model: Brand,
+                      required: true,
+                      attributes: ['title'],
+                    },
                   ],
                 },
               ],
@@ -177,8 +216,8 @@ exports.getProductById = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    const productImg = req.file?.path;
-    console.log(productImg);
+    const productImg = req.files?.map((file) => file.filename);
+
     const value = validateProduct({
       title: req.body.title,
       price: req.body.price,
@@ -199,52 +238,132 @@ exports.createProduct = async (req, res, next) => {
       createError('Product code already exist', 400);
     }
 
-    // const product = await Product.create(value);
+    const product = await Product.create(value);
 
-    //Map Image
+    //image Array
+    const imgArray = [];
 
-    //If have Image
-    // if (productImg) {
-    //   await ProductImage.create({productId: product.id, path: productImg});
-    // }
+    //Loop and save Image
+    if (productImg.length > 0) {
+      for (const path of productImg) {
+        imgArray.push({
+          productId: product.id,
+          path: `${process.env.PRODUCT_IMAGE_URL}${path}`,
+        });
+      }
+      await ProductImage.bulkCreate(imgArray);
+    }
 
-    res.status(200).json({message: 'create product success', value});
+    res.status(200).json({message: 'create product success'});
   } catch (err) {
     next(err);
   }
 };
+
 exports.updateProduct = async (req, res, next) => {
+  const pd = await sequelize.transaction();
   try {
+    const imageFile = req.files?.map((file) => file.filename);
+
+    const productID = req.params.id;
+
     const value = validateProduct({
       title: req.body.title,
       price: req.body.price,
       description: req.body.description,
       isActive: req.body.isActive,
       qtyInStock: req.body.qtyInStock,
-      productCode: req.body.productCode,
     });
-    const existingCode = await Product.findAll({
-      where: {
-        productCode: value.productCode,
-        id: {
-          [Op.not]: req.params.id,
+    const existingCode = await Product.findAll(
+      {
+        where: {
+          productCode: value.productCode,
+          id: {
+            [Op.not]: productID,
+          },
         },
       },
-    });
+      {transaction: pd}
+    );
 
     if (existingCode.length > 0) {
+      await pd.rollback();
       createError('Product code already exist', 400);
     }
 
-    await Product.update(value, {
-      where: {
-        id: req.params.id,
+    await Product.update(
+      value,
+      {
+        where: {
+          id: productID,
+        },
       },
-    });
+      {transaction: pd}
+    );
+    //Find EXIST image
+    const productImage = await ProductImage.findAll(
+      {
+        where: {productId: productID},
+      },
+      {transaction: pd}
+    );
+    //Delete Old Image LOOP
+    for (const img of productImage) {
+      await img.destroy({transaction: pd});
+    }
+
+    //Loop and Save Image
+    if (imageFile.length > 0) {
+      //Empty array
+      const imgArray = [];
+      for (const path of imageFile) {
+        imgArray.push({
+          productId: productID,
+          path: `${process.env.PRODUCT_IMAGE_URL}${path}`,
+        });
+      }
+      await ProductImage.bulkCreate(imgArray, {transaction: pd});
+    }
+    await pd.commit();
 
     res.status(200).json({message: 'update success'});
   } catch (err) {
+    await pd.rollback();
     next(err);
   }
 };
-exports.deleteProduct = factory.deleteOne(Product);
+exports.deleteProduct = async (req, res, next) => {
+  const pd = await sequelize.transaction();
+
+  try {
+    const productID = req.params.id;
+    //find product if exist
+    const product = await Product.findOne(
+      {where: {id: productID}},
+      {transaction: pd}
+    );
+
+    if (!product) {
+      await pd.rollback();
+      createError('Product not exist!', 400);
+    }
+    //delete product Image
+    await ProductImage.destroy(
+      {where: {productId: product.id}},
+      {transaction: pd}
+    );
+    //delete product category sub
+    await ProductSubCategory.destroy(
+      {where: {productId: product.id}},
+      {transaction: pd}
+    );
+    //delete product
+    await product.destroy({transaction: pd});
+
+    await pd.commit();
+    res.status(204).json({});
+  } catch (err) {
+    await pd.rollback();
+    next(err);
+  }
+};

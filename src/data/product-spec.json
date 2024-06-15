@@ -43,13 +43,13 @@
     "id": 11,
     "specItemId": 11,
     "productId": 1,
-    "description": "Total supports 2 x M.2 slots and 4x SATA 6Gb/s ports* Intel® 13th & 12th Gen Processors M.2_1 slot (Key M), type 2242/2260/2280 (supports PCIe 4.0 x4 mode) Intel® B760 Chipset M.2_2 slot (Key M), type 2242/2260/2280 (supports PCIe 4.0 x4 mode) 4 x SATA 6Gb/s ports * Intel® Rapid Storage Technology supports SATA RAID 0/1/5/10."
+    "description": "Total supports 2 x M.2 slots and 4x SATA 6Gb/s ports* Intel® 13th & 12th Gen Processors M.2_1 slot (Key M), "
   },
   {
     "id": 12,
     "specItemId": 12,
     "productId": 1,
-    "description": "Rear USB (Total 6 ports) 2 x USB 3.2 Gen 2 ports (2 x Type-A ) 4 x USB 2.0 ports (4 x Type-A) Front USB (Total 10 ports) 2 x USB 3.2 Gen 1 headers support 4 additional USB 3.2 Gen 1 ports 1 x USB 3.2 Gen 1 connector (supports USB Type-C®) 2 x USB 2.0 headers support 4 additional USB 2.0 ports 1 x USB 2.0 header supports 1 additional USB 2.0 port"
+    "description": "Rear USB (Total 6 ports) "
   },
   {
     "id": 13,
@@ -67,7 +67,7 @@
     "id": 15,
     "specItemId": 13,
     "productId": 1,
-    "description": "Miscellaneous 3 x Addressable Gen 2 headers 1 x Aura RGB header 1 x Clear CMOS header 1 x COM Port header 1 x Front Panel Audio header (AAFP) 1 x LPT header 1 x S/PDIF Out header 1 x SPI TPM header (14-1pin) 1 x 20-3 pin System Panel header with Chassis intrude function"
+    "description": "Miscellaneous 3 x Addressable Gen 2 headers 1 x Aura RGB header 1 x Clear CMOS header 1 x COM Port header 1 x Front Panel Audio header (AAFP) 1 x LPT header 1 x S/PDIF Out header 1 x SPI TPM header (14-1pin) "
   },
   {
     "id": 16,

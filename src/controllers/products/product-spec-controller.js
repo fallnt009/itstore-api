@@ -1,18 +1,25 @@
-const {required} = require('joi');
 const {Product, SubCategory, SpecItem, ProductSpec} = require('../../models');
 const {
   validateSpecItem,
   validateProductSpec,
 } = require('../../validators/product-validate');
 
-// const specItemData = require('../../data/spec-items.json');
-// const productSpecData = require('../../data/product-spec.json');
+const specItemData = require('../../data/spec-items.json');
+const productSpecData = require('../../data/product-spec.json');
 
 exports.getSpecItemBySubCategory = async (req, res, next) => {
   try {
+    const {subCategoryName} = req.params;
+
     const result = await SpecItem.findAll({
       attributes: ['id', 'specName'],
-      include: [{model: SubCategory, attributes: ['title']}],
+      include: [
+        {
+          model: SubCategory,
+          attributes: ['title'],
+          where: {title: subCategoryName},
+        },
+      ],
     });
     res.status(200).json({result});
   } catch (err) {
@@ -30,11 +37,27 @@ exports.createSpecItem = async (req, res, next) => {
     next(err);
   }
 };
+exports.mockSpecItem = async (req, res, next) => {
+  try {
+    const result = await SpecItem.bulkCreate(specItemData);
+    res.status(200).json({message: 'create success', result});
+  } catch (err) {
+    next(err);
+  }
+};
+exports.mockProductSpec = async (req, res, next) => {
+  try {
+    const result = await ProductSpec.bulkCreate(productSpecData);
+    res.status(200).json({message: 'create success', result});
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.getProductSpec = async (req, res, next) => {
   try {
     const result = await ProductSpec.findAll({
-      attributes: ['description'],
+      attributes: ['id', 'description'],
       include: [
         {
           model: Product,

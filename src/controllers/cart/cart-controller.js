@@ -3,7 +3,6 @@ const {validateCart} = require('../../validators/cart-validate');
 const createError = require('../../utils/create-error');
 
 exports.getMyCart = async (req, res, next) => {
-  //get cart by userId
   const result = await Cart.findAll({
     where: {
       id: req.user.id,
@@ -24,6 +23,35 @@ exports.getMyCart = async (req, res, next) => {
   }
 };
 
+exports.getCartItemById = async (req, res, next) => {
+  const userId = req.user.id;
+  const cartItemId = req.params.id;
+
+  //find Cart where userId
+  const cartItem = await CartItem.findOne({
+    where: {id: cartItemId},
+    attributes: ['id', 'qty', 'cartId', 'productId'],
+    include: [
+      {model: Product},
+      {
+        model: Cart,
+        where: {userId: userId},
+        attributes: ['id', 'userId'],
+      },
+    ],
+  });
+
+  if (!cartItem) {
+    createError('Item not found', 404);
+  }
+
+  res.status(200).json({message: 'Success', cartItem});
+  try {
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.addCartItem = async (req, res, next) => {
   try {
     //find user cart
@@ -38,7 +66,7 @@ exports.addCartItem = async (req, res, next) => {
     });
     value.cartId = cart.id;
     //Check Product Stock if not 0
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findOne({where: {id: value.productId}});
 
     //
     if (!product || value.qty > product.qtyInStock) {
@@ -46,9 +74,25 @@ exports.addCartItem = async (req, res, next) => {
     }
 
     //create cart item
-    const item = await CartItem.create(value);
+    const cartItem = await CartItem.create(value);
 
-    res.status(200).json({cart, item});
+    //find All
+    const result = await Cart.findOne({
+      where: {
+        id: req.user.id,
+      },
+      attributes: ['id', 'userId'],
+      include: [
+        {
+          model: CartItem,
+          where: {id: cartItem.id},
+          attributes: ['id', 'qty', 'cartId', 'productId'],
+          include: [{model: Product}],
+        },
+      ],
+    });
+
+    res.status(200).json({result});
   } catch (err) {
     next(err);
   }

@@ -5,6 +5,9 @@ const brandController = require('../controllers/products/brand-controller');
 const categoryController = require('../controllers/products/category-controller');
 
 const router = express.Router();
+
+router.route('/fetch').get(categoryController.getBrandCategorySub);
+
 //Main Category Route
 router
   .route('/category')

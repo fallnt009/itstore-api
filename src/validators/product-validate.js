@@ -12,7 +12,7 @@ const createProductSchema = Joi.object({
   description: Joi.string().trim().required().messages({
     'string.empty': 'description is required',
   }),
-  isActive: Joi.boolean().required(),
+  isActive: Joi.boolean().default(true),
   qtyInStock: Joi.number().required().messages({
     'string.empty': 'quantity is required',
   }),

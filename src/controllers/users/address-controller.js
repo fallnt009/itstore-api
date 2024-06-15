@@ -5,14 +5,12 @@ const createError = require('../../utils/create-error');
 exports.createAddress = async (req, res, next) => {
   try {
     const value = validateAddress({
-      unitNumber: req.body.unitNumber,
-      streetNumber: req.body.streetNumber,
+      fullName: req.body.fullName,
+      phoneNumber: req.body.phoneNumber,
       addressLine1: req.body.addressLine1,
       addressLine2: req.body.addressLine2,
-      city: req.body.city,
-      region: req.body.region,
+      province: req.body.province,
       postalCode: req.body.postalCode,
-      country: req.body.country,
     });
     //find and count User Address
     const {count: addressCount} = await UserAddress.findAndCountAll({
@@ -78,13 +76,16 @@ exports.deleteAddress = async (req, res, next) => {
 };
 exports.getMyAddress = async (req, res, next) => {
   try {
-    const {count, rows: result} = await UserAddress.findAndCountAll({
-      where: {
-        userId: req.user.id,
-      },
-      include: [{model: Address}],
+    const result = await Address.findAll({
+      include: [
+        {
+          model: UserAddress,
+          where: {userId: req.user.id},
+          required: true,
+        },
+      ],
     });
-    res.status(200).json({count, result});
+    res.status(200).json({result});
   } catch (err) {
     next(err);
   }

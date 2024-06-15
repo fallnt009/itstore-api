@@ -2,7 +2,13 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/images');
+    let uploadFolder = '';
+    if (file.fieldname === 'profileImage') {
+      uploadFolder = 'public/images/profile';
+    } else {
+      uploadFolder = 'public/images/products';
+    }
+    cb(null, uploadFolder);
   },
   filename: (req, file, cb) => {
     cb(
@@ -16,4 +22,7 @@ const storage = multer.diskStorage({
   },
 });
 
-module.exports = multer({storage});
+module.exports = multer({
+  storage: storage,
+  limits: {fileSize: 3000000 /* bytes */},
+});

@@ -30,7 +30,7 @@ exports.updateProfileImage = async (req, res, next) => {
     //Get image
     const imageName = req.file.filename;
     //Make URL
-    const url = process.env.STATIC_IMAGE_URL + imageName;
+    const url = process.env.USER_IMAGE_URL + imageName;
 
     //Update user profileImage
     await User.update({profileImage: url}, {where: {id: req.user.id}});
