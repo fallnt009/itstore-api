@@ -11,4 +11,6 @@ router.route('/myaddress').get(addressController.getMyAddress);
 router.route('/').post(addressController.createAddress);
 router.route('/:id').delete(addressController.deleteAddress);
 
+router.route('/default/:id').patch(addressController.updateAddressDefault);
+
 module.exports = router;

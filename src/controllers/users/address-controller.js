@@ -33,7 +33,10 @@ exports.createAddress = async (req, res, next) => {
       userId: req.user.id,
     });
 
-    res.status(201).json({message: 'Address Created'});
+    //get recently created Address
+    const result = await Address.findOne({where: {id: newAddress.id}});
+
+    res.status(201).json({result});
   } catch (err) {
     next(err);
   }
@@ -87,6 +90,43 @@ exports.getMyAddress = async (req, res, next) => {
     });
     res.status(200).json({result});
   } catch (err) {
+    next(err);
+  }
+};
+
+exports.updateAddressDefault = async (req, res, next) => {
+  const t = await sequelize.transaction();
+
+  try {
+    //check if useraddress exist
+    const userAddress = await UserAddress.findOne({
+      where: {addressId: req.params.id, userId: req.user.id},
+      transaction: t,
+    });
+    if (!userAddress) {
+      await t.rollback();
+      createError('Data Not found', 404);
+    }
+    //update userAddress that already default
+    await UserAddress.update(
+      {isDefault: false},
+      {where: {userId: req.user.id, isDefault: true}, transaction: t}
+    );
+    //update selected address
+    const updated = await userAddress.update(
+      {isDefault: true},
+      {transaction: t}
+    );
+    //find address that isDefault true
+    const result = await Address.findOne({
+      include: [{model: UserAddress, where: {id: updated.id}}],
+      transaction: t,
+    });
+
+    await t.commit();
+    res.status(200).json({result});
+  } catch (err) {
+    await t.rollback();
     next(err);
   }
 };

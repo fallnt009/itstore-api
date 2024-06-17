@@ -1,5 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserAddress = sequelize.define('UserAddress', {}, {underscored: true});
+  const UserAddress = sequelize.define(
+    'UserAddress',
+    {
+      isDefault: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+    },
+    {underscored: true}
+  );
 
   UserAddress.associate = (db) => {
     UserAddress.belongsTo(db.Address, {
