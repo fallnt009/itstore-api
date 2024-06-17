@@ -113,13 +113,17 @@ exports.updateAddressDefault = async (req, res, next) => {
       {where: {userId: req.user.id, isDefault: true}, transaction: t}
     );
     //update selected address
-    const updated = await userAddress.update(
-      {isDefault: true},
-      {transaction: t}
-    );
+    await userAddress.update({isDefault: true}, {transaction: t});
     //find address that isDefault true
     const result = await Address.findOne({
-      include: [{model: UserAddress, where: {id: updated.id}}],
+      where: {id: req.params.id},
+      include: [
+        {
+          model: UserAddress,
+          where: {userId: req.user.id, isDefault: true},
+          requried: true,
+        },
+      ],
       transaction: t,
     });
 
