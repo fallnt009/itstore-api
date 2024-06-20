@@ -87,6 +87,8 @@ exports.getMyAddress = async (req, res, next) => {
           required: true,
         },
       ],
+      raw: true,
+      nest: true,
     });
     res.status(200).json({result});
   } catch (err) {
@@ -128,6 +130,60 @@ exports.updateAddressDefault = async (req, res, next) => {
     });
 
     await t.commit();
+    res.status(200).json({result});
+  } catch (err) {
+    await t.rollback();
+    next(err);
+  }
+};
+
+//UPDATE ADDRESS
+exports.updateAddress = async (req, res, next) => {
+  const t = await sequelize.transaction();
+
+  try {
+    const value = validateAddress({
+      fullName: req.body.fullName,
+      phoneNumber: req.body.phoneNumber,
+      addressLine1: req.body.addressLine1,
+      addressLine2: req.body.addressLine2,
+      province: req.body.province,
+      postalCode: req.body.postalCode,
+    });
+    //find address isExist
+    const address = await Address.findOne({
+      where: {id: req.params.id},
+      include: [
+        {
+          model: UserAddress,
+          where: {userId: req.user.id},
+          required: true,
+        },
+      ],
+      transaction: t,
+    });
+    //if not return create error
+    if (!address) {
+      await t.rollback();
+      createError('Address not found', 404);
+    }
+    //update Address
+    await Address.update(value, {
+      where: {id: address.id},
+      transaction: t,
+    });
+
+    //get updated address
+    const result = await Address.findOne({
+      where: {id: address.id},
+      include: [
+        {model: UserAddress, where: {userId: req.user.id}, required: true},
+      ],
+      transaction: t,
+    });
+
+    t.commit();
+
     res.status(200).json({result});
   } catch (err) {
     await t.rollback();

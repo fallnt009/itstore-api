@@ -9,7 +9,10 @@ const router = express.Router();
 router.use(authenticate);
 router.route('/myaddress').get(addressController.getMyAddress);
 router.route('/').post(addressController.createAddress);
-router.route('/:id').delete(addressController.deleteAddress);
+router
+  .route('/:id')
+  .patch(addressController.updateAddress)
+  .delete(addressController.deleteAddress);
 
 router.route('/default/:id').patch(addressController.updateAddressDefault);
 
