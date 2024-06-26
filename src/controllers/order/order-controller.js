@@ -19,10 +19,15 @@ const {generateOrderNumber} = require('../utils/generateNumber');
 exports.getMyOrder = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const order = await Order.findAll({
+    const result = await Order.findAll({
       where: {userId: userId},
+      include: [
+        {
+          model: OrderDetail,
+        },
+      ],
     });
-    res.status(200).json({amount: order.length, order});
+    res.status(200).json({result});
   } catch (err) {
     next(err);
   }

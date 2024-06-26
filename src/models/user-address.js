@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
+    UserAddress.hasOne(db.Checkout, {
+      foreignKey: {
+        name: 'userAddressId',
+      },
+      onDelete: 'RESTRICT',
+    });
   };
   return UserAddress;
 };

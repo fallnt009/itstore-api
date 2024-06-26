@@ -16,6 +16,7 @@ const wishlistRoute = require('./routes/wishlist-route');
 const addressRoute = require('./routes/address-route');
 const cartRoute = require('./routes/cart-route');
 const orderRoute = require('./routes/order-route');
+const checkoutRoute = require('./routes/checkout-route');
 
 const notFoundMiddleware = require('./middlewares/not-found');
 const errorMiddleware = require('./middlewares/error');
@@ -34,6 +35,7 @@ app.use('/api/wish', wishlistRoute);
 app.use('/api/mock', mockDataRoute);
 app.use('/api/cart', cartRoute);
 app.use('/api/order', orderRoute);
+app.use('/api/checkout', checkoutRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
