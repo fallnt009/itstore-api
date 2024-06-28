@@ -116,13 +116,14 @@ exports.updateCheckout = async (req, res, next) => {
       {
         where: {
           id: checkoutId,
-          transaction,
         },
+        transaction,
       }
     );
     //get result
     const result = await Checkout.findOne({
-      where: {id: checkoutId, transaction},
+      where: {id: checkoutId},
+      transaction,
     });
 
     await transaction.commit();
