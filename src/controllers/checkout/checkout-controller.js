@@ -71,6 +71,7 @@ exports.createCheckout = async (req, res, next) => {
     } else {
       //if already exist
       await transaction.commit();
+
       res.status(200).json({result: existingCheckout});
     }
   } catch (err) {
@@ -95,21 +96,10 @@ exports.updateCheckout = async (req, res, next) => {
       await transaction.rollback();
       createError('Checkout not found', 404);
     }
-    //Check UserAddress if already have any default address
-    const useraddress = await UserAddress.findOne({
-      where: {userId: userid, isDefault: true},
-      transaction,
-    });
-
-    //update new userAddressId if not same one
-    const useraddressId =
-      useraddress && useraddress.id !== existingCheckout.userAddressId
-        ? useraddress.id
-        : existingCheckout.userAddressId;
 
     await Checkout.update(
       {
-        userAddressId: useraddressId,
+        userAddressId: req.body.userAddressId,
         serviceId: req.body.serviceId,
         paymentId: req.body.paymentId,
       },
