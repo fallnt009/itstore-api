@@ -10,6 +10,7 @@ const {
   Checkout,
   Service,
   Address,
+  Payment,
   sequelize,
 } = require('../../models');
 const {
@@ -43,6 +44,7 @@ exports.getMyOrder = async (req, res, next) => {
         },
         {
           model: UserPayment,
+          include: Payment,
           required: true,
         },
       ],
@@ -322,13 +324,12 @@ exports.deleteOrder = async (req, res, next) => {
   }
 };
 
-//GET ORDER buy OrderNumber
-
+//GET ORDER by OrderNumber
 exports.getOrderByOrderNumber = async (req, res, next) => {
   try {
     const orderNumber = req.params.orderNumber;
     // find order and order details
-    const result = await Order.findOne({
+    const order = await Order.findOne({
       include: [
         {
           model: OrderDetail,
@@ -348,16 +349,22 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
         },
         {
           model: UserPayment,
+          include: Payment,
           required: true,
         },
       ],
     });
 
-    if (!result) {
+    if (!order) {
       createError('Data Not found', 404);
     }
 
-    res.status(200).json({result});
+    const orderItem = await OrderItem.findAll({
+      where: {orderId: order.id},
+      include: Product,
+    });
+
+    res.status(200).json({result: order, product: orderItem});
   } catch (err) {
     next(err);
   }
