@@ -3,6 +3,7 @@ const {
   Service,
   Payment,
   UserAddress,
+  Address,
   sequelize,
 } = require('../../models');
 const createError = require('../../utils/create-error');
@@ -14,6 +15,10 @@ exports.getMyCheckout = async (req, res, next) => {
     const result = await Checkout.findAll({
       where: {userId: userId},
       include: [
+        {
+          model: UserAddress,
+          include: [{model: Address}],
+        },
         {
           model: Service,
         },

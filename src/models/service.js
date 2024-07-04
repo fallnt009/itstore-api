@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
+    Service.hasOne(db.OrderDetail, {
+      foreignKey: {
+        name: 'serviceId',
+      },
+      onDelete: 'RESTRICT',
+    });
   };
   return Service;
 };

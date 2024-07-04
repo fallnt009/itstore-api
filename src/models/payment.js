@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
+    Payment.hasOne(db.UserPayment, {
+      foreignKey: {
+        name: 'paymentId',
+      },
+      onDelete: 'RESTRICT',
+    });
   };
   return Payment;
 };

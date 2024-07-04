@@ -2,7 +2,6 @@ const {
   STATUS_PENDING,
   STATUS_CANCELED,
   STATUS_COMPLETED,
-  BANKTRANSFER,
 } = require('../config/constants');
 
 module.exports = (sequelize, DataTypes) => {
@@ -12,11 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       amount: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      paymentType: {
-        type: DataTypes.ENUM(BANKTRANSFER),
-        allowNull: false,
-        defaultValue: BANKTRANSFER,
       },
       paymentStatus: {
         type: DataTypes.ENUM(STATUS_PENDING, STATUS_CANCELED, STATUS_COMPLETED),
@@ -44,6 +38,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: 'userId',
         allowNull: false,
+      },
+      onDelete: 'RESTRICT',
+    });
+    UserPayment.belongsTo(db.Payment, {
+      foreignKey: {
+        name: 'paymentId',
       },
       onDelete: 'RESTRICT',
     });

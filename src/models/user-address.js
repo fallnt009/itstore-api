@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
+    UserAddress.hasOne(db.OrderDetail, {
+      foreignKey: {
+        name: 'userAddressId',
+      },
+      onDelete: 'RESTRICT',
+    });
   };
   return UserAddress;
 };

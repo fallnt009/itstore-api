@@ -38,6 +38,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
+    OrderDetail.belongsTo(db.UserAddress, {
+      foreignKey: {
+        name: 'userAddressId',
+      },
+      onDelete: 'RESTRICT',
+    });
+    OrderDetail.belongsTo(db.Service, {
+      foreignKey: {
+        name: 'serviceId',
+      },
+      onDelete: 'RESTRICT',
+    });
   };
 
   return OrderDetail;

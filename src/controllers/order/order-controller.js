@@ -5,7 +5,11 @@ const {
   OrderItem,
   OrderDetail,
   UserPayment,
+  UserAddress,
   Product,
+  Checkout,
+  Service,
+  Address,
   sequelize,
 } = require('../../models');
 const {
@@ -24,9 +28,30 @@ exports.getMyOrder = async (req, res, next) => {
       include: [
         {
           model: OrderDetail,
+          include: [
+            {
+              model: UserAddress,
+              include: Address,
+              required: true,
+            },
+            {
+              model: Service,
+              required: true,
+            },
+          ],
+          required: true,
+        },
+        {
+          model: UserPayment,
+          required: true,
         },
       ],
     });
+
+    if (!result) {
+      createError('Data Not found or empty', 404);
+    }
+
     res.status(200).json({result});
   } catch (err) {
     next(err);
@@ -65,12 +90,26 @@ exports.createOrder = async (req, res, next) => {
       createError('Cart is empty', 400);
     }
 
+    //findCheckout that userId
+    const checkout = await Checkout.findOne(
+      {
+        where: {userId: userId},
+      },
+      {transaction: od}
+    );
+
+    if (!checkout) {
+      createError('Checkout not found', 404);
+    }
+
     //create order-detail
     const orderDetail = await OrderDetail.create(
       {
         orderNumber: generateOrderNumber(1), //generate Order Number,unique
         senderAddress: req.body.senderAddress,
         receiverAddress: req.body.receiverAddress,
+        userAddressId: checkout.userAddressId,
+        serviceId: checkout.serviceId,
       },
       {transaction: od}
     );
@@ -88,12 +127,15 @@ exports.createOrder = async (req, res, next) => {
         quantitySold: item.qty,
       });
     }
+    //?? need to review stockChange on update order only
+    // becus update order need review by admin
 
     // Create UserPayment
     const userPayment = await UserPayment.create(
       {
         amount: totalPrice.toString(),
         userId: userId,
+        paymentId: checkout.paymentId,
       },
       {transaction: od}
     );
@@ -261,12 +303,61 @@ exports.checkOrderExpireDate = async (req, res, next) => {
 //FOR ADMIN
 exports.updateOrder = async (req, res, next) => {
   try {
+    //on Update requirement
+    //order detail delievery date ,edd_date,delivery_name and tracking number freely on this category
+    //on Update userpayment
+    //?? need to review make seperate or with order
+    //update payment status ,payment_date,proof_image
+    //on Update Order
+    //update orderStatus only
   } catch (err) {
     next(err);
   }
 };
 exports.deleteOrder = async (req, res, next) => {
   try {
+    //cancel Order can be made on order Status PENDING ONLY
+  } catch (err) {
+    next(err);
+  }
+};
+
+//GET ORDER buy OrderNumber
+
+exports.getOrderByOrderNumber = async (req, res, next) => {
+  try {
+    const orderNumber = req.params.orderNumber;
+    // find order and order details
+    const result = await Order.findOne({
+      include: [
+        {
+          model: OrderDetail,
+          where: {orderNumber: orderNumber},
+          include: [
+            {
+              model: UserAddress,
+              include: Address,
+              required: true,
+            },
+            {
+              model: Service,
+              required: true,
+            },
+          ],
+          required: true,
+        },
+        {
+          model: UserPayment,
+          required: true,
+        },
+      ],
+    });
+
+    if (!result) {
+      createError('Data Not found', 404);
+    }
+
+    res.status(200).json({result});
   } catch (err) {
     next(err);
   }

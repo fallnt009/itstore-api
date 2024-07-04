@@ -7,6 +7,10 @@ const authController = require('../controllers/auth/auth-controller');
 
 const router = express.Router();
 
+router
+  .route('/findOrder/:orderNumber')
+  .get(orderController.getOrderByOrderNumber);
+
 router.use(authenticate);
 router.route('/myorder').get(orderController.getMyOrder);
 router.route('/myorder/:orderId').delete(orderController.cancelOrder);
