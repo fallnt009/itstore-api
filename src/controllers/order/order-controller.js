@@ -115,27 +115,11 @@ exports.createOrder = async (req, res, next) => {
       },
       {transaction: od}
     );
-    //Calculate totalPrice OK
-    let totalPrice = 0;
-    //keep change stock
-    const stockChange = [];
-
-    for (const item of cartItems) {
-      totalPrice += item.qty * item.Product.price; //?need? vat 7%
-      //keep the original stock and the change made
-      stockChange.push({
-        productId: item.productId,
-        originalStock: item.Product.qtyInStock,
-        quantitySold: item.qty,
-      });
-    }
-    //?? need to review stockChange on update order only
-    // becus update order need review by admin
 
     // Create UserPayment
     const userPayment = await UserPayment.create(
       {
-        amount: totalPrice.toString(),
+        amount: req.body.totalAmount,
         userId: userId,
         paymentId: checkout.paymentId,
       },
@@ -147,7 +131,8 @@ exports.createOrder = async (req, res, next) => {
         userId: userId,
         userPaymentId: userPayment.id,
         orderDetailId: orderDetail.id,
-        totalAmount: totalPrice.toString(),
+        totalAmount: req.body.subTotal,
+        //before vat calculate
       },
       {transaction: od}
     );
@@ -161,11 +146,6 @@ exports.createOrder = async (req, res, next) => {
         qty: item.qty,
         price: item.Product.price,
       });
-
-      //Reduce Stock
-      const product = item.Product;
-      product.qtyInStock -= item.qty;
-      await product.save({transaction: od});
     }
 
     //and send into Order Item
@@ -312,6 +292,26 @@ exports.updateOrder = async (req, res, next) => {
     //update payment status ,payment_date,proof_image
     //on Update Order
     //update orderStatus only
+    /////////////////////////////////////////
+    //decrease stock after update to Complete
+    //Calculate totalPrice OK////////
+    // let totalPrice = 0;
+    // //keep change stock
+    // const stockChange = [];
+    // for (const item of cartItems) {
+    //   totalPrice += item.qty * item.Product.price; //?need? vat 7%
+    //   //keep the original stock and the change made
+    //   stockChange.push({
+    //     productId: item.productId,
+    //     originalStock: item.Product.qtyInStock,
+    //     quantitySold: item.qty,
+    //   });
+    // }
+    ////////////////////////////////////
+    //Reduce Stock//////////////////////
+    // const product = item.Product;
+    // product.qtyInStock -= item.qty;
+    // await product.save({transaction: od});
   } catch (err) {
     next(err);
   }

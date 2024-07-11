@@ -9,11 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       senderAddress: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       receiverAddress: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       deliveryDate: {
         type: DataTypes.DATE,
