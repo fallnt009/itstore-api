@@ -21,6 +21,7 @@ router
   .post(specController.mockProductSpec);
 //GET new product
 router.route('/new').get(productController.getNewProduct);
+router.route('/sales').get(productController.getSalesProduct);
 
 //Protected Route
 router.use(authenticate);

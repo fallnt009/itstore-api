@@ -9,6 +9,8 @@ const {
   ProductImage,
   sequelize,
   Brand,
+  ProductDiscount,
+  Discount,
 } = require('../../models');
 
 const generateNumber = require('../../controllers/utils/generateNumber');
@@ -207,6 +209,22 @@ exports.getProductById = async (req, res, next) => {
       where: {
         id: req.params.id,
       },
+    });
+    res.status(200).json({result});
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getSalesProduct = async (req, res, next) => {
+  try {
+    const result = await ProductDiscount.findAll({
+      include: [
+        {model: Product, required: true},
+        {model: Discount, required: true},
+      ],
+      order: [['createdAt', 'DESC']],
+      limit: 4,
     });
     res.status(200).json({result});
   } catch (err) {
