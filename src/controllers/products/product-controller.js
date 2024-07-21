@@ -19,8 +19,11 @@ const {Op} = require('sequelize');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 4;
+
   try {
-    const result = await Product.findAll({
+    const {count, rows} = await Product.findAndCountAll({
       include: [
         {
           model: ProductSubCategory,
@@ -53,16 +56,31 @@ exports.getNewProduct = async (req, res, next) => {
             },
           ],
         },
+        {
+          model: ProductDiscount,
+          include: [
+            {
+              model: Discount,
+            },
+          ],
+        },
       ],
       order: [['createdAt', 'DESC']],
-      limit: 4,
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
     });
-    res.status(200).json({result});
+    res.status(200).json({
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
   } catch (err) {
     next(err);
   }
 };
 
+//? need to fix ?
 exports.getProductByCategory = async (req, res, next) => {
   try {
     const {categoryName} = req.params;
@@ -106,7 +124,10 @@ exports.getProductByCategory = async (req, res, next) => {
 exports.getProductBySubCategory = async (req, res, next) => {
   try {
     const {categoryName, subCategoryName} = req.params;
-    const result = await Product.findAll({
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 4;
+
+    const {count, rows} = await Product.findAndCountAll({
       include: [
         {
           model: ProductSubCategory,
@@ -142,8 +163,16 @@ exports.getProductBySubCategory = async (req, res, next) => {
           ],
         },
       ],
+      order: [['createdAt', 'DESC']],
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
     });
-    res.status(200).json({result});
+    res.status(200).json({
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
   } catch (err) {
     next(err);
   }
@@ -217,16 +246,66 @@ exports.getProductById = async (req, res, next) => {
 };
 
 exports.getSalesProduct = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 4;
+
   try {
-    const result = await ProductDiscount.findAll({
+    const {count, rows} = await Product.findAndCountAll({
       include: [
-        {model: Product, required: true},
-        {model: Discount, required: true},
+        {
+          model: ProductSubCategory,
+          required: true,
+          attributes: ['id'],
+          include: [
+            {
+              model: BrandCategorySub,
+              required: true,
+              attributes: ['id'],
+              include: [
+                {
+                  model: SubCategory,
+                  required: true,
+                  attributes: ['title'],
+                },
+                {
+                  model: BrandCategory,
+                  required: true,
+                  attributes: ['id'],
+                  include: [
+                    {
+                      model: MainCategory,
+                      required: true,
+                      attributes: ['title'],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: ProductDiscount,
+          required: true,
+          include: [
+            {
+              model: Discount,
+              required: true,
+            },
+          ],
+        },
       ],
       order: [['createdAt', 'DESC']],
-      limit: 4,
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
     });
-    res.status(200).json({result});
+    res
+      .status(200)
+      .json({
+        totalItems: count,
+        totalPages: Math.ceil(count / pageSize),
+        currentPage: page,
+        result: rows,
+      });
   } catch (err) {
     next(err);
   }
