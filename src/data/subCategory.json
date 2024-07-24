@@ -94,5 +94,21 @@
   {
     "id": 24,
     "title": "Working Laptop"
+  },
+  {
+    "id": 25,
+    "title": "Monitor"
+  },
+  {
+    "id": 26,
+    "title": "Desktop"
+  },
+  {
+    "id": 27,
+    "title": "UPS"
+  },
+  {
+    "id": 28,
+    "title": "Software"
   }
 ]

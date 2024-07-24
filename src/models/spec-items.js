@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const SpecItem = sequelize.define(
     'SpecItem',
     {
-      specName: {
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -11,14 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   SpecItem.associate = (db) => {
-    SpecItem.belongsTo(db.SubCategory, {
-      foreignKey: {
-        name: 'subCategoryId',
-        allowNull: false,
-      },
-      onDelete: 'RESTRICT',
-    });
-    SpecItem.hasMany(db.ProductSpec, {
+    SpecItem.hasOne(db.SpecSubcategory, {
       foreignKey: {
         name: 'specItemId',
         allowNull: false,

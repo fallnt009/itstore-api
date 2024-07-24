@@ -9,38 +9,122 @@
   },
   {
     "id": 3,
-    "title": "AORUS"
+    "title": "GIGABYTE"
   },
   {
     "id": 4,
-    "title": "AMD"
+    "title": "MSI"
   },
   {
     "id": 5,
-    "title": "NVIDIA"
+    "title": "AMD"
   },
   {
     "id": 6,
-    "title": "CORSAIR"
+    "title": "INTEL"
   },
   {
     "id": 7,
-    "title": "SAMSUNG"
+    "title": "AORUS"
   },
   {
     "id": 8,
-    "title": "GSKILL"
+    "title": "APACER"
   },
   {
     "id": 9,
-    "title": "KINGSTON"
+    "title": "CORSAIR"
   },
   {
     "id": 10,
-    "title": "WESTERN DIGITAL"
+    "title": "GSKILL"
   },
   {
     "id": 11,
-    "title": "INTEL"
+    "title": "KINGSTON"
+  },
+  {
+    "id": 12,
+    "title": "SEAGATE"
+  },
+  {
+    "id": 13,
+    "title": "SANDISK"
+  },
+  {
+    "id": 14,
+    "title": "SAMSUNG"
+  },
+  {
+    "id": 15,
+    "title": "WESTERN DIGITAL"
+  },
+  {
+    "id": 16,
+    "title": "NVIDIA"
+  },
+  {
+    "id": 17,
+    "title": "GALAX"
+  },
+  {
+    "id": 18,
+    "title": "ZOTAC"
+  },
+  {
+    "id": 19,
+    "title": "ANTEC"
+  },
+  {
+    "id": 20,
+    "title": "COOLER MASTER"
+  },
+  {
+    "id": 21,
+    "title": "THERMALTAKE"
+  },
+  {
+    "id": 22,
+    "title": "NZXT"
+  },
+  {
+    "id": 23,
+    "title": "NOCTUA"
+  },
+  {
+    "id": 24,
+    "title": "CREATIVE"
+  },
+  {
+    "id": 25,
+    "title": "BEYERDYNAMIC"
+  },
+  {
+    "id": 26,
+    "title": "ALIENWARE"
+  },
+  {
+    "id": 27,
+    "title": "LOGITECH"
+  },
+  {
+    "id": 28,
+    "title": "ELGATO"
+  },
+  {
+    "id": 29,
+    "title": "DELL"
+  },
+  {
+    "id": 30,
+    "title": "ZYXEL"
+  },
+  {
+    "id": 31,
+    "title": "APC"
+  },
+  {
+    "id": 32,
+    "title": "MICROSOFT"
   }
 ]

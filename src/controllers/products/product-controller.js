@@ -298,14 +298,12 @@ exports.getSalesProduct = async (req, res, next) => {
       limit: pageSize,
       offset: (page - 1) * pageSize,
     });
-    res
-      .status(200)
-      .json({
-        totalItems: count,
-        totalPages: Math.ceil(count / pageSize),
-        currentPage: page,
-        result: rows,
-      });
+    res.status(200).json({
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
   } catch (err) {
     next(err);
   }

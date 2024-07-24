@@ -1,8 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
-  const ProductSpec = sequelize.define(
-    'ProductSpec',
+  const SpecProduct = sequelize.define(
+    'SpecProduct',
     {
-      description: {
+      value: {
+        type: DataTypes.INTEGER,
+      },
+      text: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -10,15 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     {underscored: true}
   );
 
-  ProductSpec.associate = (db) => {
-    ProductSpec.belongsTo(db.SpecItem, {
+  SpecProduct.associate = (db) => {
+    SpecProduct.belongsTo(db.SpecSubcategory, {
       foreignKey: {
-        name: 'specItemId',
+        name: 'specSubcategoryId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',
     });
-    ProductSpec.belongsTo(db.Product, {
+    SpecProduct.belongsTo(db.Product, {
       foreignKey: {
         name: 'productId',
         allowNull: false,
@@ -26,6 +29,5 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
     });
   };
-
-  return ProductSpec;
+  return SpecProduct;
 };

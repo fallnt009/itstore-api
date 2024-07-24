@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
-    SubCategory.hasMany(db.SpecItem, {
+    SubCategory.hasOne(db.SpecSubcategory, {
       foreignKey: {
         name: 'subCategoryId',
         allowNull: false,
