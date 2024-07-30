@@ -15,10 +15,12 @@ const {
   SpecProduct,
   SpecSubcategory,
   SpecItem,
+  ProductSubSpec,
 } = require('../../models');
 
 const generateNumber = require('../../controllers/utils/generateNumber');
 const createError = require('../../utils/create-error');
+const {required} = require('joi');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
@@ -130,16 +132,22 @@ exports.getProductBySubCategory = async (req, res, next) => {
           ],
         },
         {
-          model: SpecProduct,
-          attributes: ['value', 'text'],
-          where: filterCondition,
-          include: [
-            {
-              model: SpecSubcategory,
-              attributes: ['id'],
-              include: [{model: SpecItem, attributes: ['title']}],
-            },
-          ],
+          model: ProductSubSpec,
+          attributes: ['id'],
+          // include: [
+          //   {
+          //     model: SpecProduct,
+          //     attributes: ['value', 'text'],
+          //     where: filterCondition,
+          //     include: [
+          //       {
+          //         model: SpecSubcategory,
+          //         attributes: ['id'],
+          //         include: [{model: SpecItem, attributes: ['title']}],
+          //       },
+          //     ],
+          //   },
+          // ],
         },
       ],
       order: [['createdAt', 'DESC']],

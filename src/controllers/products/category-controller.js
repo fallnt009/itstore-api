@@ -59,6 +59,37 @@ exports.getBrandCategorySub = async (req, res, next) => {
   }
 };
 
+exports.getBrandTag = async (req, res, next) => {
+  try {
+    const brandId = req.params.id;
+
+    const result = await BrandCategorySub.findAll({
+      attributes: ['id', 'subCategoryId', 'brandCategoryId'],
+      include: [
+        {
+          model: SubCategory,
+          attributes: ['id', 'title'],
+        },
+        {
+          model: BrandCategory,
+          attributes: ['id', 'brandId', 'mainCategoryId'],
+          include: [
+            {
+              model: Brand,
+              where: {id: brandId},
+              attributes: ['id', 'title'],
+            },
+          ],
+          required: true,
+        },
+      ],
+    });
+    res.status(200).json({result});
+  } catch (err) {
+    next(err);
+  }
+};
+
 //MAIN
 exports.createCategory = async (req, res, next) => {
   try {

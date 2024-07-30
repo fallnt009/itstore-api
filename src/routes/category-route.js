@@ -6,7 +6,10 @@ const categoryController = require('../controllers/products/category-controller'
 
 const router = express.Router();
 
+//get BCS
 router.route('/bcs').get(categoryController.getBrandCategorySub);
+//get BC
+router.route('/brandtag/:id').get(categoryController.getBrandTag);
 
 //Main Category Route
 router

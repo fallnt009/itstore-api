@@ -11,9 +11,7 @@ const authController = require('../controllers/auth/auth-controller');
 const router = express.Router();
 
 //Product Spec and Spec Item
-router
-  .route('/spec-items/:subCategoryName')
-  .get(specController.getSpecItemBySubCategory);
+router.route('/spec-items/:id').get(specController.getSpecItemById);
 router.route('/spec-prod/:productName').get(specController.getProductSpec);
 //GET new product
 router.route('/new').get(productController.getNewProduct);

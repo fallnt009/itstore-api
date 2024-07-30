@@ -16,21 +16,22 @@ const {
 
 //need to review on product spec rename to specProduct
 
-exports.getSpecItemBySubCategory = async (req, res, next) => {
+exports.getSpecItemById = async (req, res, next) => {
   try {
-    const {subCategoryName} = req.params;
+    const {id} = req.params;
 
     const result = await SpecItem.findAll({
       attributes: ['id', 'title'],
       include: [
         {
           model: SpecSubcategory,
+          attributes: ['id'],
           required: true,
           include: [
             {
               model: SubCategory,
-              attributes: ['title'],
-              where: {title: subCategoryName},
+              attributes: ['id', 'title'],
+              where: {id: id},
             },
           ],
         },
