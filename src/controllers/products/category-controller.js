@@ -12,34 +12,37 @@ const {
 const factory = require('../utils/handlerFactory');
 const createError = require('../../utils/create-error');
 
-//FETCH TEST
 exports.getBrandCategorySub = async (req, res, next) => {
-  const brandName = 'ASUS';
-  const mainCategoryName = 'Component';
-  const subCategoryName = 'Mainboard';
+  const {brandName, mainCategoryName, subCategoryName} = req.query;
+
+  const brandCondition = brandName ? {title: brandName} : {};
+  const mainCategoryCondition = mainCategoryName
+    ? {title: mainCategoryName}
+    : {};
+  const subCategoryCondition = subCategoryName ? {title: subCategoryName} : {};
   try {
-    const brandSubCategory = await BrandCategorySub.findOne({
+    const brandSubCategory = await BrandCategorySub.findAll({
       attributes: ['id', 'subCategoryId', 'brandCategoryId'],
       include: [
         {
           model: SubCategory,
-          attributes: ['id', 'title'],
-          where: {title: subCategoryName},
+          attributes: ['title'],
+          where: subCategoryCondition,
         },
         {
           model: BrandCategory,
-          attributes: ['id', 'brandId', 'mainCategoryId'],
+          attributes: ['brandId', 'mainCategoryId'],
           required: true,
           include: [
             {
               model: Brand,
-              attributes: ['id', 'title'],
-              where: {title: brandName},
+              attributes: ['title'],
+              where: brandCondition,
             },
             {
               model: MainCategory,
-              attributes: ['id', 'title'],
-              where: {title: mainCategoryName},
+              attributes: ['title'],
+              where: mainCategoryCondition,
             },
           ],
         },

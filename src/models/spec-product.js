@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
-    SpecProduct.belongsTo(db.Product, {
+    SpecProduct.hasOne(db.ProductSubSpec, {
       foreignKey: {
-        name: 'productId',
+        name: 'specProductId',
         allowNull: false,
       },
       onDelete: 'RESTRICT',

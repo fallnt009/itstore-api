@@ -14,14 +14,14 @@ const router = express.Router();
 router
   .route('/spec-items/:subCategoryName')
   .get(specController.getSpecItemBySubCategory);
-// .post(specController.mockSpecItem);
-router
-  .route('/product-spec/:productName')
-  .get(specController.getProductSpec)
-  .post(specController.mockProductSpec);
+router.route('/spec-prod/:productName').get(specController.getProductSpec);
 //GET new product
 router.route('/new').get(productController.getNewProduct);
 router.route('/sales').get(productController.getSalesProduct);
+//GET productFilter
+router
+  .route('/filter/:subCategoryName')
+  .get(productController.getProductFilter);
 
 //Protected Route
 router.use(authenticate);

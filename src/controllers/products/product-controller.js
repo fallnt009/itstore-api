@@ -1,3 +1,4 @@
+const {Op} = require('sequelize');
 const {validateProduct} = require('../../validators/product-validate');
 const {
   Product,
@@ -11,11 +12,13 @@ const {
   Brand,
   ProductDiscount,
   Discount,
+  SpecProduct,
+  SpecSubcategory,
+  SpecItem,
 } = require('../../models');
 
 const generateNumber = require('../../controllers/utils/generateNumber');
 const createError = require('../../utils/create-error');
-const {Op} = require('sequelize');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
@@ -80,52 +83,16 @@ exports.getNewProduct = async (req, res, next) => {
   }
 };
 
-//? need to fix ?
-exports.getProductByCategory = async (req, res, next) => {
-  try {
-    const {categoryName} = req.params;
-    const result = await Product.findAll({
-      include: [
-        {
-          model: ProductSubCategory,
-          required: true,
-          attributes: ['id'],
-          include: [
-            {
-              model: BrandCategorySub,
-              required: true,
-              attributes: ['id'],
-              include: [
-                {
-                  model: BrandCategory,
-                  required: true,
-                  attributes: ['id'],
-                  include: [
-                    {
-                      model: MainCategory,
-                      required: true,
-                      attributes: ['title'],
-                      where: {title: categoryName},
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-    res.status(200).json({result});
-  } catch (err) {
-    next(err);
-  }
-};
-
 exports.getProductBySubCategory = async (req, res, next) => {
   try {
     const {categoryName, subCategoryName} = req.params;
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 4;
+
+    const {filter, page, pageSize} = req.query;
+
+    const pageNo = parseInt(page) || 1;
+    const pageSizeLimit = parseInt(pageSize) || 4;
+
+    const filterCondition = filter ? {text: {[Op.like]: `%${filter}%`}} : {};
 
     const {count, rows} = await Product.findAndCountAll({
       include: [
@@ -162,15 +129,29 @@ exports.getProductBySubCategory = async (req, res, next) => {
             },
           ],
         },
+        {
+          model: SpecProduct,
+          attributes: ['value', 'text'],
+          where: filterCondition,
+          include: [
+            {
+              model: SpecSubcategory,
+              attributes: ['id'],
+              include: [{model: SpecItem, attributes: ['title']}],
+            },
+          ],
+        },
       ],
       order: [['createdAt', 'DESC']],
-      limit: pageSize,
-      offset: (page - 1) * pageSize,
+      distinct: true,
+      limit: pageSizeLimit,
+      offset: (pageNo - 1) * pageSizeLimit,
     });
+
     res.status(200).json({
       totalItems: count,
-      totalPages: Math.ceil(count / pageSize),
-      currentPage: page,
+      totalPages: Math.ceil(count / pageSizeLimit),
+      currentPage: pageNo,
       result: rows,
     });
   } catch (err) {
@@ -459,6 +440,29 @@ exports.deleteProduct = async (req, res, next) => {
     res.status(204).json({});
   } catch (err) {
     await pd.rollback();
+    next(err);
+  }
+};
+
+exports.getProductFilter = async (req, res, next) => {
+  try {
+    const subCategoryName = req.params.subCategoryName;
+    //specItem , specSubcategory ,subCategory, specProduct
+    const result = await SubCategory.findAll({
+      where: {title: subCategoryName},
+      include: [
+        {
+          model: SpecSubcategory,
+          include: [
+            {
+              model: SpecProduct,
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json({result});
+  } catch (err) {
     next(err);
   }
 };

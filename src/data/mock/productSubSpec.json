@@ -1,0 +1,14 @@
+[
+  {"id": 1, "specProductId": 6, "productId": 1},
+  {"id": 2, "specProductId": 33, "productId": 1},
+  {"id": 3, "specProductId": 39, "productId": 1},
+  {"id": 4, "specProductId": 55, "productId": 1},
+  {"id": 5, "specProductId": 57, "productId": 1},
+  {"id": 6, "specProductId": 63, "productId": 1},
+  {"id": 7, "specProductId": 70, "productId": 1},
+  {"id": 8, "specProductId": 76, "productId": 1},
+  {"id": 9, "specProductId": 85, "productId": 1},
+  {"id": 10, "specProductId": 92, "productId": 1},
+  {"id": 11, "specProductId": 13, "productId": 1},
+  {"id": 12, "specProductId": 14, "productId": 1}
+]

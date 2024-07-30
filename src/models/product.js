@@ -79,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'RESTRICT',
     });
-    Product.hasMany(db.SpecProduct, {
+    Product.hasMany(db.ProductSubSpec, {
       foreignKey: {
         name: 'productId',
         allowNull: false,

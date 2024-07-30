@@ -1,0 +1,372 @@
+[
+  {
+    "id": 1,
+    "title": "INTEL CORE I3-13100 3.40 GHZ",
+    "productImage": "",
+    "price": "5390",
+    "description": "4C | 8T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111111"
+  },
+  {
+    "id": 2,
+    "title": "INTEL CORE I3-13100F 3.40 GHZ",
+    "productImage": "",
+    "price": "3790",
+    "description": "4C | 8T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111112"
+  },
+  {
+    "id": 3,
+    "title": "INTEL CORE I3-14100 4.7 GHZ",
+    "productImage": "",
+    "price": "5500",
+    "description": "4C | 8T Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111113"
+  },
+  {
+    "id": 4,
+    "title": "INTEL CORE I3-14100F 4.7 GHZ",
+    "productImage": "",
+    "price": "4390",
+    "description": "4C | 8T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111114"
+  },
+  {
+    "id": 5,
+    "title": "INTEL CORE I5-14400 4.7 GHZ",
+    "productImage": "",
+    "price": "8890",
+    "description": "10C l 16T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111115"
+  },
+  {
+    "id": 6,
+    "title": "INTEL CORE I5-14400F 4.7 GHZ",
+    "productImage": "",
+    "price": "7650",
+    "description": "10C l 16T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111116"
+  },
+  {
+    "id": 7,
+    "title": "INTEL CORE I5-14500 5.0 GHZ",
+    "productImage": "",
+    "price": "9190",
+    "description": "14C l 20T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111117"
+  },
+  {
+    "id": 8,
+    "title": "INTEL CORE I5-14600K 5.3 GHZ",
+    "productImage": "",
+    "price": "11700",
+    "description": "14C l 20T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111118"
+  },
+  {
+    "id": 9,
+    "title": "INTEL CORE I5-14600KF 5.3 GHZ",
+    "productImage": "",
+    "price": "11200",
+    "description": "14C l 20T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111119"
+  },
+  {
+    "id": 10,
+    "title": "INTEL CORE I7-14700KF 5.6 GHZ",
+    "productImage": "",
+    "price": "14690",
+    "description": "20C l 28T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111120"
+  },
+  {
+    "id": 11,
+    "title": "INTEL CORE I7-14700K 5.6 GHZ",
+    "productImage": "",
+    "price": "15590",
+    "description": "20C l 28T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111121"
+  },
+  {
+    "id": 12,
+    "title": "AMD RYZEN 5 7600 3.8GHZ",
+    "productImage": "",
+    "price": "6890",
+    "description": "6C | 12T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111122"
+  },
+  {
+    "id": 13,
+    "title": "AMD RYZEN 5 7600X 4.7GHZ",
+    "productImage": "",
+    "price": "7590",
+    "description": "6C | 12T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111123"
+  },
+  {
+    "id": 14,
+    "title": "AMD RYZEN 7 7700 3.8GHZ",
+    "productImage": "",
+    "price": "9890",
+    "description": "8C | 16T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111124"
+  },
+  {
+    "id": 15,
+    "title": "AMD RYZEN 7 7700X 4.5GHZ",
+    "productImage": "",
+    "price": "11390",
+    "description": "8C | 16T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111125"
+  },
+  {
+    "id": 16,
+    "title": "AMD RYZEN 7 7800X3D 4.2GHZ",
+    "productImage": "",
+    "price": "14200",
+    "description": "8C | 16T CPU Support DDR5",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111126"
+  },
+  {
+    "id": 17,
+    "title": "ASROCK B760 PRO RS DDR5",
+    "productImage": "",
+    "price": "4950",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111127"
+  },
+  {
+    "id": 18,
+    "title": "ASROCK B760M PG LIGHTNING",
+    "productImage": "",
+    "price": "3350",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111128"
+  },
+  {
+    "id": 19,
+    "title": "ASROCK Z790 PG-ITX/TB4",
+    "productImage": "",
+    "price": "13990",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111129"
+  },
+  {
+    "id": 20,
+    "title": "ASUS PRIME H610I-PLUS D4",
+    "productImage": "",
+    "price": "3650",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111130"
+  },
+  {
+    "id": 21,
+    "title": "ASUS PRIME B760-PLUS DDR5",
+    "productImage": "",
+    "price": "5090",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111131"
+  },
+  {
+    "id": 22,
+    "title": "ASUS PROART B760 CREATOR D4",
+    "productImage": "",
+    "price": "8990",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111132"
+  },
+  {
+    "id": 23,
+    "title": "ASROCK B650E PG-ITX WIFI",
+    "productImage": "",
+    "price": "11590",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111133"
+  },
+  {
+    "id": 24,
+    "title": "ASROCK X670E PRO RS",
+    "productImage": "",
+    "price": "10500",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111134"
+  },
+  {
+    "id": 25,
+    "title": "ASUS PRIME A620M-K",
+    "productImage": "",
+    "price": "2790",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111135"
+  },
+  {
+    "id": 26,
+    "title": "ASUS TUF GAMING B650M-E DDR5",
+    "productImage": "",
+    "price": "6300",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111136"
+  },
+  {
+    "id": 27,
+    "title": "ASUS ROG STRIX X670E-E GAMING WIFI",
+    "productImage": "",
+    "price": "18390",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111137"
+  },
+  {
+    "id": 28,
+    "title": "MSI MAG B650 TOMAHAWK WIFI",
+    "productImage": "",
+    "price": "8890",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111138"
+  },
+  {
+    "id": 29,
+    "title": "MSI MPG X670E CARBON WIFI",
+    "productImage": "",
+    "price": "17590",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111139"
+  },
+  {
+    "id": 30,
+    "title": "MSI MAG Z790 TOMAHAWK MAX WIFI",
+    "productImage": "",
+    "price": "12500",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111140"
+  },
+  {
+    "id": 31,
+    "title": "CORSAIR DOMINATOR PLATINUM RGB DDR5 64GB (2X32GB) 5600MHZ C40 BLACK",
+    "productImage": "",
+    "price": "9190",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111141"
+  },
+  {
+    "id": 32,
+    "title": "CORSAIR DOMINATOR TITANIUM RGB DDR5 32GB (2x16GB) 6400MHZ C32 BLACK",
+    "productImage": "",
+    "price": "7290",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111142"
+  },
+  {
+    "id": 33,
+    "title": "G.SKILL TRIDENT Z5 RGB DDR5 32GB (2X16GB) 7800MHZ CL36 BLACK",
+    "productImage": "",
+    "price": "8990",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111143"
+  },
+  {
+    "id": 34,
+    "title": "APACER PANTHER DDR5 16GB(16GBx1) 6000MHZ C40",
+    "productImage": "",
+    "price": "1800",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111144"
+  },
+  {
+    "id": 35,
+    "title": "KINGSTON FURY BEAST RGB DDR5 16GB (2X8GB) 5200MHZ CL40",
+    "productImage": "",
+    "price": "2690",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111145"
+  },
+  {
+    "id": 36,
+    "title": "KINGSTON FURY BEAST RGB DDR5 32GB (2X16GB) 5200MHZ CL40",
+    "productImage": "",
+    "price": "3950",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111146"
+  },
+  {
+    "id": 37,
+    "title": "KINGSTON FURY BEAST BLACK DDR4 32GB (2X16GB) 3200MHZ C16",
+    "productImage": "",
+    "price": "2790",
+    "description": "",
+    "isActive": true,
+    "qtyInStock": 9,
+    "productCode": "111147"
+  }
+]

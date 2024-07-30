@@ -6,7 +6,7 @@ const categoryController = require('../controllers/products/category-controller'
 
 const router = express.Router();
 
-router.route('/fetch').get(categoryController.getBrandCategorySub);
+router.route('/bcs').get(categoryController.getBrandCategorySub);
 
 //Main Category Route
 router
@@ -39,10 +39,6 @@ router
   .patch(brandController.updateBrand)
   .delete(brandController.deleteBrand);
 
-//GET By Main Category
-router
-  .route('/product/:categoryName')
-  .get(productController.getProductByCategory);
 //GET by Main and Sub Category
 router
   .route('/product/:categoryName/:subCategoryName')
