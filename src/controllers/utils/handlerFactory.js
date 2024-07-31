@@ -57,7 +57,7 @@ exports.updateOne = (Model, Validate) => async (req, res, next) => {
 };
 exports.getAll = (Model) => async (req, res, next) => {
   try {
-    const result = await Model.findAll({attributes: ['id', 'title']});
+    const result = await Model.findAll();
 
     if (!result) {
       createError('Data not found', 404);
