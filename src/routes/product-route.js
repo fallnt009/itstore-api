@@ -6,6 +6,7 @@ const upload = require('../middlewares/upload');
 
 const specController = require('../controllers/products/product-spec-controller');
 const productController = require('../controllers/products/product-controller');
+const imageContoller = require('../controllers/products/product-image-controller');
 const authController = require('../controllers/auth/auth-controller');
 
 const router = express.Router();
@@ -32,6 +33,10 @@ router.post(
   upload.array('productImage', 4),
   productController.createProduct
 );
+//create images
+router
+  .route('/img/:id')
+  .post(upload.array('productImage', 4), imageContoller.createProductImage);
 router
   .route('/:id')
   .get(productController.getProductById)

@@ -3,11 +3,18 @@ const multer = require('multer');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     let uploadFolder = '';
-    if (file.fieldname === 'profileImage') {
-      uploadFolder = 'public/images/profile';
-    } else {
-      uploadFolder = 'public/images/products';
+    switch (file.fieldname) {
+      case 'profileImage':
+        uploadFolder = 'public/images/profile';
+        break;
+      case 'productImage':
+        uploadFolder = 'public/images/products';
+        break;
+      default:
+        uploadFolder = '';
+        break;
     }
+
     cb(null, uploadFolder);
   },
   filename: (req, file, cb) => {

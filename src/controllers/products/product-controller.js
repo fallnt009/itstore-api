@@ -20,7 +20,6 @@ const {
 
 const generateNumber = require('../../controllers/utils/generateNumber');
 const createError = require('../../utils/create-error');
-const {required} = require('joi');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
