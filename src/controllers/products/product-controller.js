@@ -68,6 +68,9 @@ exports.getNewProduct = async (req, res, next) => {
             },
           ],
         },
+        {
+          model: ProductImage,
+        },
       ],
       order: [['createdAt', 'DESC']],
       limit: pageSize,
@@ -131,23 +134,26 @@ exports.getProductBySubCategory = async (req, res, next) => {
           ],
         },
         {
-          model: ProductSubSpec,
-          attributes: ['id'],
-          // include: [
-          //   {
-          //     model: SpecProduct,
-          //     attributes: ['value', 'text'],
-          //     where: filterCondition,
-          //     include: [
-          //       {
-          //         model: SpecSubcategory,
-          //         attributes: ['id'],
-          //         include: [{model: SpecItem, attributes: ['title']}],
-          //       },
-          //     ],
-          //   },
-          // ],
+          model: ProductImage,
         },
+        // {
+        //   model: ProductSubSpec,
+        //   attributes: ['id'],
+        //   include: [
+        //     {
+        //       model: SpecProduct,
+        //       attributes: ['value', 'text'],
+        //       where: filterCondition,
+        //       include: [
+        //         {
+        //           model: SpecSubcategory,
+        //           attributes: ['id'],
+        //           include: [{model: SpecItem, attributes: ['title']}],
+        //         },
+        //       ],
+        //     },
+        //   ],
+        // },
       ],
       order: [['createdAt', 'DESC']],
       distinct: true,
@@ -175,44 +181,44 @@ exports.getProductInfo = async (req, res, next) => {
       include: [
         {
           model: ProductSubCategory,
-          required: true,
           attributes: ['id'],
           include: [
             {
               model: BrandCategorySub,
-              required: true,
               attributes: ['id'],
               include: [
                 {
                   model: SubCategory,
-                  required: true,
                   attributes: ['title'],
                   where: {title: subCategoryName},
                 },
                 {
                   model: BrandCategory,
-                  required: true,
                   attributes: ['id'],
                   include: [
                     {
                       model: MainCategory,
-                      required: true,
                       attributes: ['title'],
                       where: {title: categoryName},
                     },
                     {
                       model: Brand,
-                      required: true,
                       attributes: ['title'],
                     },
                   ],
                 },
               ],
+              required: true,
             },
           ],
+          required: true,
         },
       ],
     });
+
+    if (!result) {
+      createError('Not found', 404);
+    }
 
     res.status(200).json({result});
   } catch (err) {

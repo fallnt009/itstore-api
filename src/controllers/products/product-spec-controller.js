@@ -57,19 +57,30 @@ exports.createSpecItem = async (req, res, next) => {
 exports.getProductSpec = async (req, res, next) => {
   try {
     const productName = req.params.productName;
-    const result = await SpecProduct.findAll({
-      attributes: ['value', 'text'],
+
+    const result = await Product.findOne({
+      where: {title: productName},
+      attributes: ['id', 'title'],
       include: [
         {
-          model: Product,
-          where: {title: productName},
-          attributes: ['title'],
-          required: true,
-        },
-        {
-          model: SpecSubcategory,
-          include: [{model: SpecItem, attributes: ['title']}],
+          model: ProductSubSpec,
           attributes: ['id'],
+          include: [
+            {
+              model: SpecProduct,
+              attributes: ['id', 'value', 'text'],
+              include: [
+                {
+                  model: SpecSubcategory,
+                  attributes: ['id'],
+                  include: [
+                    {model: SpecItem, attributes: ['title']},
+                    {model: SubCategory},
+                  ],
+                },
+              ],
+            },
+          ],
           required: true,
         },
       ],

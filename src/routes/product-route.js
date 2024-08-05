@@ -11,9 +11,10 @@ const authController = require('../controllers/auth/auth-controller');
 
 const router = express.Router();
 
-//Product Spec and Spec Item
+//Product Spec ,spec Item and image
 router.route('/spec-items/:id').get(specController.getSpecItemById);
 router.route('/spec-prod/:productName').get(specController.getProductSpec);
+router.route('/image/:productName').get(imageContoller.getProductImage);
 //GET new product
 router.route('/new').get(productController.getNewProduct);
 router.route('/sales').get(productController.getSalesProduct);

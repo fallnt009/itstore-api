@@ -1,4 +1,18 @@
-const {ProductImage} = require('../../models');
+const {Product, ProductImage} = require('../../models');
+
+exports.getProductImage = async (req, res, next) => {
+  try {
+    //get params productName
+    const productName = req.params.productName;
+    const result = await Product.findOne({
+      where: {title: productName},
+      include: [{model: ProductImage, required: true}],
+    });
+    res.status(200).json({result});
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.createProductImage = async (req, res, next) => {
   try {
