@@ -16,9 +16,6 @@ const createProductSchema = Joi.object({
   qtyInStock: Joi.number().required().messages({
     'string.empty': 'quantity is required',
   }),
-  // productCode: Joi.string().trim().required().messages({
-  //   'string.empty': 'product code is required',
-  // }),
 });
 
 exports.validateProduct = validate(createProductSchema);

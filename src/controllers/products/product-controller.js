@@ -305,7 +305,8 @@ exports.getSalesProduct = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    const productImg = req.files?.map((file) => file.filename);
+    //get BCS Id by params
+    const bcsId = req.params.id;
 
     const value = validateProduct({
       title: req.body.title,
@@ -317,33 +318,26 @@ exports.createProduct = async (req, res, next) => {
 
     value.productCode = generateNumber.generateProductCode(6);
 
-    const existingCode = await Product.findAll({
+    const existingCode = await Product.findOne({
       where: {
         productCode: value.productCode,
       },
     });
 
-    if (existingCode.length > 0) {
+    if (existingCode) {
       createError('Product code already exist', 400);
     }
 
     const product = await Product.create(value);
 
-    //image Array
-    const imgArray = [];
+    await ProductSubCategory.create({
+      productId: product.id,
+      brandCategorySubId: bcsId,
+    });
 
-    //Loop and save Image
-    if (productImg.length > 0) {
-      for (const path of productImg) {
-        imgArray.push({
-          productId: product.id,
-          path: `${process.env.PRODUCT_IMAGE_URL}${path}`,
-        });
-      }
-      await ProductImage.bulkCreate(imgArray);
-    }
+    const result = await Product.findByPk(product.id);
 
-    res.status(200).json({message: 'create product success'});
+    res.status(200).json({message: 'create success', result});
   } catch (err) {
     next(err);
   }

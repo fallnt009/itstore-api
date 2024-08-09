@@ -36,7 +36,9 @@ exports.updateBrand = async (req, res, next) => {
         id: req.params.id,
       },
     });
-    res.status(200).json({message: 'update success'});
+
+    const result = await Brand.findByPk(req.params.id);
+    res.status(200).json({message: 'update success', result});
   } catch (err) {
     next(err);
   }

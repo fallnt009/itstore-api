@@ -29,11 +29,7 @@ router.use(authenticate);
 router.use(authController.restrictTo(EMPLOYEE));
 
 //Product CRUD
-router.post(
-  '/',
-  upload.array('productImage', 4),
-  productController.createProduct
-);
+router.post('/create/:id', productController.createProduct);
 //create images
 router
   .route('/img/:id')
