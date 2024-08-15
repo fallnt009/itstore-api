@@ -1,4 +1,4 @@
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 exports.deleteOne = (Model, Value) => async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ exports.deleteOne = (Model, Value) => async (req, res, next) => {
     });
 
     if (!data) {
-      createError('ID not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     await Model.destroy({
@@ -18,9 +18,9 @@ exports.deleteOne = (Model, Value) => async (req, res, next) => {
       },
     });
 
-    res.status(204).json({message: 'delete success'});
+    res.status(204).json();
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -33,11 +33,9 @@ exports.updateOne = (Model, Validate) => async (req, res, next) => {
     });
 
     if (!data) {
-      createError('ID not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     const value = Validate ? Validate(req.body) : req.body;
-
-    console.log(value);
 
     await Model.update(value, {
       where: {
@@ -50,9 +48,9 @@ exports.updateOne = (Model, Validate) => async (req, res, next) => {
       },
     });
 
-    res.status(200).json({message: 'update success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getAll = (Model) => async (req, res, next) => {
@@ -60,11 +58,11 @@ exports.getAll = (Model) => async (req, res, next) => {
     const result = await Model.findAll();
 
     if (!result) {
-      createError('Data not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     res.status(200).json({amount: result.length, result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getOne = (Model) => async (req, res, next) => {
@@ -76,12 +74,12 @@ exports.getOne = (Model) => async (req, res, next) => {
     });
 
     if (!result) {
-      createError('Data not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
-    res.status(200).json({message: 'success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -89,8 +87,8 @@ exports.createOne = (Model, Validate) => async (req, res, next) => {
   try {
     const value = Validate ? Validate(req.body) : req.body;
     const result = await Model.create(value);
-    res.status(200).json({message: 'create success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

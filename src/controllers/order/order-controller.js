@@ -18,7 +18,8 @@ const {
   STATUS_PROCESSING,
   STATUS_COMPLETED,
 } = require('../../config/constants');
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
+
 const {generateOrderNumber} = require('../utils/generateNumber');
 
 exports.getMyOrder = async (req, res, next) => {
@@ -51,12 +52,12 @@ exports.getMyOrder = async (req, res, next) => {
     });
 
     if (!result) {
-      createError('Data Not found or empty', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.createOrder = async (req, res, next) => {
@@ -89,7 +90,7 @@ exports.createOrder = async (req, res, next) => {
 
     //Check Cart Item if empty
     if (cartItems.length === 0) {
-      createError('Cart is empty', 400);
+      return res.status(400).json(resMsg.getMsg(40005));
     }
 
     //findCheckout that userId
@@ -101,7 +102,7 @@ exports.createOrder = async (req, res, next) => {
     );
 
     if (!checkout) {
-      createError('Checkout not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     //create order-detail
@@ -163,10 +164,10 @@ exports.createOrder = async (req, res, next) => {
     //transaction commit
     await od.commit();
 
-    res.status(200).json({order});
+    res.status(200).json({...resMsg.getMsg(200), order});
   } catch (err) {
     await od.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.cancelOrder = async (req, res, next) => {
@@ -186,11 +187,11 @@ exports.cancelOrder = async (req, res, next) => {
     });
 
     if (!order) {
-      createError('Order not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     //check status if processing or completed cannot cancel order ????
     if (order.orderStatus !== STATUS_PENDING) {
-      createError('Your order cannot cancel due to processing', 400);
+      return res.status(400).json(resMsg.getMsg(40004));
     }
     //Update the Stock for each based on order items
     for (const orderItem of order.OrderItems) {
@@ -215,10 +216,10 @@ exports.cancelOrder = async (req, res, next) => {
 
     //commit
     await od.commit();
-    res.status(200).json({message: 'Order canceled Success', order});
+    res.status(200).json({...resMsg.getMsg(200), order});
   } catch (err) {
     await od.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -271,14 +272,15 @@ exports.checkOrderExpireDate = async (req, res, next) => {
 
           //commit
           await od.commit();
+          res.status(200).json(resMsg.getMsg(200));
         } catch (err) {
           await od.rollback();
-          next(err);
+          res.status(400).json(resMsg.getMsg(400));
         }
       }
     }
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -313,14 +315,14 @@ exports.updateOrder = async (req, res, next) => {
     // product.qtyInStock -= item.qty;
     // await product.save({transaction: od});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.deleteOrder = async (req, res, next) => {
   try {
     //cancel Order can be made on order Status PENDING ONLY
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -356,7 +358,7 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
     });
 
     if (!order) {
-      createError('Data Not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     const orderItem = await OrderItem.findAll({
@@ -364,8 +366,10 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
       include: Product,
     });
 
-    res.status(200).json({result: order, product: orderItem});
+    res
+      .status(200)
+      .json({...resMsg.getMsg(200), result: order, product: orderItem});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

@@ -11,10 +11,7 @@ const {
   validateProductSpec,
 } = require('../../validators/product-validate');
 
-// const specItemData = require('../../data/spec-items.json');
-// const productSpecData = require('../../data/product-spec.json');
-
-//need to review on product spec rename to specProduct
+const resMsg = require('../../config/messages');
 
 exports.getSpecItemById = async (req, res, next) => {
   try {
@@ -37,9 +34,9 @@ exports.getSpecItemById = async (req, res, next) => {
         },
       ],
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.createSpecItem = async (req, res, next) => {
@@ -48,9 +45,9 @@ exports.createSpecItem = async (req, res, next) => {
       title: req.body.title,
     });
     const result = await SpecItem.create(value);
-    res.status(200).json({message: 'create success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -85,9 +82,9 @@ exports.getProductSpec = async (req, res, next) => {
         },
       ],
     });
-    await res.status(200).json({result});
+    await res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 

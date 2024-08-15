@@ -20,6 +20,7 @@ const {
 
 const generateNumber = require('../../controllers/utils/generateNumber');
 const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
@@ -77,13 +78,14 @@ exports.getNewProduct = async (req, res, next) => {
       offset: (page - 1) * pageSize,
     });
     res.status(200).json({
+      ...resMsg.getMsg(200),
       totalItems: count,
       totalPages: Math.ceil(count / pageSize),
       currentPage: page,
       result: rows,
     });
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -162,13 +164,14 @@ exports.getProductBySubCategory = async (req, res, next) => {
     });
 
     res.status(200).json({
+      ...resMsg.getMsg(200),
       totalItems: count,
       totalPages: Math.ceil(count / pageSizeLimit),
       currentPage: pageNo,
       result: rows,
     });
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getProductInfo = async (req, res, next) => {
@@ -217,12 +220,12 @@ exports.getProductInfo = async (req, res, next) => {
     });
 
     if (!result) {
-      createError('Not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     res.status(200).json({result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -233,9 +236,9 @@ exports.getProductById = async (req, res, next) => {
         id: req.params.id,
       },
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -293,13 +296,14 @@ exports.getSalesProduct = async (req, res, next) => {
       offset: (page - 1) * pageSize,
     });
     res.status(200).json({
+      ...resMsg.getMsg(200),
       totalItems: count,
       totalPages: Math.ceil(count / pageSize),
       currentPage: page,
       result: rows,
     });
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -325,7 +329,7 @@ exports.createProduct = async (req, res, next) => {
     });
 
     if (existingCode) {
-      createError('Product code already exist', 400);
+      return res.status(409).json(resMsg.getMsg(40900));
     }
 
     const product = await Product.create(value);
@@ -337,9 +341,9 @@ exports.createProduct = async (req, res, next) => {
 
     const result = await Product.findByPk(product.id);
 
-    res.status(200).json({message: 'create success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -371,7 +375,7 @@ exports.updateProduct = async (req, res, next) => {
 
     if (existingCode.length > 0) {
       await pd.rollback();
-      createError('Product code already exist', 400);
+      return res.status(409).json(resMsg.getMsg(40900));
     }
 
     await Product.update(
@@ -409,10 +413,10 @@ exports.updateProduct = async (req, res, next) => {
     }
     await pd.commit();
 
-    res.status(200).json({message: 'update success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
     await pd.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.deleteProduct = async (req, res, next) => {
@@ -428,7 +432,7 @@ exports.deleteProduct = async (req, res, next) => {
 
     if (!product) {
       await pd.rollback();
-      createError('Product not exist!', 400);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     //delete product Image
     await ProductImage.destroy(
@@ -447,7 +451,7 @@ exports.deleteProduct = async (req, res, next) => {
     res.status(204).json({});
   } catch (err) {
     await pd.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -468,8 +472,8 @@ exports.getProductFilter = async (req, res, next) => {
         },
       ],
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

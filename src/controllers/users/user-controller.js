@@ -1,6 +1,6 @@
 const {User} = require('../../models');
-const fs = require('fs');
 const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 exports.getAllUser = async (req, res, next) => {
   try {
@@ -9,22 +9,22 @@ exports.getAllUser = async (req, res, next) => {
         exclude: ['password'],
       },
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.updateProfileInfo = async (req, res, next) => {
   try {
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.updateProfileImage = async (req, res, next) => {
   try {
     //check image if uploaded
     if (!req.file) {
-      createError('Image is required!', 400);
+      return res.status(403).json(resMsg.getMsg(40300));
     }
 
     //Get image
@@ -36,19 +36,14 @@ exports.updateProfileImage = async (req, res, next) => {
     await User.update({profileImage: url}, {where: {id: req.user.id}});
 
     //Response
-    res.status(200).json({message: 'Update Image Success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
-  // finally {
-  //   if (req.file) {
-  //     fs.unlinkSync(req.file.path);
-  //   }
-  // }
 };
 exports.deleteUser = async (req, res, next) => {
   try {
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

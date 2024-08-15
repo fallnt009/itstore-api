@@ -1,4 +1,5 @@
 const {Product, ProductImage} = require('../../models');
+const resMsg = require('../../config/messages');
 
 exports.getProductImage = async (req, res, next) => {
   try {
@@ -8,9 +9,9 @@ exports.getProductImage = async (req, res, next) => {
       where: {title: productName},
       include: [{model: ProductImage, required: true}],
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -45,8 +46,8 @@ exports.createProductImage = async (req, res, next) => {
     //Get recent
     const result = await ProductImage.findAll({where: {productId: productId}});
 
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

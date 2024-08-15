@@ -8,8 +8,9 @@ const router = express.Router();
 
 //get BCS
 router.route('/bcs').get(categoryController.getBrandCategorySub);
-//get BC
-router.route('/brandtag/:id').get(categoryController.getBrandTag);
+//Brand tag
+router.route('/brandtag').post(brandController.createBrandTags);
+router.route('/brandtag/:id').get(brandController.getBrandTag);
 
 //Main Category Route
 router
@@ -26,8 +27,11 @@ router
   .route('/sub-category')
   .get(categoryController.getAllSubCategory)
   .post(categoryController.createSubCategory);
+
+//get SubCategory by Main Category
 router
   .route('/sub-category/:id')
+  .get(categoryController.getSubCategoryByMainCategory)
   .patch(categoryController.updateSubCategory)
   .delete(categoryController.deleteSubCategory);
 

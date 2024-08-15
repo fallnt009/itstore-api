@@ -1,6 +1,5 @@
 const {Address, UserAddress, sequelize} = require('../../models');
 const {validateAddress} = require('../../validators/address-validate');
-const createError = require('../../utils/create-error');
 
 exports.createAddress = async (req, res, next) => {
   try {
@@ -22,7 +21,7 @@ exports.createAddress = async (req, res, next) => {
     const MAX_ADDRESS_LIMIT = 4;
 
     if (addressCount >= MAX_ADDRESS_LIMIT) {
-      createError('Maximum Address limit reached');
+      return res.status(403).json(resMsg.getMsg(40300));
     }
 
     //create Address
@@ -36,9 +35,9 @@ exports.createAddress = async (req, res, next) => {
     //get recently created Address
     const result = await Address.findOne({where: {id: newAddress.id}});
 
-    res.status(201).json({result});
+    res.status(201).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.deleteAddress = async (req, res, next) => {
@@ -53,7 +52,7 @@ exports.deleteAddress = async (req, res, next) => {
         transaction: del,
       });
       if (!existAddress) {
-        createError('Address not exist', 400);
+        return res.status(404).json(resMsg.getMsg(40401));
       }
 
       //delete UserAddress entry
@@ -74,7 +73,7 @@ exports.deleteAddress = async (req, res, next) => {
     }
   } catch (err) {
     //rollback if error
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getMyAddress = async (req, res, next) => {
@@ -90,9 +89,9 @@ exports.getMyAddress = async (req, res, next) => {
       raw: true,
       nest: true,
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -107,7 +106,7 @@ exports.updateAddressDefault = async (req, res, next) => {
     });
     if (!userAddress) {
       await t.rollback();
-      createError('Data Not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     //update userAddress that already default
     await UserAddress.update(
@@ -130,10 +129,10 @@ exports.updateAddressDefault = async (req, res, next) => {
     });
 
     await t.commit();
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     await t.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -165,7 +164,7 @@ exports.updateAddress = async (req, res, next) => {
     //if not return create error
     if (!address) {
       await t.rollback();
-      createError('Address not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     //update Address
     await Address.update(value, {
@@ -184,9 +183,9 @@ exports.updateAddress = async (req, res, next) => {
 
     t.commit();
 
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     await t.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

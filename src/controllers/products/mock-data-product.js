@@ -24,6 +24,8 @@ const {
   ProductSubSpec,
 } = require('../../models');
 
+const resMsg = require('../../config/messages');
+
 exports.MockMainData = async (req, res, next) => {
   try {
     //product
@@ -37,9 +39,9 @@ exports.MockMainData = async (req, res, next) => {
     //spec items
     await SpecItem.bulkCreate(specItemsData);
 
-    res.status(200).json({message: 'Created Data Success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -53,9 +55,9 @@ exports.MockAssociateData = async (req, res, next) => {
     await ProductSubCategory.bulkCreate(ProductSubCategoryData);
     //spec sub
     await SpecSubcategory.bulkCreate(specSubCategoryData);
-    res.status(200).json({message: 'Created Data Success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -64,16 +66,16 @@ exports.MockAssociateData = async (req, res, next) => {
 exports.MockSpecProduct = async (req, res, next) => {
   try {
     await SpecProduct.bulkCreate(specProductData);
-    res.status(200).json({message: 'Created Data Success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.MockSubSpec = async (req, res, next) => {
   try {
     await ProductSubSpec.bulkCreate(subSpecData);
-    res.status(200).json({message: 'Created Data Success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

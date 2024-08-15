@@ -1,7 +1,7 @@
 const {Product, ProductDiscount, Discount} = require('../../models');
 const {validateProductDiscount} = require('../../validators/discount-validate');
 
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 exports.getAllProductDiscount = async (req, res, next) => {
   try {
@@ -17,9 +17,9 @@ exports.getAllProductDiscount = async (req, res, next) => {
         },
       ],
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getProductDiscount = async (req, res, next) => {
@@ -39,11 +39,11 @@ exports.getProductDiscount = async (req, res, next) => {
       ],
     });
     if (!result) {
-      createError('data not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.createProductDiscount = async (req, res, next) => {
@@ -58,7 +58,7 @@ exports.createProductDiscount = async (req, res, next) => {
     });
 
     if (isExist) {
-      createError('This Product already have discount', 400);
+      return res.status(409).json(resMsg.getMsg(40900));
     }
 
     const productDiscount = await ProductDiscount.create(value);
@@ -76,9 +76,9 @@ exports.createProductDiscount = async (req, res, next) => {
         },
       ],
     });
-    res.status(200).json({message: 'create success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.updateProductDiscount = async (req, res, next) => {
@@ -94,7 +94,7 @@ exports.updateProductDiscount = async (req, res, next) => {
       where: {id: productDiscountId},
     });
     if (!isExist) {
-      createError('Data not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     await ProductDiscount.update(value, {
@@ -104,9 +104,9 @@ exports.updateProductDiscount = async (req, res, next) => {
     const result = await ProductDiscount.findOne({
       where: {id: productDiscountId},
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.deleteProductDiscount = async (req, res, next) => {
@@ -117,12 +117,12 @@ exports.deleteProductDiscount = async (req, res, next) => {
       where: {id: productDiscountId},
     });
     if (!isExist) {
-      createError('Data not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     await ProductDiscount.destroy({where: {id: productDiscountId}});
     res.status(304).json({});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

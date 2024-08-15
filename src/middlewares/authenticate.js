@@ -1,15 +1,21 @@
 const jwt = require('jsonwebtoken');
-const createError = require('../utils/create-error');
 const {User} = require('../models');
+const resMsg = require('../config/messages');
 
 module.exports = async (req, res, next) => {
   try {
     const {authorization} = req.headers;
     if (!authorization || !authorization.startsWith('Bearer ')) {
-      createError('You are Unauthorized', 401);
+      //unauthorized
+      return res.status(401).json(resMsg.getMsg(401));
     }
     const token = authorization.split(' ')[1];
-    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    let payload;
+    try {
+      payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    } catch (err) {
+      res.status(401).json(resMsg.getMsg(40101));
+    }
     const user = await User.findOne({
       where: {id: payload.id},
       attribute: {
@@ -17,11 +23,12 @@ module.exports = async (req, res, next) => {
       },
     });
     if (!user) {
-      createError('You are Unauthorized', 401);
+      //unauthorized
+      return res.status(401).json(resMsg.getMsg(401));
     }
     req.user = user;
     next();
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

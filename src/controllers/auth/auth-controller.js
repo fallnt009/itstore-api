@@ -1,11 +1,11 @@
+const {User, Cart} = require('../../models');
 const {
   validateRegister,
   validateLogin,
 } = require('../../validators/auth-validate');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {User, Cart} = require('../../models');
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 exports.register = async (req, res, next) => {
   try {
@@ -18,17 +18,15 @@ exports.register = async (req, res, next) => {
     });
 
     if (user) {
-      createError('email already in use', 400);
+      res.status(409).json(resMsg.getMsg(40902));
     }
     value.password = await bcrypt.hash(value.password, 12);
     const newUser = await User.create(value);
     await Cart.create({userId: newUser.id});
 
-    res
-      .status(201)
-      .json({message: 'register success. please login to continue'});
+    res.status(201).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.login = async (req, res, next) => {
@@ -41,12 +39,13 @@ exports.login = async (req, res, next) => {
     });
 
     if (!user) {
-      createError('invalid email or password', 400);
+      //invalid password or email
+      return res.status(401).json(resMsg.getMsg(40102));
     }
 
     const isCorrect = await bcrypt.compare(value.password, user.password);
     if (!isCorrect) {
-      createError('invalid email or password', 400);
+      return res.status(401).json(resMsg.getMsg(40102));
     }
 
     const accessToken = jwt.sign(
@@ -66,16 +65,16 @@ exports.login = async (req, res, next) => {
         expiresIn: process.env.JWT_EXPIRES_IN,
       }
     );
-    res.status(200).json({accessToken});
+    res.status(200).json({...resMsg.getMsg(200), accessToken});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.roles)) {
-      createError('You do not have permission to perform this action', 403);
+      return res.status(403).json(resMsg.getMsg(403));
     }
     next();
   };

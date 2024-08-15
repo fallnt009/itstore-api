@@ -6,7 +6,7 @@ const {
   Address,
   sequelize,
 } = require('../../models');
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 //GET MY CHECKOUT
 exports.getMyCheckout = async (req, res, next) => {
@@ -27,9 +27,9 @@ exports.getMyCheckout = async (req, res, next) => {
         },
       ],
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -72,16 +72,16 @@ exports.createCheckout = async (req, res, next) => {
       });
 
       await transaction.commit();
-      res.status(200).json({result});
+      res.status(200).json({...resMsg.getMsg(200), result});
     } else {
       //if already exist
       await transaction.commit();
 
-      res.status(200).json({result: existingCheckout});
+      res.status(200).json({...resMsg.getMsg(200), result: existingCheckout});
     }
   } catch (err) {
     await transaction.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -99,7 +99,7 @@ exports.updateCheckout = async (req, res, next) => {
     });
     if (!existingCheckout) {
       await transaction.rollback();
-      createError('Checkout not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     await Checkout.update(
@@ -123,10 +123,10 @@ exports.updateCheckout = async (req, res, next) => {
 
     await transaction.commit();
 
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     await transaction.rollback();
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 //DELETE CHECKOUT
@@ -143,7 +143,7 @@ exports.deleteCheckout = async (req, res, next) => {
     });
     if (!existingCheckout) {
       await transaction.rollback();
-      createError('Checkout not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     await existingCheckout.destroy({transaction});
     await transaction.commit();
@@ -151,7 +151,6 @@ exports.deleteCheckout = async (req, res, next) => {
     res.status(204).json({});
   } catch (err) {
     await transaction.rollback();
-
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

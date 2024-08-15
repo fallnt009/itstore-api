@@ -1,14 +1,16 @@
 const {Discount} = require('../../models');
 const {validateDiscount} = require('../../validators/discount-validate');
 
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 exports.getAllDiscount = async (req, res, next) => {
   try {
     const result = await Discount.findAll();
-    res.status(200).json({amount: result.length, result});
+    res
+      .status(200)
+      .json({...resMsg.getMsg(200), amount: result.length, result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getDiscountById = async (req, res, next) => {
@@ -19,9 +21,9 @@ exports.getDiscountById = async (req, res, next) => {
         id: discountId,
       },
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -36,9 +38,9 @@ exports.createDiscount = async (req, res, next) => {
 
     const result = await Discount.create(value);
 
-    res.status(200).json({message: 'create discount success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.updateDiscount = async (req, res, next) => {
@@ -57,7 +59,7 @@ exports.updateDiscount = async (req, res, next) => {
     const isExist = await Discount.findOne({where: {id: discountId}});
 
     if (!isExist) {
-      createError('discount not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     await Discount.update(value, {
@@ -68,9 +70,9 @@ exports.updateDiscount = async (req, res, next) => {
 
     const result = await Discount.findOne({where: {id: discountId}});
 
-    res.status(200).json({message: 'update success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.deleteDiscount = async (req, res, next) => {
@@ -81,8 +83,8 @@ exports.deleteDiscount = async (req, res, next) => {
         id: discountId,
       },
     });
-    res.status(204).json({message: 'delete success'});
+    res.status(204).json();
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

@@ -1,5 +1,5 @@
 const {Wishlist, User} = require('../../models');
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 exports.createWishlist = async (req, res, next) => {
   try {
@@ -12,7 +12,7 @@ exports.createWishlist = async (req, res, next) => {
     });
     //if exist return create error
     if (existWishlist) {
-      createError('Already in wishlist', 400);
+      return res.status(409).json(resMsg.getMsg(40900));
     }
     //if not generated new
     const newWishlist = await Wishlist.create({
@@ -24,9 +24,9 @@ exports.createWishlist = async (req, res, next) => {
       where: {id: newWishlist.id},
       include: {model: User},
     });
-    res.status(201).json({wishlist});
+    res.status(201).json({...resMsg.getMsg(200), wishlist});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.deleteWishlist = async (req, res, next) => {
@@ -36,12 +36,12 @@ exports.deleteWishlist = async (req, res, next) => {
     });
 
     if (!existWishlist) {
-      createError('Not on wishlist', 400);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
     await existWishlist.destroy();
     res.status(204).json();
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getMyWishlist = async (req, res, next) => {
@@ -56,8 +56,8 @@ exports.getMyWishlist = async (req, res, next) => {
         },
       ],
     });
-    res.status(200).json({result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };

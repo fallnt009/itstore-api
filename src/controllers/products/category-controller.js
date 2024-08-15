@@ -4,13 +4,14 @@ const {
   MainCategory,
   BrandCategorySub,
   BrandCategory,
+  sequelize,
 } = require('../../models');
 const {
   validateMainCategory,
   validateSubCategory,
 } = require('../../validators/category-validate');
 const factory = require('../utils/handlerFactory');
-const createError = require('../../utils/create-error');
+const resMsg = require('../../config/messages');
 
 exports.getBrandCategorySub = async (req, res, next) => {
   const {brandName, mainCategoryName, subCategoryName} = req.query;
@@ -50,43 +51,12 @@ exports.getBrandCategorySub = async (req, res, next) => {
     });
 
     if (!brandSubCategory) {
-      createError('Not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
-    res.status(200).json({brandSubCategory});
+    res.status(200).json({...resMsg.getMsg(200), brandSubCategory});
   } catch (err) {
-    next(err);
-  }
-};
-
-exports.getBrandTag = async (req, res, next) => {
-  try {
-    const brandId = req.params.id;
-
-    const result = await BrandCategorySub.findAll({
-      attributes: ['id', 'subCategoryId', 'brandCategoryId'],
-      include: [
-        {
-          model: SubCategory,
-          attributes: ['id', 'title'],
-        },
-        {
-          model: BrandCategory,
-          attributes: ['id', 'brandId', 'mainCategoryId'],
-          include: [
-            {
-              model: Brand,
-              where: {id: brandId},
-              attributes: ['id', 'title'],
-            },
-          ],
-          required: true,
-        },
-      ],
-    });
-    res.status(200).json({result});
-  } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 
@@ -98,9 +68,9 @@ exports.createCategory = async (req, res, next) => {
     });
 
     const result = await MainCategory.create(value);
-    res.status(200).json({message: 'create success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.updateCategory = async (req, res, next) => {
@@ -116,7 +86,7 @@ exports.updateCategory = async (req, res, next) => {
     });
 
     if (!findId) {
-      createError('ID not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     await MainCategory.update(value, {
@@ -124,15 +94,53 @@ exports.updateCategory = async (req, res, next) => {
         id: req.params.id,
       },
     });
-    res.status(200).json({message: 'update success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getAllCategory = factory.getAll(MainCategory);
 exports.deleteCategory = factory.deleteOne(MainCategory);
 
 //SUB
+
+exports.getSubCategoryByMainCategory = async (req, res, next) => {
+  try {
+    //get id form req.params
+    const mainCategoryId = req.params.id;
+
+    //find SubCategory where bc have mainCategory === req.params.id
+    const result = await SubCategory.findAll({
+      attributes: ['id', 'title'],
+      include: [
+        {
+          model: BrandCategorySub,
+          attributes: [],
+          required: true,
+          include: [
+            {
+              model: BrandCategory,
+              where: {mainCategoryId: mainCategoryId},
+              attributes: [],
+              required: true,
+            },
+          ],
+        },
+      ],
+      group: ['SubCategory.id', 'SubCategory.title'],
+      order: [['id', 'ASC']],
+    });
+
+    if (result.length === 0) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
 exports.createSubCategory = async (req, res, next) => {
   try {
     const value = validateSubCategory({
@@ -140,9 +148,9 @@ exports.createSubCategory = async (req, res, next) => {
     });
 
     const result = await SubCategory.create(value);
-    res.status(200).json({message: 'create success', result});
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.updateSubCategory = async (req, res, next) => {
@@ -157,7 +165,7 @@ exports.updateSubCategory = async (req, res, next) => {
     });
 
     if (!findId) {
-      createError('ID not found', 404);
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     await SubCategory.update(value, {
@@ -165,9 +173,9 @@ exports.updateSubCategory = async (req, res, next) => {
         id: req.params.id,
       },
     });
-    res.status(200).json({message: 'update success'});
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    next(err);
+    res.status(500).json(resMsg.getMsg(500));
   }
 };
 exports.getAllSubCategory = factory.getAll(SubCategory);
