@@ -66,6 +66,10 @@ exports.createCategory = async (req, res, next) => {
     const value = validateMainCategory({
       title: req.body.title,
     });
+    const existing = await MainCategory.findOne({where: {title: value.title}});
+    if (existing) {
+      return res.status(409).json(resMsg.getMsg(40900));
+    }
 
     const result = await MainCategory.create(value);
     res.status(200).json({...resMsg.getMsg(200), result});
@@ -87,6 +91,11 @@ exports.updateCategory = async (req, res, next) => {
 
     if (!findId) {
       return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    const existing = await MainCategory.findOne({where: {title: value.title}});
+    if (existing) {
+      return res.status(409).json(resMsg.getMsg(40900));
     }
 
     await MainCategory.update(value, {
@@ -147,6 +156,11 @@ exports.createSubCategory = async (req, res, next) => {
       title: req.body.title,
     });
 
+    const existing = await SubCategory.findOne({where: {title: value.title}});
+    if (existing) {
+      return res.status(409).json(resMsg.getMsg(40900));
+    }
+
     const result = await SubCategory.create(value);
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
@@ -166,6 +180,11 @@ exports.updateSubCategory = async (req, res, next) => {
 
     if (!findId) {
       return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    const existing = await SubCategory.findOne({where: {title: value.title}});
+    if (existing) {
+      return res.status(409).json(resMsg.getMsg(40900));
     }
 
     await SubCategory.update(value, {

@@ -19,7 +19,6 @@ const {
 } = require('../../models');
 
 const generateNumber = require('../../controllers/utils/generateNumber');
-const createError = require('../../utils/create-error');
 const resMsg = require('../../config/messages');
 
 //GET NEW PRODUCT FOR HOMEPAGE
@@ -311,37 +310,44 @@ exports.createProduct = async (req, res, next) => {
   try {
     //get BCS Id by params
     const bcsId = req.params.id;
+    const {title, price, description, qtyInStock} = req.body;
+    const files = req.files;
 
-    const value = validateProduct({
-      title: req.body.title,
-      price: req.body.price,
-      description: req.body.description,
-      isActive: req.body.isActive,
-      qtyInStock: req.body.qtyInStock,
-    });
+    console.log(title, price, description, qtyInStock, 'body');
+    console.log(files, 'images');
 
-    value.productCode = generateNumber.generateProductCode(6);
+    // const value = validateProduct({
+    //   title: title,
+    //   price: price,
+    //   description: description,
+    //   isActive: req.body.isActive,
+    //   qtyInStock: qtyInStock,
+    // });
 
-    const existingCode = await Product.findOne({
-      where: {
-        productCode: value.productCode,
-      },
-    });
+    // value.productCode = generateNumber.generateProductCode(6);
 
-    if (existingCode) {
-      return res.status(409).json(resMsg.getMsg(40900));
-    }
+    // const existingCode = await Product.findOne({
+    //   where: {
+    //     productCode: value.productCode,
+    //   },
+    // });
 
-    const product = await Product.create(value);
+    // if (existingCode) {
+    //   return res.status(409).json(resMsg.getMsg(40900));
+    // }
 
-    await ProductSubCategory.create({
-      productId: product.id,
-      brandCategorySubId: bcsId,
-    });
+    // const product = await Product.create(value);
 
-    const result = await Product.findByPk(product.id);
+    // //create PSC
+    // await ProductSubCategory.create({
+    //   productId: product.id,
+    //   brandCategorySubId: bcsId,
+    // });
+    // //create Product Image
 
-    res.status(200).json({...resMsg.getMsg(200), result});
+    // const result = await Product.findByPk(product.id);
+
+    res.status(200).json({...resMsg.getMsg(200)});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
@@ -473,6 +479,98 @@ exports.getProductFilter = async (req, res, next) => {
       ],
     });
     res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+//for admin manage
+
+exports.getAllProduct = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 4;
+  const order = req.query.order || 'ASC';
+  const brandId = req.query.brandId || '';
+  const categoryId = req.query.categoryId || '';
+  const subCategoryId = req.query.subCategoryId || '';
+  try {
+    //query filter
+    const filters = {};
+    if (brandId)
+      filters['$ProductSubCategory.BrandCategorySub.BrandCategory.Brand.id$'] =
+        brandId;
+    if (categoryId)
+      filters[
+        '$ProductSubCategory.BrandCategorySub.BrandCategory.MainCategory.id$'
+      ] = categoryId;
+    if (subCategoryId)
+      filters['$ProductSubCategory.BrandCategorySub.SubCategory.id$'] =
+        subCategoryId;
+
+    //fetch product
+    const {count, rows} = await Product.findAndCountAll({
+      include: [
+        {
+          model: ProductSubCategory,
+          required: true,
+          attributes: ['id'],
+          include: [
+            {
+              model: BrandCategorySub,
+              required: true,
+              attributes: ['id'],
+              include: [
+                {
+                  model: SubCategory,
+                  required: true,
+                  attributes: ['id', 'title'],
+                },
+                {
+                  model: BrandCategory,
+                  required: true,
+                  attributes: ['id'],
+                  include: [
+                    {
+                      model: MainCategory,
+                      required: true,
+                      attributes: ['id', 'title'],
+                    },
+                    {
+                      model: Brand,
+                      required: true,
+                      attributes: ['id', 'title'],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: ProductDiscount,
+          include: [
+            {
+              model: Discount,
+            },
+          ],
+        },
+        {
+          model: ProductImage,
+          attributes: ['path'],
+        },
+      ],
+      where: filters,
+      order: [['createdAt', order]],
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
+    });
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }

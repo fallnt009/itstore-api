@@ -29,11 +29,16 @@ router.use(authenticate);
 router.use(authController.restrictTo(EMPLOYEE));
 
 //Product CRUD
-router.post('/create/:id', productController.createProduct);
+router.post(
+  '/create/:id',
+  upload.array('productImage', 4),
+  productController.createProduct
+);
 //create images
 router
   .route('/img/:id')
   .post(upload.array('productImage', 4), imageContoller.createProductImage);
+router.route('/all').get(productController.getAllProduct);
 router
   .route('/:id')
   .get(productController.getProductById)
