@@ -311,43 +311,50 @@ exports.createProduct = async (req, res, next) => {
     //get BCS Id by params
     const bcsId = req.params.id;
     const {title, price, description, qtyInStock} = req.body;
-    const files = req.files;
+    const imgFiles = req.files.map((file) => file.filename);
 
-    console.log(title, price, description, qtyInStock, 'body');
-    console.log(files, 'images');
+    const value = validateProduct({
+      title: title,
+      price: price,
+      description: description,
+      isActive: req.body.isActive,
+      qtyInStock: qtyInStock,
+    });
 
-    // const value = validateProduct({
-    //   title: title,
-    //   price: price,
-    //   description: description,
-    //   isActive: req.body.isActive,
-    //   qtyInStock: qtyInStock,
-    // });
+    value.productCode = generateNumber.generateProductCode(6);
 
-    // value.productCode = generateNumber.generateProductCode(6);
+    const existingCode = await Product.findOne({
+      where: {
+        productCode: value.productCode,
+      },
+    });
 
-    // const existingCode = await Product.findOne({
-    //   where: {
-    //     productCode: value.productCode,
-    //   },
-    // });
+    if (existingCode) {
+      return res.status(409).json(resMsg.getMsg(40900));
+    }
 
-    // if (existingCode) {
-    //   return res.status(409).json(resMsg.getMsg(40900));
-    // }
+    const product = await Product.create(value);
 
-    // const product = await Product.create(value);
+    //create PSC
+    await ProductSubCategory.create({
+      productId: product.id,
+      brandCategorySubId: bcsId,
+    });
+    //create Product Image
+    const productURL = process.env.PRODUCT_IMAGE_URL;
 
-    // //create PSC
-    // await ProductSubCategory.create({
-    //   productId: product.id,
-    //   brandCategorySubId: bcsId,
-    // });
-    // //create Product Image
+    const data = [];
 
-    // const result = await Product.findByPk(product.id);
+    for (let i = 0; i < imgFiles.length; i++) {
+      data.push({productId: product.id, path: productURL + imgFiles[i]});
+    }
 
-    res.status(200).json({...resMsg.getMsg(200)});
+    await ProductImage.bulkCreate(data);
+
+    //getProductByPk
+    const result = await Product.findByPk(product.id);
+
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
