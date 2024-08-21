@@ -11,6 +11,7 @@ router.route('/bcs').get(categoryController.getBrandCategorySub);
 //Brand tag
 router.route('/brandtag').post(brandController.createBrandTags);
 router.route('/brandtag/:id').get(brandController.getBrandTag);
+router.route('/brandtag/bcs/:id').get(brandController.getBrandTagById);
 
 //Main Category Route
 router

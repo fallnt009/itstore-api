@@ -39,10 +39,11 @@ router
   .route('/img/:id')
   .post(upload.array('productImage', 4), imageContoller.createProductImage);
 router.route('/all').get(productController.getAllProduct);
+
 router
   .route('/:id')
   .get(productController.getProductById)
-  .patch(productController.updateProduct)
+  .patch(upload.array('productImage', 4), productController.updateProduct)
   .delete(productController.deleteProduct);
 
 module.exports = router;

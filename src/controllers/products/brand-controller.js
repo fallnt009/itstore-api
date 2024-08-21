@@ -33,6 +33,45 @@ exports.getBrandTag = async (req, res, next) => {
         },
       ],
     });
+    if (!result) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+//getBrandTagById
+exports.getBrandTagById = async (req, res, next) => {
+  try {
+    const bcsId = req.params.id;
+    const result = await BrandCategorySub.findOne({
+      where: {id: bcsId},
+      attributes: ['id', 'subCategoryId', 'brandCategoryId'],
+      include: [
+        {
+          model: SubCategory,
+          attributes: ['id', 'title'],
+        },
+        {
+          model: BrandCategory,
+          attributes: ['id', 'brandId', 'mainCategoryId'],
+          include: [
+            {
+              model: Brand,
+
+              attributes: ['id', 'title'],
+            },
+          ],
+          required: true,
+        },
+      ],
+    });
+    if (!result) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));

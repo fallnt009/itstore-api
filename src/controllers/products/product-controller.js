@@ -234,6 +234,15 @@ exports.getProductById = async (req, res, next) => {
       where: {
         id: req.params.id,
       },
+      include: [
+        {
+          model: ProductSubCategory,
+          attributes: ['brandCategorySubId'],
+        },
+        {
+          model: ProductImage,
+        },
+      ],
     });
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
@@ -307,11 +316,15 @@ exports.getSalesProduct = async (req, res, next) => {
 };
 
 exports.createProduct = async (req, res, next) => {
+  const t = await sequelize.transaction();
+
   try {
     //get BCS Id by params
     const bcsId = req.params.id;
+
     const {title, price, description, qtyInStock} = req.body;
-    const imgFiles = req.files.map((file) => file.filename);
+
+    const imgFiles = req.files?.map((file) => file.filename);
 
     const value = validateProduct({
       title: title,
@@ -327,19 +340,24 @@ exports.createProduct = async (req, res, next) => {
       where: {
         productCode: value.productCode,
       },
+      transaction: t,
     });
 
     if (existingCode) {
+      await t.rollback();
       return res.status(409).json(resMsg.getMsg(40900));
     }
 
-    const product = await Product.create(value);
+    const product = await Product.create(value, {transaction: t});
 
     //create PSC
-    await ProductSubCategory.create({
-      productId: product.id,
-      brandCategorySubId: bcsId,
-    });
+    await ProductSubCategory.create(
+      {
+        productId: product.id,
+        brandCategorySubId: bcsId,
+      },
+      {transaction: t}
+    );
     //create Product Image
     const productURL = process.env.PRODUCT_IMAGE_URL;
 
@@ -349,23 +367,29 @@ exports.createProduct = async (req, res, next) => {
       data.push({productId: product.id, path: productURL + imgFiles[i]});
     }
 
-    await ProductImage.bulkCreate(data);
+    await ProductImage.bulkCreate(data, {transaction: t});
+
+    // Commit the transaction
+    await t.commit();
 
     //getProductByPk
     const result = await Product.findByPk(product.id);
 
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
+    await t.rollback();
     res.status(500).json(resMsg.getMsg(500));
   }
 };
 
 exports.updateProduct = async (req, res, next) => {
   const pd = await sequelize.transaction();
-  try {
-    const imageFile = req.files?.map((file) => file.filename);
 
+  //review on edit need to update on productSubCategory by bcs id where product id
+  try {
+    const {bcsId} = req.body;
     const productID = req.params.id;
+    const imageFile = req.files?.map((file) => file.filename);
 
     const value = validateProduct({
       title: req.body.title,
@@ -374,23 +398,8 @@ exports.updateProduct = async (req, res, next) => {
       isActive: req.body.isActive,
       qtyInStock: req.body.qtyInStock,
     });
-    const existingCode = await Product.findAll(
-      {
-        where: {
-          productCode: value.productCode,
-          id: {
-            [Op.not]: productID,
-          },
-        },
-      },
-      {transaction: pd}
-    );
 
-    if (existingCode.length > 0) {
-      await pd.rollback();
-      return res.status(409).json(resMsg.getMsg(40900));
-    }
-
+    //update product
     await Product.update(
       value,
       {
@@ -400,6 +409,21 @@ exports.updateProduct = async (req, res, next) => {
       },
       {transaction: pd}
     );
+    //find productSubCategory
+    const psc = await ProductSubCategory.findOne({
+      where: {productId: productID},
+      transaction: pd,
+    });
+    if (!psc) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    const notSameId = psc.brandCategorySubId !== bcsId;
+    //update productSubCategory (bcsId) if id exist
+    if (notSameId) {
+      await psc.update({brandCategorySubId: bcsId}, {transaction: pd});
+    }
+
     //Find EXIST image
     const productImage = await ProductImage.findAll(
       {
