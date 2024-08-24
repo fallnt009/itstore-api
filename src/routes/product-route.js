@@ -12,7 +12,6 @@ const authController = require('../controllers/auth/auth-controller');
 const router = express.Router();
 
 //Product Spec ,spec Item and image
-router.route('/spec-items/:id').get(specController.getSpecItemById);
 router.route('/spec-prod/:productName').get(specController.getProductSpec);
 router.route('/image/:productName').get(imageContoller.getProductImage);
 //GET new product
@@ -27,7 +26,16 @@ router
 router.use(authenticate);
 //Only EMPLOYEE
 router.use(authController.restrictTo(EMPLOYEE));
+//SpecItem All
+router
+  .route('/spec-items')
+  .get(specController.getAllSpecItems)
+  .post(specController.createSpecItem);
 
+router
+  .route('/spec-items/:id')
+  .get(specController.getSpecItemById)
+  .patch(specController.updateSpecItem);
 //Product CRUD
 router.post(
   '/create/:id',

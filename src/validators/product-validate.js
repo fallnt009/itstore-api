@@ -21,8 +21,8 @@ const createProductSchema = Joi.object({
 exports.validateProduct = validate(createProductSchema);
 
 const createSpecItem = Joi.object({
-  specName: Joi.string().required().messages({
-    'string.empty': 'spec name is required',
+  title: Joi.string().required().messages({
+    'string.empty': 'name is required',
   }),
 });
 

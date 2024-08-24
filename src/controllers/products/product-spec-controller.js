@@ -13,27 +13,52 @@ const {
 
 const resMsg = require('../../config/messages');
 
-exports.getSpecItemById = async (req, res, next) => {
-  try {
-    const {id} = req.params;
+//getallSpecItems
+exports.getAllSpecItems = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 15;
+  const subCategoryId = req.query.subCategoryId || '';
 
-    const result = await SpecItem.findAll({
+  try {
+    const filters = {};
+    if (subCategoryId)
+      filters['$SpecSubcategory.SubCategory.id$'] = subCategoryId;
+
+    const {count, rows} = await SpecItem.findAndCountAll({
       attributes: ['id', 'title'],
       include: [
         {
           model: SpecSubcategory,
-          attributes: ['id'],
-          required: true,
-          include: [
-            {
-              model: SubCategory,
-              attributes: ['id', 'title'],
-              where: {id: id},
-            },
-          ],
+          attributes: ['subCategoryId'],
+          include: [{model: SubCategory, attributes: ['id', 'title']}],
         },
       ],
+      where: filters,
+      order: [[{model: SpecSubcategory}, {model: SubCategory}, 'title', 'ASC']],
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
     });
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+exports.getSpecItemById = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+
+    const result = await SpecItem.findByPk(id);
+
+    if (!result) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
@@ -44,8 +69,32 @@ exports.createSpecItem = async (req, res, next) => {
     const value = validateSpecItem({
       title: req.body.title,
     });
-    const result = await SpecItem.create(value);
-    res.status(200).json({...resMsg.getMsg(200), result});
+
+    const specitem = await SpecItem.create(value);
+    //create spec subCategory and assign default as not assign id
+    await SpecSubcategory.create({specItemId: specitem.id, subCategoryId: 29});
+
+    res.status(200).json(resMsg.getMsg(200));
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+exports.updateSpecItem = async (req, res, next) => {
+  try {
+    const specId = req.params.id;
+    //validate
+    const value = validateSpecItem({
+      title: req.body.title,
+    });
+
+    const specitems = await SpecItem.findByPk(specId);
+    if (!specitems) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+    //update
+
+    await specitems.update(value);
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
@@ -87,22 +136,3 @@ exports.getProductSpec = async (req, res, next) => {
     res.status(500).json(resMsg.getMsg(500));
   }
 };
-
-//getProduct + Subspec
-
-//createProductSubSpec
-
-// exports.createProductSpec = async (req, res, next) => {
-//   try {
-//     const value = validateProductSpec({
-//       description: req.body.description,
-//     });
-//     value.specItemId = req.body.specItemId;
-//     value.productId = req.body.productId;
-
-//     const result = await ProductSpec.create(value);
-//     res.status(200).json({message: 'create success', result});
-//   } catch (err) {
-//     next(err);
-//   }
-// };
