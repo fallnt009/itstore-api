@@ -26,6 +26,9 @@ router
 router.use(authenticate);
 //Only EMPLOYEE
 router.use(authController.restrictTo(EMPLOYEE));
+//Product Spec
+router.route('/product-spec').get(specController.getAllProductSpec);
+router.route('/product-spec/:id').get(specController.getProductSpecById);
 //SpecItem All
 router
   .route('/spec-items')

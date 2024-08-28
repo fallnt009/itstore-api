@@ -20,6 +20,7 @@ const {
 
 const generateNumber = require('../../controllers/utils/generateNumber');
 const resMsg = require('../../config/messages');
+const {required} = require('joi');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
@@ -238,6 +239,7 @@ exports.getProductById = async (req, res, next) => {
         {
           model: ProductSubCategory,
           attributes: ['brandCategorySubId'],
+          include: [{model: BrandCategorySub, attributes: ['subCategoryId']}],
         },
         {
           model: ProductImage,
@@ -522,24 +524,24 @@ exports.getAllProduct = async (req, res, next) => {
   const pageSize = parseInt(req.query.pageSize) || 4;
   const order = req.query.order || 'ASC';
   const brandId = req.query.brandId || '';
-  const categoryId = req.query.categoryId || '';
   const subCategoryId = req.query.subCategoryId || '';
   try {
     //query filter
+
+    console.log(brandId, subCategoryId);
+
     const filters = {};
     if (brandId)
       filters['$ProductSubCategory.BrandCategorySub.BrandCategory.Brand.id$'] =
         brandId;
-    if (categoryId)
-      filters[
-        '$ProductSubCategory.BrandCategorySub.BrandCategory.MainCategory.id$'
-      ] = categoryId;
+
     if (subCategoryId)
       filters['$ProductSubCategory.BrandCategorySub.SubCategory.id$'] =
         subCategoryId;
 
     //fetch product
     const {count, rows} = await Product.findAndCountAll({
+      distinct: true,
       include: [
         {
           model: ProductSubCategory,
@@ -561,11 +563,6 @@ exports.getAllProduct = async (req, res, next) => {
                   required: true,
                   attributes: ['id'],
                   include: [
-                    {
-                      model: MainCategory,
-                      required: true,
-                      attributes: ['id', 'title'],
-                    },
                     {
                       model: Brand,
                       required: true,
@@ -589,15 +586,42 @@ exports.getAllProduct = async (req, res, next) => {
           model: ProductImage,
           attributes: ['path'],
         },
+        {
+          model: ProductSubSpec,
+          attributes: ['specProductId'],
+          include: [
+            {
+              model: SpecProduct,
+              attributes: ['id', 'value', 'text'],
+              include: [
+                {
+                  model: SpecSubcategory,
+                  attributes: ['specItemId', 'subCategoryId'],
+                  include: [
+                    {model: SpecItem, attributes: ['title']},
+                    // {
+                    //   model: SubCategory,
+                    //   attributes: ['title'],
+                    // },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ],
       where: filters,
       order: [['createdAt', order]],
       limit: pageSize,
       offset: (page - 1) * pageSize,
     });
+
+    if (!rows) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
     res.status(200).json({
       ...resMsg.getMsg(200),
-      totalItems: count,
+      count: count,
       totalPages: Math.ceil(count / pageSize),
       currentPage: page,
       result: rows,

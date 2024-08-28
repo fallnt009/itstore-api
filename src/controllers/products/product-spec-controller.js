@@ -54,7 +54,16 @@ exports.getSpecItemById = async (req, res, next) => {
   try {
     const {id} = req.params;
 
-    const result = await SpecItem.findByPk(id);
+    const result = await SpecItem.findAll({
+      attributes: ['id', 'title'],
+      include: [
+        {
+          model: SpecSubcategory,
+          attributes: ['id', 'subCategoryId'],
+          where: {subCategoryId: id},
+        },
+      ],
+    });
 
     if (!result) {
       return res.status(404).json(resMsg.getMsg(40401));
@@ -131,7 +140,117 @@ exports.getProductSpec = async (req, res, next) => {
         },
       ],
     });
-    await res.status(200).json({...resMsg.getMsg(200), result});
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+exports.getAllProductSpec = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+
+  try {
+    const {count, rows} = await Product.findAndCountAll({
+      include: [
+        {
+          model: ProductSubSpec,
+          attributes: ['specProductId'],
+          include: [
+            {
+              model: SpecProduct,
+              attributes: ['id', 'value', 'text'],
+              include: [
+                {
+                  model: SpecSubcategory,
+                  attributes: ['specItemId', 'subCategoryId'],
+                  include: [
+                    {model: SpecItem, attributes: ['title']},
+                    {model: SubCategory, attributes: ['title']},
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+exports.getProductSpecById = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    //product SubSpec not required
+    //if productSubSpec return empty array it's mean this product have no spec description at all
+    const result = await Product.findOne({
+      where: {id: productId},
+      include: [
+        {
+          model: ProductSubSpec,
+          attributes: ['id'],
+          include: [
+            {
+              model: SpecProduct,
+              // attributes: ['id', 'value', 'text'],
+              include: [
+                {
+                  model: SpecSubcategory,
+                  attributes: ['id'],
+                  include: [
+                    {model: SpecItem, attributes: ['title']},
+                    {model: SubCategory, attributes: ['title']},
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!result) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+//create need specSubId of each title and put data in array and bulkCreate
+//and use specProduct that create to create productsubSpec with productId
+//[{},{},{}]
+//edit or update need specProductId
+//update specProduct by Id
+//on delete need specProductId and productId
+//delete specProduct first and then productSubSpec that have SpecProductId
+exports.createProductSpec = async (req, res, next) => {
+  try {
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+exports.updateProductSpec = async (req, res, next) => {
+  try {
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+exports.deleteProductSpec = async (req, res, next) => {
+  try {
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
