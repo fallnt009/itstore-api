@@ -6,14 +6,16 @@ const upload = require('../middlewares/upload');
 
 const specController = require('../controllers/products/product-spec-controller');
 const productController = require('../controllers/products/product-controller');
-const imageContoller = require('../controllers/products/product-image-controller');
+const imageController = require('../controllers/products/product-image-controller');
 const authController = require('../controllers/auth/auth-controller');
+const subSpecController = require('../controllers/products/product-subspec-controller');
 
 const router = express.Router();
 
 //Product Spec ,spec Item and image
+router.route('/spec-product/:id').get(subSpecController.getSpecProductbyItemId);
 router.route('/spec-prod/:productName').get(specController.getProductSpec);
-router.route('/image/:productName').get(imageContoller.getProductImage);
+router.route('/image/:productName').get(imageController.getProductImage);
 //GET new product
 router.route('/new').get(productController.getNewProduct);
 router.route('/sales').get(productController.getSalesProduct);
@@ -26,6 +28,10 @@ router
 router.use(authenticate);
 //Only EMPLOYEE
 router.use(authController.restrictTo(EMPLOYEE));
+//Product SUB SPEC
+router
+  .route('/subspec/:id')
+  .get(subSpecController.getProductSubSpecByProductId);
 //Product Spec
 router.route('/product-spec').get(specController.getAllProductSpec);
 router.route('/product-spec/:id').get(specController.getProductSpecById);
@@ -48,7 +54,7 @@ router.post(
 //create images
 router
   .route('/img/:id')
-  .post(upload.array('productImage', 4), imageContoller.createProductImage);
+  .post(upload.array('productImage', 4), imageController.createProductImage);
 router.route('/all').get(productController.getAllProduct);
 
 router
