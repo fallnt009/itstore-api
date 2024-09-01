@@ -31,7 +31,9 @@ router.use(authController.restrictTo(EMPLOYEE));
 //Product SUB SPEC
 router
   .route('/subspec/:id')
-  .get(subSpecController.getProductSubSpecByProductId);
+  .get(subSpecController.getProductSubSpecByProductId)
+  .post(subSpecController.createProductSubSpec)
+  .delete(subSpecController.deleteProductSubSpec);
 //Product Spec
 router.route('/product-spec').get(specController.getAllProductSpec);
 router.route('/product-spec/:id').get(specController.getProductSpecById);

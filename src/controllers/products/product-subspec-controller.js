@@ -34,10 +34,6 @@ exports.getSpecProductbyItemId = async (req, res, next) => {
       ],
     });
 
-    if (!result || result.length === 0) {
-      return res.status(404).json(resMsg.getMsg(40401));
-    }
-
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
@@ -59,11 +55,6 @@ exports.getProductSubSpecByProductId = async (req, res, next) => {
       ],
     });
 
-    //if not found
-    if (!result || result.length === 0) {
-      return res.status(404).json(resMsg.getMsg(40401));
-    }
-
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
@@ -76,10 +67,21 @@ exports.createProductSubSpec = async (req, res, next) => {
   //METHOD create productSubSpec by using two Ids
 
   try {
-    const {specProductId, productId} = req.body;
+    const productId = req.params.id;
+    const {specProductId} = req.body;
 
     if (!specProductId || !productId) {
       return res.status(400).json(resMsg.getMsg(400));
+    }
+
+    //if ProductSubSpec exist return error
+    const isExist = await ProductSubSpec.findOne({
+      where: {specProductId: specProductId, productId: productId},
+    });
+
+    //return error exist
+    if (isExist) {
+      return res.status(409).json(resMsg.getMsg(40900));
     }
 
     const productSubSpec = await ProductSubSpec.create({
@@ -87,7 +89,16 @@ exports.createProductSubSpec = async (req, res, next) => {
       productId: productId,
     });
 
-    const result = await ProductSubSpec.findByPk(productSubSpec.id);
+    const result = await ProductSubSpec.findOne({
+      attributes: ['id', 'specProductId', 'productId'],
+      where: {id: productSubSpec.id},
+      include: [
+        {
+          model: SpecProduct,
+          attributes: ['id', 'value', 'text', 'specSubcategoryId'],
+        },
+      ],
+    });
 
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
@@ -112,6 +123,20 @@ exports.deleteProductSubSpec = async (req, res, next) => {
   //METHOD delete productSubSpec by their id
 
   try {
+    const productId = req.params.id;
+    const {specProductId} = req.body;
+
+    //find if exist
+    const ProductSubSpecData = await ProductSubSpec.findOne({
+      where: {specProductId: specProductId, productId: productId},
+    });
+
+    if (!ProductSubSpecData) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    await ProductSubSpecData.destroy();
+
     res.status(200).json({...resMsg.getMsg(200)});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
