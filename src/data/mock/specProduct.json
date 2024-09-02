@@ -2,631 +2,377 @@
   {
     "id": 1,
     "specSubcategoryId": 1,
-    "value": null,
-    "text": "Asus"
+    "text": "AMD"
   },
   {
     "id": 2,
     "specSubcategoryId": 1,
-    "value": null,
-    "text": "Asrock"
-  },
-  {
-    "id": 3,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Gigabyte"
-  },
-  {
-    "id": 4,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Msi"
-  },
-  {
-    "id": 5,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "AMD"
-  },
-  {
-    "id": 6,
-    "specSubcategoryId": 1,
-    "value": null,
     "text": "Intel"
   },
+
   {
-    "id": 7,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Aorus"
-  },
-  {
-    "id": 8,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Apacer"
-  },
-  {
-    "id": 9,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Corsair"
-  },
-  {
-    "id": 10,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "GSkill"
-  },
-  {
-    "id": 11,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Kingston"
-  },
-  {
-    "id": 12,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Seagate"
-  },
-  {
-    "id": 13,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Sandisk"
-  },
-  {
-    "id": 14,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Samsung"
-  },
-  {
-    "id": 15,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Western Digital"
-  },
-  {
-    "id": 16,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Nvidia"
-  },
-  {
-    "id": 17,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Galax"
-  },
-  {
-    "id": 18,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Zotac"
-  },
-  {
-    "id": 19,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Antex"
-  },
-  {
-    "id": 20,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Cooler Master"
-  },
-  {
-    "id": 21,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Thermaltake"
-  },
-  {
-    "id": 22,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "NZXT"
-  },
-  {
-    "id": 23,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Noctua"
-  },
-  {
-    "id": 24,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Creative"
-  },
-  {
-    "id": 25,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Beyerdynamic"
-  },
-  {
-    "id": 26,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Alienware"
-  },
-  {
-    "id": 27,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Logitech"
-  },
-  {
-    "id": 28,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Elgato"
-  },
-  {
-    "id": 29,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Dell"
-  },
-  {
-    "id": 30,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Zyxel"
-  },
-  {
-    "id": 31,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "APC"
-  },
-  {
-    "id": 32,
-    "specSubcategoryId": 1,
-    "value": null,
-    "text": "Microsoft"
-  },
-  {
-    "id": 33,
+    "id": 3,
     "specSubcategoryId": 2,
-    "value": null,
     "text": "Core i3 13th Gen"
   },
   {
-    "id": 34,
+    "id": 4,
     "specSubcategoryId": 2,
-    "value": null,
     "text": "Core i3 14th Gen"
   },
   {
-    "id": 35,
+    "id": 5,
     "specSubcategoryId": 2,
-    "value": null,
     "text": "Core i5 14th Gen"
   },
   {
-    "id": 36,
+    "id": 6,
     "specSubcategoryId": 2,
-    "value": null,
     "text": "Core i7 14th Gen"
   },
   {
-    "id": 37,
+    "id": 7,
     "specSubcategoryId": 2,
-    "value": null,
     "text": "Ryzen 5 7000 Series"
   },
   {
-    "id": 38,
+    "id": 8,
     "specSubcategoryId": 2,
-    "value": null,
     "text": "Ryzen 7 7000 Series"
   },
   {
-    "id": 39,
+    "id": 9,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i3-13100"
   },
   {
-    "id": 40,
+    "id": 10,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i3-13100F"
   },
   {
-    "id": 41,
+    "id": 11,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i3-14100"
   },
   {
-    "id": 42,
+    "id": 12,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i3-14100F"
   },
   {
-    "id": 43,
+    "id": 13,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i5-14400"
   },
   {
-    "id": 44,
+    "id": 14,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i5-14400F"
   },
   {
-    "id": 45,
+    "id": 15,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i5-14500"
   },
   {
-    "id": 46,
+    "id": 16,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i5-14600K"
   },
   {
-    "id": 47,
+    "id": 17,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i5-14600KF"
   },
   {
-    "id": 48,
+    "id": 18,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i7-14700KF"
   },
   {
-    "id": 49,
+    "id": 19,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Core i7-14700K"
   },
   {
-    "id": 50,
+    "id": 20,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Ryzen 5 7600"
   },
   {
-    "id": 51,
+    "id": 21,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Ryzen 5 7600X"
   },
   {
-    "id": 52,
+    "id": 22,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Ryzen 7 7700"
   },
   {
-    "id": 53,
+    "id": 23,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Ryzen 7 7700X"
   },
   {
-    "id": 54,
+    "id": 24,
     "specSubcategoryId": 3,
-    "value": null,
     "text": "Ryzen 7 7800X3D"
   },
   {
-    "id": 55,
+    "id": 25,
     "specSubcategoryId": 5,
-    "value": null,
     "text": "LGA 1700"
   },
   {
-    "id": 56,
+    "id": 26,
     "specSubcategoryId": 5,
-    "value": null,
     "text": "AM5"
   },
   {
-    "id": 57,
+    "id": 27,
     "specSubcategoryId": 6,
-    "value": null,
     "text": "4"
   },
   {
-    "id": 58,
+    "id": 28,
     "specSubcategoryId": 6,
-    "value": null,
     "text": "6"
   },
   {
-    "id": 59,
+    "id": 29,
     "specSubcategoryId": 6,
-    "value": null,
     "text": "8"
   },
   {
-    "id": 60,
+    "id": 30,
     "specSubcategoryId": 6,
-    "value": null,
     "text": "10"
   },
   {
-    "id": 61,
+    "id": 31,
     "specSubcategoryId": 6,
-    "value": null,
     "text": "14"
   },
   {
-    "id": 62,
+    "id": 32,
     "specSubcategoryId": 6,
-    "value": null,
     "text": "20"
   },
   {
-    "id": 63,
+    "id": 33,
     "specSubcategoryId": 7,
-    "value": null,
     "text": "8"
   },
   {
-    "id": 64,
+    "id": 34,
     "specSubcategoryId": 7,
-    "value": null,
     "text": "12"
   },
   {
-    "id": 65,
+    "id": 35,
     "specSubcategoryId": 7,
-    "value": null,
     "text": "16"
   },
   {
-    "id": 66,
+    "id": 36,
     "specSubcategoryId": 7,
-    "value": null,
     "text": "20"
   },
   {
-    "id": 67,
+    "id": 37,
     "specSubcategoryId": 7,
-    "value": null,
     "text": "28"
   },
   {
-    "id": 68,
+    "id": 38,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "2.5 GHz"
   },
   {
-    "id": 69,
+    "id": 39,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "2.6 GHz"
   },
   {
-    "id": 70,
+    "id": 40,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "3.4 GHz"
   },
   {
-    "id": 71,
+    "id": 41,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "3.5 GHz"
   },
   {
-    "id": 72,
+    "id": 42,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "3.8 GHz"
   },
   {
-    "id": 73,
+    "id": 43,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "4.2 GHz"
   },
   {
-    "id": 74,
+    "id": 44,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "4.5 GHz"
   },
   {
-    "id": 75,
+    "id": 45,
     "specSubcategoryId": 8,
-    "value": null,
     "text": "4.7 GHz"
   },
   {
-    "id": 76,
+    "id": 46,
     "specSubcategoryId": 9,
-    "value": null,
     "text": "4.5 GHz"
   },
   {
-    "id": 77,
+    "id": 47,
     "specSubcategoryId": 9,
-    "value": null,
     "text": "4.7 GHz"
   },
   {
-    "id": 78,
+    "id": 48,
     "specSubcategoryId": 9,
-    "value": null,
     "text": "5.0 GHz"
   },
   {
-    "id": 79,
+    "id": 49,
     "specSubcategoryId": 9,
-    "value": null,
     "text": "5.1 GHz"
   },
   {
-    "id": 80,
+    "id": 50,
     "specSubcategoryId": 9,
-    "value": null,
     "text": "5.3 GHz"
   },
   {
-    "id": 81,
+    "id": 51,
     "specSubcategoryId": 9,
-    "value": null,
     "text": "5.4 GHz"
   },
   {
-    "id": 82,
+    "id": 52,
     "specSubcategoryId": 9,
-    "value": null,
     "text": "5.6 GHz"
   },
   {
-    "id": 83,
+    "id": 53,
     "specSubcategoryId": 10,
-    "value": null,
     "text": "384KB"
   },
   {
-    "id": 84,
+    "id": 54,
     "specSubcategoryId": 10,
-    "value": null,
     "text": "512KB"
   },
   {
-    "id": 85,
+    "id": 55,
     "specSubcategoryId": 11,
-    "value": null,
     "text": "5MB"
   },
   {
-    "id": 86,
+    "id": 56,
     "specSubcategoryId": 11,
-    "value": null,
     "text": "6MB"
   },
   {
-    "id": 87,
+    "id": 57,
     "specSubcategoryId": 11,
-    "value": null,
     "text": "8MB"
   },
   {
-    "id": 88,
+    "id": 58,
     "specSubcategoryId": 11,
-    "value": null,
     "text": "9.5MB"
   },
   {
-    "id": 89,
+    "id": 59,
     "specSubcategoryId": 11,
-    "value": null,
     "text": "11.5MB"
   },
   {
-    "id": 90,
+    "id": 60,
     "specSubcategoryId": 11,
-    "value": null,
     "text": "20MB"
   },
   {
-    "id": 91,
+    "id": 61,
     "specSubcategoryId": 11,
-    "value": null,
     "text": "28MB"
   },
   {
-    "id": 92,
+    "id": 62,
     "specSubcategoryId": 12,
-    "value": null,
     "text": "12MB"
   },
   {
-    "id": 93,
+    "id": 63,
     "specSubcategoryId": 12,
-    "value": null,
     "text": "20MB"
   },
   {
-    "id": 94,
+    "id": 64,
     "specSubcategoryId": 12,
-    "value": null,
     "text": "24MB"
   },
   {
-    "id": 95,
+    "id": 65,
     "specSubcategoryId": 12,
-    "value": null,
     "text": "32MB"
   },
   {
-    "id": 96,
+    "id": 66,
     "specSubcategoryId": 12,
-    "value": null,
     "text": "33MB"
   },
   {
-    "id": 97,
+    "id": 67,
     "specSubcategoryId": 13,
-    "value": null,
     "text": "None"
   },
   {
-    "id": 98,
+    "id": 68,
     "specSubcategoryId": 13,
-    "value": null,
     "text": "Intel UHD Graphics 730"
   },
   {
-    "id": 99,
+    "id": 69,
     "specSubcategoryId": 13,
-    "value": null,
     "text": "Intel UHD Graphics 770"
   },
   {
-    "id": 100,
+    "id": 70,
     "specSubcategoryId": 13,
-    "value": null,
     "text": "AMD Radeon Graphics"
   },
   {
-    "id": 101,
+    "id": 71,
     "specSubcategoryId": 14,
-    "value": null,
     "text": "Heatsink and fan included"
   },
   {
-    "id": 102,
+    "id": 72,
     "specSubcategoryId": 14,
-    "value": null,
     "text": "Intel Laminar RM1 included"
   },
   {
-    "id": 103,
+    "id": 73,
     "specSubcategoryId": 14,
-    "value": null,
     "text": "Wraith Stealth Cooler"
   },
   {
-    "id": 104,
+    "id": 74,
     "specSubcategoryId": 14,
-    "value": null,
     "text": "Wraith Prism Cooler"
   },
   {
-    "id": 105,
+    "id": 75,
     "specSubcategoryId": 14,
-    "value": null,
     "text": "not included"
   }
 ]

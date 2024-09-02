@@ -8,6 +8,6 @@ const router = express.Router();
 router.route('/main').post(mockProductController.MockMainData);
 router.route('/associate').post(mockProductController.MockAssociateData);
 router.route('/specproduct').post(mockProductController.MockSpecProduct);
-router.route('/subspec').post(mockProductController.MockSubSpec);
+// router.route('/subspec').post(mockProductController.MockSubSpec);
 
 module.exports = router;

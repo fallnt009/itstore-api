@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const ProductSubSpec = sequelize.define(
     'ProductSubSpec',
-    {},
+    {value: {type: DataTypes.INTEGER}},
     {underscored: true}
   );
   ProductSubSpec.associate = (db) => {

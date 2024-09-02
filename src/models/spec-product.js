@@ -2,9 +2,6 @@ module.exports = (sequelize, DataTypes) => {
   const SpecProduct = sequelize.define(
     'SpecProduct',
     {
-      value: {
-        type: DataTypes.INTEGER,
-      },
       text: {
         type: DataTypes.STRING,
         allowNull: false,

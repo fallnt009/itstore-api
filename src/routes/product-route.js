@@ -9,6 +9,7 @@ const productController = require('../controllers/products/product-controller');
 const imageController = require('../controllers/products/product-image-controller');
 const authController = require('../controllers/auth/auth-controller');
 const subSpecController = require('../controllers/products/product-subspec-controller');
+const specProductController = require('../controllers/products/spec-product-controller');
 
 const router = express.Router();
 
@@ -26,8 +27,13 @@ router
 
 //Protected Route
 router.use(authenticate);
+
 //Only EMPLOYEE
 router.use(authController.restrictTo(EMPLOYEE));
+
+//Product Spec Product
+router.route('/specproduct/:id').get(specProductController.getSpecProduct);
+
 //Product SUB SPEC
 router
   .route('/subspec/:id')
