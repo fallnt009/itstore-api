@@ -246,6 +246,7 @@ exports.getProductById = async (req, res, next) => {
         },
       ],
     });
+
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
@@ -528,8 +529,6 @@ exports.getAllProduct = async (req, res, next) => {
   try {
     //query filter
 
-    console.log(brandId, subCategoryId);
-
     const filters = {};
     if (brandId)
       filters['$ProductSubCategory.BrandCategorySub.BrandCategory.Brand.id$'] =
@@ -588,11 +587,11 @@ exports.getAllProduct = async (req, res, next) => {
         },
         {
           model: ProductSubSpec,
-          attributes: ['specProductId'],
+          // attributes: ['specProductId'],
           include: [
             {
               model: SpecProduct,
-              attributes: ['id', 'value', 'text'],
+              attributes: ['id', 'text'],
               include: [
                 {
                   model: SpecSubcategory,

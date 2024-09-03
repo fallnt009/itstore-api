@@ -9,8 +9,6 @@ exports.getSpecProduct = async (req, res, next) => {
     const specItemId = req.params.id;
     const {subCategoryId} = req.query;
 
-    console.log(specItemId, subCategoryId);
-
     const filter = {};
 
     if (specItemId) {

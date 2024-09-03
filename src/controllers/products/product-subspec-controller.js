@@ -24,7 +24,7 @@ exports.getSpecProductbyItemId = async (req, res, next) => {
   try {
     const itemId = req.params.id;
     const result = await SpecProduct.findAll({
-      attributes: ['id', 'value', 'text'],
+      attributes: ['id', 'text'],
       include: [
         {
           model: SpecSubcategory,
@@ -45,12 +45,12 @@ exports.getProductSubSpecByProductId = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const result = await ProductSubSpec.findAll({
-      attributes: ['id', 'specProductId', 'productId'],
+      attributes: ['id', 'value', 'specProductId', 'productId'],
       where: {productId: productId},
       include: [
         {
           model: SpecProduct,
-          attributes: ['id', 'value', 'text', 'specSubcategoryId'],
+          attributes: ['id', 'text', 'specSubcategoryId'],
         },
       ],
     });
@@ -68,7 +68,7 @@ exports.createProductSubSpec = async (req, res, next) => {
 
   try {
     const productId = req.params.id;
-    const {specProductId} = req.body;
+    const {specProductId, value} = req.body;
 
     if (!specProductId || !productId) {
       return res.status(400).json(resMsg.getMsg(400));
@@ -87,15 +87,16 @@ exports.createProductSubSpec = async (req, res, next) => {
     const productSubSpec = await ProductSubSpec.create({
       specProductId: specProductId,
       productId: productId,
+      value: value || null,
     });
 
     const result = await ProductSubSpec.findOne({
-      attributes: ['id', 'specProductId', 'productId'],
+      attributes: ['id', 'value', 'specProductId', 'productId'],
       where: {id: productSubSpec.id},
       include: [
         {
           model: SpecProduct,
-          attributes: ['id', 'value', 'text', 'specSubcategoryId'],
+          attributes: ['id', 'text', 'specSubcategoryId'],
         },
       ],
     });
