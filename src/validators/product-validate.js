@@ -43,3 +43,13 @@ const createProductBrand = Joi.object({
 });
 
 exports.validateProductBrand = validate(createProductBrand);
+
+const specProductSchema = Joi.object({
+  text: Joi.string().trim().required().messages({
+    'any.required': 'text is required',
+    'string.empty': 'text is required',
+    'string.base': 'text must a character',
+  }),
+});
+
+exports.validateSpecProduct = validate(specProductSchema);

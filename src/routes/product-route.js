@@ -32,7 +32,12 @@ router.use(authenticate);
 router.use(authController.restrictTo(EMPLOYEE));
 
 //Product Spec Product
-router.route('/specproduct/:id').get(specProductController.getSpecProduct);
+router.route('/specproduct').post(specProductController.createSpecProduct);
+router
+  .route('/specproduct/:id')
+  .get(specProductController.getSpecProduct)
+  .patch(specProductController.updateSpecProduct)
+  .delete(specProductController.deleteSpecProduct);
 
 //Product SUB SPEC
 router

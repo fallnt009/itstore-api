@@ -52,22 +52,20 @@ exports.getAllSpecItems = async (req, res, next) => {
 
 exports.getSpecItemById = async (req, res, next) => {
   try {
+    //by specItemId
     const {id} = req.params;
 
-    const result = await SpecItem.findAll({
+    const result = await SpecItem.findOne({
+      where: {id: id},
       attributes: ['id', 'title'],
       include: [
         {
           model: SpecSubcategory,
           attributes: ['id', 'subCategoryId'],
-          where: {subCategoryId: id},
         },
       ],
     });
 
-    if (!result) {
-      return res.status(404).json(resMsg.getMsg(40401));
-    }
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));

@@ -1,5 +1,7 @@
 const {Product, SpecSubcategory, SpecProduct} = require('../../models');
 
+const {validateSpecProduct} = require('../../validators/product-validate');
+
 const resMsg = require('../../config/messages');
 
 exports.getSpecProduct = async (req, res, next) => {
@@ -24,11 +26,12 @@ exports.getSpecProduct = async (req, res, next) => {
       include: [
         {
           model: SpecProduct,
-          attributes: ['id', 'value', 'text'],
+          attributes: ['id', 'text'],
           required: true,
         },
       ],
     });
+
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
@@ -37,7 +40,18 @@ exports.getSpecProduct = async (req, res, next) => {
 
 exports.createSpecProduct = async (req, res, next) => {
   try {
-    //Spec Product
+    //need specSubCategoryId and text
+    const {text, specSubCategoryId} = req.body;
+
+    //validateSpecProduct
+
+    const value = validateSpecProduct({
+      text: text,
+    });
+    value.specSubCategoryId = specSubCategoryId;
+
+    const result = await SpecProduct.create(value);
+
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
@@ -45,6 +59,23 @@ exports.createSpecProduct = async (req, res, next) => {
 };
 exports.updateSpecProduct = async (req, res, next) => {
   try {
+    //specProduct Id ,data
+    const specProductId = req.params.id;
+    const {text} = req.body;
+
+    const value = validateSpecProduct({
+      text: text,
+    });
+    const specProduct = await SpecProduct.findByPk(specProductId);
+
+    if (!specProduct) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    await specProduct.update(value);
+
+    const result = await SpecProduct.findOne({where: {id: specProduct.id}});
+
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
@@ -52,7 +83,17 @@ exports.updateSpecProduct = async (req, res, next) => {
 };
 exports.deleteSpecProduct = async (req, res, next) => {
   try {
-    res.status(200).json({...resMsg.getMsg(200), result});
+    const specProductId = req.params.id;
+
+    const specProduct = await SpecProduct.findByPk(specProductId);
+
+    if (!specProduct) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    await specProduct.delete();
+
+    res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
