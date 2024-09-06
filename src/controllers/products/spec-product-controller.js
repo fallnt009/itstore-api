@@ -48,7 +48,7 @@ exports.createSpecProduct = async (req, res, next) => {
     const value = validateSpecProduct({
       text: text,
     });
-    value.specSubCategoryId = specSubCategoryId;
+    value.specSubcategoryId = specSubCategoryId;
 
     const result = await SpecProduct.create(value);
 
@@ -74,7 +74,10 @@ exports.updateSpecProduct = async (req, res, next) => {
 
     await specProduct.update(value);
 
-    const result = await SpecProduct.findOne({where: {id: specProduct.id}});
+    const result = await SpecProduct.findOne({
+      where: {id: specProduct.id},
+      attributes: ['id', 'text'],
+    });
 
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
@@ -91,10 +94,12 @@ exports.deleteSpecProduct = async (req, res, next) => {
       return res.status(404).json(resMsg.getMsg(40401));
     }
 
-    await specProduct.delete();
+    await specProduct.destroy();
 
     res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };
