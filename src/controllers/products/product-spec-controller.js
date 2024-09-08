@@ -71,6 +71,30 @@ exports.getSpecItemById = async (req, res, next) => {
     res.status(500).json(resMsg.getMsg(500));
   }
 };
+
+//Get specItem by subCategoryId
+exports.getSpecItemBySubCategoryId = async (req, res, next) => {
+  try {
+    //by specItemId
+    const {id} = req.params;
+
+    const result = await SpecItem.findAll({
+      attributes: ['id', 'title'],
+      include: [
+        {
+          model: SpecSubcategory,
+          attributes: ['id', 'subCategoryId'],
+          where: {subCategoryId: id},
+        },
+      ],
+    });
+
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
 exports.createSpecItem = async (req, res, next) => {
   try {
     const value = validateSpecItem({

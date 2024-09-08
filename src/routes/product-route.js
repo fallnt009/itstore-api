@@ -16,6 +16,11 @@ const router = express.Router();
 //Product Spec ,spec Item and image
 router.route('/spec-product/:id').get(subSpecController.getSpecProductbyItemId);
 router.route('/spec-prod/:productName').get(specController.getProductSpec);
+//GET SPEC ITEM BY SUBCATEGORY ID
+router
+  .route('/spec-items/sub/:id')
+  .get(specController.getSpecItemBySubCategoryId);
+//GET PRODUCT IMAGE BY PRODUCT NAME
 router.route('/image/:productName').get(imageController.getProductImage);
 //GET new product
 router.route('/new').get(productController.getNewProduct);

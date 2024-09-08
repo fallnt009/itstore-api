@@ -19,8 +19,8 @@ const {
 } = require('../../models');
 
 const generateNumber = require('../../controllers/utils/generateNumber');
+const generateSlug = require('../../utils/generateSlug');
 const resMsg = require('../../config/messages');
-const {required} = require('joi');
 
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
@@ -337,6 +337,9 @@ exports.createProduct = async (req, res, next) => {
       qtyInStock: qtyInStock,
     });
 
+    //Create Slug by title
+    value.slug = generateSlug(value.title);
+    //generate productCode
     value.productCode = generateNumber.generateProductCode(6);
 
     const existingCode = await Product.findOne({
