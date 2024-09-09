@@ -91,7 +91,7 @@ exports.getNewProduct = async (req, res, next) => {
 
 exports.getProductBySubCategory = async (req, res, next) => {
   try {
-    const {categoryName, subCategoryName} = req.params;
+    const {categorySlug, subCategorySlug} = req.params;
 
     const {filter, page, pageSize} = req.query;
 
@@ -115,8 +115,8 @@ exports.getProductBySubCategory = async (req, res, next) => {
                 {
                   model: SubCategory,
                   required: true,
-                  attributes: ['title'],
-                  where: {title: subCategoryName},
+                  attributes: ['title', 'slug'],
+                  where: {slug: subCategorySlug},
                 },
                 {
                   model: BrandCategory,
@@ -126,8 +126,8 @@ exports.getProductBySubCategory = async (req, res, next) => {
                     {
                       model: MainCategory,
                       required: true,
-                      attributes: ['title'],
-                      where: {title: categoryName},
+                      attributes: ['title', 'slug'],
+                      where: {slug: categorySlug},
                     },
                   ],
                 },
@@ -138,24 +138,24 @@ exports.getProductBySubCategory = async (req, res, next) => {
         {
           model: ProductImage,
         },
-        // {
-        //   model: ProductSubSpec,
-        //   attributes: ['id'],
-        //   include: [
-        //     {
-        //       model: SpecProduct,
-        //       attributes: ['value', 'text'],
-        //       where: filterCondition,
-        //       include: [
-        //         {
-        //           model: SpecSubcategory,
-        //           attributes: ['id'],
-        //           include: [{model: SpecItem, attributes: ['title']}],
-        //         },
-        //       ],
-        //     },
-        //   ],
-        // },
+        {
+          model: ProductSubSpec,
+          attributes: ['id', 'value'],
+          include: [
+            {
+              model: SpecProduct,
+              attributes: ['text'],
+              where: filterCondition,
+              include: [
+                {
+                  model: SpecSubcategory,
+                  attributes: ['id'],
+                  include: [{model: SpecItem, attributes: ['title']}],
+                },
+              ],
+            },
+          ],
+        },
       ],
       order: [['createdAt', 'DESC']],
       distinct: true,
@@ -174,13 +174,13 @@ exports.getProductBySubCategory = async (req, res, next) => {
     res.status(500).json(resMsg.getMsg(500));
   }
 };
+
 exports.getProductInfo = async (req, res, next) => {
   try {
-    const {categoryName, subCategoryName, productName} = req.params;
-    const decodedProductName = decodeURIComponent(productName);
+    const {categorySlug, subCategorySlug, productSlug} = req.params;
 
     const result = await Product.findOne({
-      where: {title: decodedProductName},
+      where: {slug: productSlug},
       include: [
         {
           model: ProductSubCategory,
@@ -188,12 +188,12 @@ exports.getProductInfo = async (req, res, next) => {
           include: [
             {
               model: BrandCategorySub,
-              attributes: ['id'],
+              attributes: ['id', 'subCategoryId'],
               include: [
                 {
                   model: SubCategory,
-                  attributes: ['title'],
-                  where: {title: subCategoryName},
+                  attributes: ['title', 'slug'],
+                  where: {slug: subCategorySlug},
                 },
                 {
                   model: BrandCategory,
@@ -201,8 +201,8 @@ exports.getProductInfo = async (req, res, next) => {
                   include: [
                     {
                       model: MainCategory,
-                      attributes: ['title'],
-                      where: {title: categoryName},
+                      attributes: ['title', 'slug'],
+                      where: {slug: categorySlug},
                     },
                     {
                       model: Brand,
@@ -216,6 +216,9 @@ exports.getProductInfo = async (req, res, next) => {
           ],
           required: true,
         },
+        {
+          model: ProductImage,
+        },
       ],
     });
 
@@ -225,6 +228,8 @@ exports.getProductInfo = async (req, res, next) => {
 
     res.status(200).json({result});
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

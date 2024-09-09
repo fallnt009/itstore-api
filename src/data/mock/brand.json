@@ -1,130 +1,162 @@
 [
   {
     "id": 1,
-    "title": "ASUS"
+    "title": "ASUS",
+    "slug": "asus"
   },
   {
     "id": 2,
-    "title": "ASROCK"
+    "title": "ASROCK",
+    "slug": "asrock"
   },
   {
     "id": 3,
-    "title": "GIGABYTE"
+    "title": "GIGABYTE",
+    "slug": "gigabyte"
   },
   {
     "id": 4,
-    "title": "MSI"
+    "title": "MSI",
+    "slug": "msi"
   },
   {
     "id": 5,
-    "title": "AMD"
+    "title": "AMD",
+    "slug": "amd"
   },
   {
     "id": 6,
-    "title": "INTEL"
+    "title": "INTEL",
+    "slug": "intel"
   },
   {
     "id": 7,
-    "title": "AORUS"
+    "title": "AORUS",
+    "slug": "aorus"
   },
   {
     "id": 8,
-    "title": "APACER"
+    "title": "APACER",
+    "slug": "apacer"
   },
   {
     "id": 9,
-    "title": "CORSAIR"
+    "title": "CORSAIR",
+    "slug": "corsair"
   },
   {
     "id": 10,
-    "title": "GSKILL"
+    "title": "GSKILL",
+    "slug": "gskill"
   },
   {
     "id": 11,
-    "title": "KINGSTON"
+    "title": "KINGSTON",
+    "slug": "kingston"
   },
   {
     "id": 12,
-    "title": "SEAGATE"
+    "title": "SEAGATE",
+    "slug": "seagate"
   },
   {
     "id": 13,
-    "title": "SANDISK"
+    "title": "SANDISK",
+    "slug": "sandisk"
   },
   {
     "id": 14,
-    "title": "SAMSUNG"
+    "title": "SAMSUNG",
+    "slug": "samsung"
   },
   {
     "id": 15,
-    "title": "WESTERN DIGITAL"
+    "title": "WESTERN DIGITAL",
+    "slug": "western-digital"
   },
   {
     "id": 16,
-    "title": "NVIDIA"
+    "title": "NVIDIA",
+    "slug": "nvidia"
   },
   {
     "id": 17,
-    "title": "GALAX"
+    "title": "GALAX",
+    "slug": "galax"
   },
   {
     "id": 18,
-    "title": "ZOTAC"
+    "title": "ZOTAC",
+    "slug": "zotac"
   },
   {
     "id": 19,
-    "title": "ANTEC"
+    "title": "ANTEC",
+    "slug": "antec"
   },
   {
     "id": 20,
-    "title": "COOLER MASTER"
+    "title": "COOLER MASTER",
+    "slug": "cooler-master"
   },
   {
     "id": 21,
-    "title": "THERMALTAKE"
+    "title": "THERMALTAKE",
+    "slug": "thermaltake"
   },
   {
     "id": 22,
-    "title": "NZXT"
+    "title": "NZXT",
+    "slug": "nzxt"
   },
   {
     "id": 23,
-    "title": "NOCTUA"
+    "title": "NOCTUA",
+    "slug": "noctua"
   },
   {
     "id": 24,
-    "title": "CREATIVE"
+    "title": "CREATIVE",
+    "slug": "creative"
   },
   {
     "id": 25,
-    "title": "BEYERDYNAMIC"
+    "title": "BEYERDYNAMIC",
+    "slug": "beyerdynamic"
   },
   {
     "id": 26,
-    "title": "ALIENWARE"
+    "title": "ALIENWARE",
+    "slug": "alienware"
   },
   {
     "id": 27,
-    "title": "LOGITECH"
+    "title": "LOGITECH",
+    "slug": "logitech"
   },
   {
     "id": 28,
-    "title": "ELGATO"
+    "title": "ELGATO",
+    "slug": "elgato"
   },
   {
     "id": 29,
-    "title": "DELL"
+    "title": "DELL",
+    "slug": "dell"
   },
   {
     "id": 30,
-    "title": "ZYXEL"
+    "title": "ZYXEL",
+    "slug": "zyxel"
   },
   {
     "id": 31,
-    "title": "APC"
+    "title": "APC",
+    "slug": "apc"
   },
   {
     "id": 32,
-    "title": "MICROSOFT"
+    "title": "MICROSOFT",
+    "slug": "microsoft"
   }
 ]

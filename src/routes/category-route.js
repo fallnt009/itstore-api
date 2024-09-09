@@ -49,11 +49,11 @@ router
 
 //GET by Main and Sub Category
 router
-  .route('/product/:categoryName/:subCategoryName')
+  .route('/product/:categorySlug/:subCategorySlug')
   .get(productController.getProductBySubCategory);
 
 router
-  .route('/product/:categoryName/:subCategoryName/:productName')
+  .route('/product/:categorySlug/:subCategorySlug/:productSlug')
   .get(productController.getProductInfo);
 
 module.exports = router;

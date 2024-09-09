@@ -13,6 +13,11 @@ const specProductController = require('../controllers/products/spec-product-cont
 
 const router = express.Router();
 
+//subSpec Public
+router
+  .route('/subspec/public/:id')
+  .get(subSpecController.getProductSubSpecByProductId);
+
 //Product Spec ,spec Item and image
 router.route('/spec-product/:id').get(subSpecController.getSpecProductbyItemId);
 router.route('/spec-prod/:productName').get(specController.getProductSpec);
