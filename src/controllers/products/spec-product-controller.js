@@ -1,4 +1,9 @@
-const {Product, SpecSubcategory, SpecProduct} = require('../../models');
+const {
+  SpecItem,
+  SubCategory,
+  SpecSubcategory,
+  SpecProduct,
+} = require('../../models');
 
 const {validateSpecProduct} = require('../../validators/product-validate');
 
@@ -98,8 +103,38 @@ exports.deleteSpecProduct = async (req, res, next) => {
 
     res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
-    console.log(err);
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
 
+//getSpecProduct that belong to what sub and what spec Items
+
+exports.getSpecProductForFilter = async (req, res, next) => {
+  try {
+    const {subCategorySlug} = req.query;
+    //spec items
+    const result = await SpecProduct.findAll({
+      attributes: ['id', 'text'],
+      include: [
+        {
+          model: SpecSubcategory,
+          attributes: ['id'],
+          include: [
+            {
+              model: SpecItem,
+              attributes: ['id', 'title'],
+            },
+            {
+              model: SubCategory,
+              attributes: ['id', 'title', 'slug'],
+              where: {slug: subCategorySlug},
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
 };

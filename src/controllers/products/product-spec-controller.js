@@ -95,6 +95,32 @@ exports.getSpecItemBySubCategoryId = async (req, res, next) => {
   }
 };
 
+exports.getSpecItemBySubCategorySlug = async (req, res, next) => {
+  try {
+    const {slug} = req.params;
+    const result = await SpecItem.findAll({
+      attributes: ['id', 'title'],
+      include: [
+        {
+          model: SpecSubcategory,
+          attributes: ['id', 'subCategoryId'],
+          include: [
+            {
+              model: SubCategory,
+              where: {slug: slug},
+              attributes: ['id', 'title', 'slug'],
+            },
+          ],
+          required: true,
+        },
+      ],
+    });
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
 exports.createSpecItem = async (req, res, next) => {
   try {
     const value = validateSpecItem({

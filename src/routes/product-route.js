@@ -13,6 +13,11 @@ const specProductController = require('../controllers/products/spec-product-cont
 
 const router = express.Router();
 
+//get SpecProduct for filter on Category
+router
+  .route('/specproduct/filter')
+  .get(specProductController.getSpecProductForFilter);
+
 //subSpec Public
 router
   .route('/subspec/public/:id')
@@ -25,6 +30,10 @@ router.route('/spec-prod/:productName').get(specController.getProductSpec);
 router
   .route('/spec-items/sub/:id')
   .get(specController.getSpecItemBySubCategoryId);
+//GET SPEC ITEM By Subcategory Slug
+router
+  .route('/spec-items/subcategory/:slug')
+  .get(specController.getSpecItemBySubCategorySlug);
 //GET PRODUCT IMAGE BY PRODUCT NAME
 router.route('/image/:productName').get(imageController.getProductImage);
 //GET new product

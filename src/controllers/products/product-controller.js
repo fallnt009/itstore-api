@@ -140,12 +140,14 @@ exports.getProductBySubCategory = async (req, res, next) => {
         },
         {
           model: ProductSubSpec,
+          required: false,
           attributes: ['id', 'value'],
           include: [
             {
               model: SpecProduct,
               attributes: ['text'],
               where: filterCondition,
+              required: false,
               include: [
                 {
                   model: SpecSubcategory,
