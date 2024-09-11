@@ -93,12 +93,18 @@ exports.getProductBySubCategory = async (req, res, next) => {
   try {
     const {categorySlug, subCategorySlug} = req.params;
 
-    const {filter, page, pageSize} = req.query;
+    const {search, filters, page, pageSize} = req.query;
+    console.log(filters);
 
     const pageNo = parseInt(page) || 1;
     const pageSizeLimit = parseInt(pageSize) || 4;
 
-    const filterCondition = filter ? {text: {[Op.like]: `%${filter}%`}} : {};
+    const searchCondition = search ? {text: {[Op.like]: `%${search}%`}} : {};
+    const filterCondition = filters
+      ? {[Op.or]: filters.map((item) => ({text: {[Op.eq]: item.text}}))}
+      : {};
+
+    //add active and inactive
 
     const {count, rows} = await Product.findAndCountAll({
       include: [
@@ -147,7 +153,7 @@ exports.getProductBySubCategory = async (req, res, next) => {
               model: SpecProduct,
               attributes: ['text'],
               where: filterCondition,
-              required: false,
+              required: true,
               include: [
                 {
                   model: SpecSubcategory,

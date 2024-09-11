@@ -6,6 +6,7 @@ const {
   SpecSubcategory,
   ProductSubSpec,
 } = require('../../models');
+const {Op} = require('sequelize');
 const {
   validateSpecItem,
   validateProductSpec,
@@ -98,8 +99,17 @@ exports.getSpecItemBySubCategoryId = async (req, res, next) => {
 exports.getSpecItemBySubCategorySlug = async (req, res, next) => {
   try {
     const {slug} = req.params;
+    const {title} = req.query;
+
+    console.log(slug, title);
+
+    const titleFilter = title ? {[Op.in]: title} : '';
+
     const result = await SpecItem.findAll({
       attributes: ['id', 'title'],
+      where: {
+        title: titleFilter,
+      },
       include: [
         {
           model: SpecSubcategory,
@@ -117,6 +127,7 @@ exports.getSpecItemBySubCategorySlug = async (req, res, next) => {
     });
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
+    console.log(err);
     res.status(500).json(resMsg.getMsg(500));
   }
 };
