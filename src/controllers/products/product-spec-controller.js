@@ -101,8 +101,6 @@ exports.getSpecItemBySubCategorySlug = async (req, res, next) => {
     const {slug} = req.params;
     const {title} = req.query;
 
-    console.log(slug, title);
-
     const titleFilter = title ? {[Op.in]: title} : '';
 
     const result = await SpecItem.findAll({

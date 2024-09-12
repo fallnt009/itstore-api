@@ -7,8 +7,10 @@ const BrandCategorySubData = require('../../data/mock/brandCategorySub.json');
 const ProductSubCategoryData = require('../../data/mock/productSubCategory.json');
 const specItemsData = require('../../data/mock/specItems.json');
 const specSubCategoryData = require('../../data/mock/specSubcategory.json');
-const specProductData = require('../../data/mock/specProduct.json');
+// const specProductData = require('../../data/mock/specProduct.json');
 // const subSpecData = require('../../data/mock/productSubSpec.json');
+
+const mbSpecProductData = require('../../data/mock/mainboard/mainboardSpecProduct.json');
 
 const {
   Product,
@@ -65,7 +67,7 @@ exports.MockAssociateData = async (req, res, next) => {
 
 exports.MockSpecProduct = async (req, res, next) => {
   try {
-    await SpecProduct.bulkCreate(specProductData);
+    await SpecProduct.bulkCreate(mbSpecProductData);
     res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));

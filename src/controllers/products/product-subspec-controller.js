@@ -16,30 +16,6 @@ const resMsg = require('../../config/messages');
 
 //Value need to change to productSubSpec ?
 
-exports.getSpecProductbyItemId = async (req, res, next) => {
-  //FETCH specProduct that have specSubId
-  //KNOW specSubCategoryId
-  //METHOD get specProduct where SpecSubId
-
-  try {
-    const itemId = req.params.id;
-    const result = await SpecProduct.findAll({
-      attributes: ['id', 'text'],
-      include: [
-        {
-          model: SpecSubcategory,
-          attributes: ['id', 'specItemId', 'subCategoryId'],
-          where: {specItemId: itemId},
-        },
-      ],
-    });
-
-    res.status(200).json({...resMsg.getMsg(200), result});
-  } catch (err) {
-    res.status(500).json(resMsg.getMsg(500));
-  }
-};
-
 //ProductSubSpec
 exports.getProductSubSpecByProductId = async (req, res, next) => {
   try {

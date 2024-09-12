@@ -24,7 +24,10 @@ router
   .get(subSpecController.getProductSubSpecByProductId);
 
 //Product Spec ,spec Item and image
-router.route('/spec-product/:id').get(subSpecController.getSpecProductbyItemId);
+router
+  .route('/spec-product/:id')
+  .get(specProductController.getSpecProductbyItemId);
+
 router.route('/spec-prod/:productName').get(specController.getProductSpec);
 //GET SPEC ITEM BY SUBCATEGORY ID
 router
@@ -54,7 +57,7 @@ router.use(authController.restrictTo(EMPLOYEE));
 router.route('/specproduct').post(specProductController.createSpecProduct);
 router
   .route('/specproduct/:id')
-  .get(specProductController.getSpecProduct)
+  .get(specProductController.getSpecSubcategoryById)
   .patch(specProductController.updateSpecProduct)
   .delete(specProductController.deleteSpecProduct);
 

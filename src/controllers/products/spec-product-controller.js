@@ -9,7 +9,7 @@ const {validateSpecProduct} = require('../../validators/product-validate');
 
 const resMsg = require('../../config/messages');
 
-exports.getSpecProduct = async (req, res, next) => {
+exports.getSpecSubcategoryById = async (req, res, next) => {
   try {
     //make it load category by category
     //get specsub where subcategoryId
@@ -33,6 +33,28 @@ exports.getSpecProduct = async (req, res, next) => {
           model: SpecProduct,
           attributes: ['id', 'text'],
           required: true,
+        },
+      ],
+    });
+
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+exports.getSpecProductbyItemId = async (req, res, next) => {
+  try {
+    const specItemId = req.params.id;
+    const {subCategoryId} = req.query;
+
+    const result = await SpecProduct.findAll({
+      attributes: ['id', 'text'],
+      include: [
+        {
+          model: SpecSubcategory,
+          attributes: ['id', 'specItemId', 'subCategoryId'],
+          where: {specItemId: specItemId, subCategoryId: subCategoryId},
         },
       ],
     });
@@ -119,6 +141,7 @@ exports.getSpecProductForFilter = async (req, res, next) => {
         {
           model: SpecSubcategory,
           attributes: ['id'],
+          required: true,
           include: [
             {
               model: SpecItem,

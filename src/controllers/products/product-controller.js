@@ -29,6 +29,7 @@ exports.getNewProduct = async (req, res, next) => {
 
   try {
     const {count, rows} = await Product.findAndCountAll({
+      where: {isActive: true},
       include: [
         {
           model: ProductSubCategory,
@@ -94,7 +95,6 @@ exports.getProductBySubCategory = async (req, res, next) => {
     const {categorySlug, subCategorySlug} = req.params;
 
     const {search, filters, page, pageSize} = req.query;
-    console.log(filters);
 
     const pageNo = parseInt(page) || 1;
     const pageSizeLimit = parseInt(pageSize) || 4;
@@ -104,9 +104,8 @@ exports.getProductBySubCategory = async (req, res, next) => {
       ? {[Op.or]: filters.map((item) => ({text: {[Op.eq]: item.text}}))}
       : {};
 
-    //add active and inactive
-
     const {count, rows} = await Product.findAndCountAll({
+      where: {isActive: true},
       include: [
         {
           model: ProductSubCategory,
@@ -272,6 +271,7 @@ exports.getSalesProduct = async (req, res, next) => {
 
   try {
     const {count, rows} = await Product.findAndCountAll({
+      where: {isActive: true},
       include: [
         {
           model: ProductSubCategory,
