@@ -1,0 +1,50 @@
+[
+  {
+    "specSubcategoryId": 69,
+    "text": "ASUS"
+  },
+  {
+    "specSubcategoryId": 69,
+    "text": "GIGABYTE"
+  },
+  {
+    "specSubcategoryId": 69,
+    "text": "MSI"
+  },
+  {
+    "specSubcategoryId": 69,
+    "text": "GSKILL"
+  },
+  {
+    "specSubcategoryId": 69,
+    "text": "ANTEC"
+  },
+  {
+    "specSubcategoryId": 69,
+    "text": "COOLER MASTER"
+  },
+  {
+    "specSubcategoryId": 69,
+    "text": "THERMALTAKE"
+  },
+  {
+    "specSubcategoryId": 69,
+    "text": "NZXT"
+  },
+  {
+    "specSubcategoryId": 72,
+    "text": "ATX Full Tower"
+  },
+  {
+    "specSubcategoryId": 72,
+    "text": "ATX Mid Tower"
+  },
+  {
+    "specSubcategoryId": 72,
+    "text": "Micro ATX"
+  },
+  {
+    "specSubcategoryId": 72,
+    "text": "ITX"
+  }
+]

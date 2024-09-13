@@ -1,0 +1,326 @@
+[
+  {
+    "specSubcategoryId": 51,
+    "text": "ASUS"
+  },
+  {
+    "specSubcategoryId": 51,
+    "text": "GIGABYTE"
+  },
+  {
+    "specSubcategoryId": 51,
+    "text": "MSI"
+  },
+  {
+    "specSubcategoryId": 51,
+    "text": "AMD"
+  },
+  {
+    "specSubcategoryId": 51,
+    "text": "NVIDIA"
+  },
+  {
+    "specSubcategoryId": 51,
+    "text": "INTEL"
+  },
+  {
+    "specSubcategoryId": 51,
+    "text": "GALAX"
+  },
+  {
+    "specSubcategoryId": 51,
+    "text": "ZOTAC"
+  },
+  {
+    "specSubcategoryId": 54,
+    "text": "PCI Express 3.0"
+  },
+  {
+    "specSubcategoryId": 54,
+    "text": "PCI Express 4.0"
+  },
+  {
+    "specSubcategoryId": 54,
+    "text": "PCI Express 5.0"
+  },
+  {
+    "specSubcategoryId": 55,
+    "text": "AMD"
+  },
+  {
+    "specSubcategoryId": 55,
+    "text": "NVIDIA"
+  },
+  {
+    "specSubcategoryId": 55,
+    "text": "INTEL"
+  },
+  {
+    "specSubcategoryId": 56,
+    "text": "GeForce RTX 30 Series"
+  },
+  {
+    "specSubcategoryId": 56,
+    "text": "GeForce RTX 40 Series"
+  },
+  {
+    "specSubcategoryId": 56,
+    "text": "Radeon RX 6000 Series"
+  },
+  {
+    "specSubcategoryId": 56,
+    "text": "Radeon RX 7000 Series"
+  },
+  {
+    "specSubcategoryId": 56,
+    "text": "Intel Arc A-Series"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 3060"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 3070"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 3070Ti"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 3080"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 3080Ti"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 3090"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 3090"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 4060"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 4070"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 4070Ti"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 4080"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "GeForce RTX 4090"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 6600 XT"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 6700 XT"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 6800"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 6800 XT"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 6900 XT"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 7600"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 7700 XT"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 7800 XT"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 790 XT"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Radeon RX 7900 XTX"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Arc A380"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Arc A580"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Arc A750"
+  },
+  {
+    "specSubcategoryId": 57,
+    "text": "Arc A770"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "6 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "8 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "10 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "11 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "12 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "13 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "14 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "16 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "20 GB"
+  },
+  {
+    "specSubcategoryId": 61,
+    "text": "24 GB"
+  },
+  {
+    "specSubcategoryId": 62,
+    "text": "GDDR5"
+  },
+  {
+    "specSubcategoryId": 62,
+    "text": "GDDR6"
+  },
+  {
+    "specSubcategoryId": 62,
+    "text": "GDDR6X"
+  },
+  {
+    "specSubcategoryId": 63,
+    "text": "HDMI"
+  },
+  {
+    "specSubcategoryId": 63,
+    "text": "HDMI 2.1"
+  },
+  {
+    "specSubcategoryId": 64,
+    "text": "DisplayPort"
+  },
+  {
+    "specSubcategoryId": 64,
+    "text": "DisplayPort 1.4"
+  },
+  {
+    "specSubcategoryId": 64,
+    "text": "DisplayPort 2.0"
+  },
+  {
+    "specSubcategoryId": 64,
+    "text": "DisplayPort 2.1"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "250W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "300W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "350W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "400W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "450W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "500W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "550W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "600W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "650W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "700W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "750W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "800W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "850W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "900W"
+  },
+  {
+    "specSubcategoryId": 65,
+    "text": "1000W"
+  },
+  {
+    "specSubcategoryId": 66,
+    "text": "8-Pin"
+  },
+  {
+    "specSubcategoryId": 66,
+    "text": "16-Pin"
+  }
+]
