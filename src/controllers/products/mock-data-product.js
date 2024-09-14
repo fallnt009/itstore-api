@@ -7,10 +7,44 @@ const BrandCategorySubData = require('../../data/mock/brandCategorySub.json');
 const ProductSubCategoryData = require('../../data/mock/productSubCategory.json');
 const specItemsData = require('../../data/mock/specItems.json');
 const specSubCategoryData = require('../../data/mock/specSubcategory.json');
-// const specProductData = require('../../data/mock/specProduct.json');
-// const subSpecData = require('../../data/mock/productSubSpec.json');
 
-const mbSpecProductData = require('../../data/mock/mainboard/mainboardSpecProduct.json');
+///COMPONENT
+const cpuSpecProduct = require('../../data/mock/specProduct/component/cpuSpecProduct.json');
+const mbSpecProduct = require('../../data/mock/specProduct/component/mainboardSpecProduct.json');
+const ramSpecProduct = require('../../data/mock/specProduct/component/ramSpecProduct.json');
+const storageSpecProduct = require('../../data/mock/specProduct/component/storageSpecProduct.json');
+const gpuSpecProduct = require('../../data/mock/specProduct/component/gpuSpecProduct.json');
+const caseSpecProduct = require('../../data/mock/specProduct/component/caseSpecProduct.json');
+const psuSpecProduct = require('../../data/mock/specProduct/component/psuSpecProduct.json');
+const cpuCoolSpecProduct = require('../../data/mock/specProduct/component/cpuCoolSpecProduct.json');
+const fanSpecProduct = require('../../data/mock/specProduct/component/fanSpecProduct.json');
+const soundCProduct = require('../../data/mock/specProduct/component/soundCardSpecProduct.json');
+
+//GEARS
+const kbSpecProduct = require('../../data/mock/specProduct/gears/keyboardSpecProduct.json');
+const headsetSpecProduct = require('../../data/mock/specProduct/gears/headSetSpecProduct.json');
+const mouseSpecProduct = require('../../data/mock/specProduct/gears/mouseSpecProduct.json');
+const mousePadSpecProduct = require('../../data/mock/specProduct/gears/mousepadSpecProduct.json');
+const streamingSpecProduct = require('../../data/mock/specProduct/gears/streamingProductSpec.json');
+
+//ROUTER
+const routerSpecProduct = require('../../data/mock/specProduct/network/routerSpecProduct.json');
+
+//LAPTOP
+const gSpecProduct = require('../../data/mock/specProduct/laptop/glaptopSpecProduct.json');
+const wSpecProduct = require('../../data/mock/specProduct/laptop/wlaptopSpecProduct.json');
+
+//Desktop
+const desktopSpecProduct = require('../../data/mock/specProduct/desktop/desktopSpecProduct.json');
+
+//MONITOR
+const monitorSpecProduct = require('../../data/mock/specProduct/monitor/monitorSpecProduct.json');
+
+//UPS
+const upsSpecProduct = require('../../data/mock/specProduct/ups/upsSpecProduct.json');
+
+//subspec
+const subSpecData = require('../../data/mock/psubSpec/productSubSpec.json');
 
 const {
   Product,
@@ -65,19 +99,55 @@ exports.MockAssociateData = async (req, res, next) => {
 
 //mock spec product
 
-exports.MockSpecProduct = async (req, res, next) => {
+//clear specproduct
+//clear subSpec
+
+exports.MockAllSpecProduct = async (req, res, next) => {
   try {
-    await SpecProduct.bulkCreate(mbSpecProductData);
+    const jsonArr = [
+      cpuSpecProduct,
+      mbSpecProduct,
+      ramSpecProduct,
+      storageSpecProduct,
+      gpuSpecProduct,
+      caseSpecProduct,
+      psuSpecProduct,
+      cpuCoolSpecProduct,
+      fanSpecProduct,
+      soundCProduct,
+      kbSpecProduct,
+      headsetSpecProduct,
+      mouseSpecProduct,
+      mousePadSpecProduct,
+      streamingSpecProduct,
+      routerSpecProduct,
+      gSpecProduct,
+      wSpecProduct,
+      desktopSpecProduct,
+      monitorSpecProduct,
+      upsSpecProduct,
+    ];
+
+    for (const files of jsonArr) {
+      await SpecProduct.bulkCreate(files);
+    }
+    console.log('Mock Injected Done!');
+
+    res.status(200).json(resMsg.getMsg(200));
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+/////////
+///
+///////////////////////////////////////////////////
+exports.MockSubSpecSingle = async (req, res, next) => {
+  try {
+    await ProductSubSpec.bulkCreate(subSpecData);
     res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
 };
-// exports.MockSubSpec = async (req, res, next) => {
-//   try {
-//     await ProductSubSpec.bulkCreate(subSpecData);
-//     res.status(200).json(resMsg.getMsg(200));
-//   } catch (err) {
-//     res.status(500).json(resMsg.getMsg(500));
-//   }
-// };
