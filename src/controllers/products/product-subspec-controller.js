@@ -44,7 +44,7 @@ exports.createProductSubSpec = async (req, res, next) => {
 
   try {
     const productId = req.params.id;
-    const {specProductId, value} = req.body;
+    const {specProductId, value, desc} = req.body;
 
     if (!specProductId || !productId) {
       return res.status(400).json(resMsg.getMsg(400));
@@ -64,6 +64,7 @@ exports.createProductSubSpec = async (req, res, next) => {
       specProductId: specProductId,
       productId: productId,
       value: value || null,
+      desc: desc || null,
     });
 
     const result = await ProductSubSpec.findOne({

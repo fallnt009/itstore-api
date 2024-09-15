@@ -44,7 +44,7 @@ exports.getNewProduct = async (req, res, next) => {
                 {
                   model: SubCategory,
                   required: true,
-                  attributes: ['title'],
+                  attributes: ['title', 'slug'],
                 },
                 {
                   model: BrandCategory,
@@ -54,7 +54,7 @@ exports.getNewProduct = async (req, res, next) => {
                     {
                       model: MainCategory,
                       required: true,
-                      attributes: ['title'],
+                      attributes: ['title', 'slug'],
                     },
                   ],
                 },
@@ -286,7 +286,7 @@ exports.getSalesProduct = async (req, res, next) => {
                 {
                   model: SubCategory,
                   required: true,
-                  attributes: ['title'],
+                  attributes: ['title', 'slug'],
                 },
                 {
                   model: BrandCategory,
@@ -296,7 +296,7 @@ exports.getSalesProduct = async (req, res, next) => {
                     {
                       model: MainCategory,
                       required: true,
-                      attributes: ['title'],
+                      attributes: ['title', 'slug'],
                     },
                   ],
                 },
