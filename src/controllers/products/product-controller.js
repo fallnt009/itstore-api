@@ -25,7 +25,7 @@ const resMsg = require('../../config/messages');
 //GET NEW PRODUCT FOR HOMEPAGE
 exports.getNewProduct = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
-  const pageSize = parseInt(req.query.pageSize) || 4;
+  const pageSize = parseInt(req.query.pageSize) || 5;
 
   try {
     const {count, rows} = await Product.findAndCountAll({
@@ -267,7 +267,7 @@ exports.getProductById = async (req, res, next) => {
 
 exports.getSalesProduct = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
-  const pageSize = parseInt(req.query.pageSize) || 4;
+  const pageSize = parseInt(req.query.pageSize) || 5;
 
   try {
     const {count, rows} = await Product.findAndCountAll({
