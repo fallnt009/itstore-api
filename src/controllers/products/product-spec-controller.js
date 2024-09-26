@@ -74,6 +74,7 @@ exports.getSpecItemById = async (req, res, next) => {
 };
 
 //Get specItem by subCategoryId
+//depracated
 exports.getSpecItemBySubCategoryId = async (req, res, next) => {
   try {
     //by specItemId
@@ -96,17 +97,22 @@ exports.getSpecItemBySubCategoryId = async (req, res, next) => {
   }
 };
 
-exports.getSpecItemBySubCategorySlug = async (req, res, next) => {
+//use this one permenantly
+exports.getSpecItemBySlug = async (req, res, next) => {
   try {
     const {slug} = req.params;
     const {title} = req.query;
 
-    const titleFilter = title ? {[Op.in]: title} : '';
+    const titleFilter = title
+      ? Array.isArray(title)
+        ? {[Op.in]: title}
+        : {[Op.eq]: title}
+      : undefined;
 
     const result = await SpecItem.findAll({
       attributes: ['id', 'title'],
       where: {
-        title: titleFilter,
+        ...(titleFilter && {title: titleFilter}),
       },
       include: [
         {
@@ -125,7 +131,6 @@ exports.getSpecItemBySubCategorySlug = async (req, res, next) => {
     });
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    console.log(err);
     res.status(500).json(resMsg.getMsg(500));
   }
 };

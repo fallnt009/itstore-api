@@ -20,6 +20,8 @@ const resMsg = require('../../config/messages');
 exports.getProductSubSpecByProductId = async (req, res, next) => {
   try {
     const productId = req.params.id;
+
+    //need only product Id
     const result = await ProductSubSpec.findAll({
       attributes: ['id', 'value', 'specProductId', 'productId'],
       where: {productId: productId},

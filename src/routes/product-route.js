@@ -1,4 +1,5 @@
 const express = require('express');
+
 const {EMPLOYEE} = require('../config/constants');
 
 const authenticate = require('../middlewares/authenticate');
@@ -16,12 +17,12 @@ const router = express.Router();
 //get SpecProduct for filter on Category
 router
   .route('/specproduct/filter')
-  .get(specProductController.getSpecProductForFilter);
+  .get(specProductController.getSpecProductForFilter); //
 
 //subSpec Public
 router
   .route('/subspec/public/:id')
-  .get(subSpecController.getProductSubSpecByProductId);
+  .get(subSpecController.getProductSubSpecByProductId); //
 
 //Product Spec ,spec Item and image
 router
@@ -36,7 +37,7 @@ router
 //GET SPEC ITEM By Subcategory Slug
 router
   .route('/spec-items/subcategory/:slug')
-  .get(specController.getSpecItemBySubCategorySlug);
+  .get(specController.getSpecItemBySlug);
 //GET PRODUCT IMAGE BY PRODUCT NAME
 router.route('/image/:productName').get(imageController.getProductImage);
 //GET new product

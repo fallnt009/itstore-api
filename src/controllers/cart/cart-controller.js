@@ -4,7 +4,7 @@ const resMsg = require('../../config/messages');
 
 exports.getMyCart = async (req, res, next) => {
   try {
-    const result = await Cart.findAll({
+    const result = await Cart.findOne({
       where: {
         id: req.user.id,
       },
@@ -152,8 +152,9 @@ exports.updateCartItem = async (req, res, next) => {
     }
 
     //update cartItem qty where productId
-    await cartItem.update({qty: newQty});
-    res.status(200).json({...resMsg.getMsg(200), cartItem});
+    const result = await cartItem.update({qty: newQty});
+
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
