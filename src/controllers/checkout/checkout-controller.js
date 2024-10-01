@@ -12,7 +12,7 @@ const resMsg = require('../../config/messages');
 exports.getMyCheckout = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const result = await Checkout.findAll({
+    const result = await Checkout.findOne({
       where: {userId: userId},
       include: [
         {
@@ -92,6 +92,8 @@ exports.updateCheckout = async (req, res, next) => {
   try {
     const userid = req.user.id;
     const checkoutId = req.params.id;
+
+    const {userAddressId, serviceId, paymentId} = req.body;
     //find Checkout is exist
     const existingCheckout = await Checkout.findOne({
       where: {userId: userid, id: checkoutId},
@@ -104,10 +106,11 @@ exports.updateCheckout = async (req, res, next) => {
 
     await Checkout.update(
       {
-        userAddressId: req.body.userAddressId,
-        serviceId: req.body.serviceId,
-        paymentId: req.body.paymentId,
+        userAddressId: userAddressId,
+        serviceId: serviceId,
+        paymentId: paymentId,
       },
+
       {
         where: {
           id: checkoutId,
@@ -115,6 +118,7 @@ exports.updateCheckout = async (req, res, next) => {
         transaction,
       }
     );
+
     //get result
     const result = await Checkout.findOne({
       where: {id: checkoutId},

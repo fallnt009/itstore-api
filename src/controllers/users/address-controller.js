@@ -1,6 +1,8 @@
 const {Address, UserAddress, sequelize} = require('../../models');
 const {validateAddress} = require('../../validators/address-validate');
 
+const resMsg = require('../../config/messages');
+
 exports.createAddress = async (req, res, next) => {
   try {
     const value = validateAddress({
