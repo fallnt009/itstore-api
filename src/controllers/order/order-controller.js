@@ -164,7 +164,37 @@ exports.createOrder = async (req, res, next) => {
     //transaction commit
     await od.commit();
 
-    res.status(200).json({...resMsg.getMsg(200), order});
+    const result = await Order.findOne({
+      where: {id: order.id},
+      attributes: [
+        'id',
+        'orderStatus',
+        'totalAmount',
+        'expireDate',
+        'createdAt',
+        'orderDetailId',
+        'userId',
+        'userPaymentId',
+      ],
+      include: [
+        {
+          model: OrderDetail,
+          attributes: [
+            'orderNumber',
+            'senderAddress',
+            'receiverAddress',
+            'deliveryDate',
+            'eddDate',
+            'deliveryName',
+            'trackingNumber',
+            'userAddressId',
+            'serviceId',
+          ],
+        },
+      ],
+    });
+
+    res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     await od.rollback();
     res.status(500).json(resMsg.getMsg(500));
@@ -329,33 +359,45 @@ exports.deleteOrder = async (req, res, next) => {
 //GET ORDER by OrderNumber
 exports.getOrderByOrderNumber = async (req, res, next) => {
   try {
-    const orderNumber = req.params.orderNumber;
-    // find order and order details
+    const orderNum = req.params.orderNumber;
+
+    console.log(orderNum);
+    console.log(typeof orderNum);
+
+    // // find order and order details
     const order = await Order.findOne({
       include: [
         {
           model: OrderDetail,
-          where: {orderNumber: orderNumber},
+          where: {orderNumber: orderNum},
+          required: true,
           include: [
             {
               model: UserAddress,
-              include: Address,
-              required: true,
+              include: {
+                model: Address,
+              },
             },
             {
               model: Service,
-              required: true,
+            },
+          ],
+        },
+        {
+          model: UserPayment,
+          include: [
+            {
+              model: Payment,
             },
           ],
           required: true,
         },
-        {
-          model: UserPayment,
-          include: Payment,
-          required: true,
-        },
       ],
     });
+
+    // const order = await OrderDetail.findOne({where: {orderNumber: orderNum}});
+
+    console.log(order);
 
     if (!order) {
       return res.status(404).json(resMsg.getMsg(40401));
@@ -363,13 +405,19 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
 
     const orderItem = await OrderItem.findAll({
       where: {orderId: order.id},
-      include: Product,
+      attributes: ['id', 'qty', 'price', 'orderId', 'productId'],
+      include: {
+        model: Product,
+        attributes: ['title', 'price', 'description', 'slug'],
+      },
     });
 
     res
       .status(200)
       .json({...resMsg.getMsg(200), result: order, product: orderItem});
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

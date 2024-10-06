@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'Payment',
     {
       name: {type: DataTypes.STRING, allowNull: false},
+      slug: {type: DataTypes.STRING, allowNull: false, unique: true},
       description: {type: DataTypes.STRING, allowNull: false},
     },
     {underscored: true}

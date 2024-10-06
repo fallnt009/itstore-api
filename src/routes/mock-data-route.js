@@ -12,4 +12,6 @@ router.route('/associate').post(mockProductController.MockAssociateData);
 router.route('/specproduct/all').post(mockProductController.MockAllSpecProduct);
 router.route('/subspec/single').post(mockProductController.MockSubSpecSingle);
 
+router.route('/servandpay').post(mockProductController.MockServiceAndPayment);
+
 module.exports = router;

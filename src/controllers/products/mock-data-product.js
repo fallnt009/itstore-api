@@ -46,6 +46,10 @@ const upsSpecProduct = require('../../data/mock/specProduct/ups/upsSpecProduct.j
 //subspec
 const subSpecData = require('../../data/mock/psubSpec/productSubSpec.json');
 
+//service & payment
+const serviceData = require('../../data/mock/checkout/service/service.json');
+const paymentData = require('../../data/mock/checkout/payment/payment.json');
+
 const {
   Product,
   MainCategory,
@@ -58,6 +62,8 @@ const {
   SpecSubcategory,
   SpecProduct,
   ProductSubSpec,
+  Service,
+  Payment,
 } = require('../../models');
 
 const resMsg = require('../../config/messages');
@@ -146,6 +152,16 @@ exports.MockAllSpecProduct = async (req, res, next) => {
 exports.MockSubSpecSingle = async (req, res, next) => {
   try {
     await ProductSubSpec.bulkCreate(subSpecData);
+    res.status(200).json(resMsg.getMsg(200));
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+exports.MockServiceAndPayment = async (req, res, next) => {
+  try {
+    await Service.bulkCreate(serviceData);
+    await Payment.bulkCreate(paymentData);
     res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
