@@ -155,11 +155,6 @@ exports.createOrder = async (req, res, next) => {
     });
     // sent on req.body.order
     req.body.order = order;
-    //Set time out for expire date
-
-    setTimeout(() => {
-      module.exports.checkOrderExpireDate(req, res, next);
-    }, 35 * 60 * 1000); // 35 mins 35 * 60 * 1000
 
     //transaction commit
     await od.commit();
@@ -361,9 +356,6 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
   try {
     const orderNum = req.params.orderNumber;
 
-    console.log(orderNum);
-    console.log(typeof orderNum);
-
     // // find order and order details
     const order = await Order.findOne({
       include: [
@@ -395,10 +387,6 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
       ],
     });
 
-    // const order = await OrderDetail.findOne({where: {orderNumber: orderNum}});
-
-    console.log(order);
-
     if (!order) {
       return res.status(404).json(resMsg.getMsg(40401));
     }
@@ -416,8 +404,6 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
       .status(200)
       .json({...resMsg.getMsg(200), result: order, product: orderItem});
   } catch (err) {
-    console.log(err);
-
     res.status(500).json(resMsg.getMsg(500));
   }
 };

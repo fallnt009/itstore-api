@@ -12,4 +12,4 @@ exports.STATUS_COMPLETED = 'COMPLETED';
 exports.STATUS_CANCELED = 'CANCELED';
 
 //order expire
-exports.ORDER_EXPIRE = new Date(new Date().getTime() + 30 * 60 * 1000); // 30 mins
+exports.ORDER_EXPIRE = () => new Date(Date.now() + 30 * 60 * 1000); // 30 mins
