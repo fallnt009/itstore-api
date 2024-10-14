@@ -25,8 +25,18 @@ const {generateOrderNumber} = require('../utils/generateNumber');
 exports.getMyOrder = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const result = await Order.findAll({
-      where: {userId: userId},
+
+    //pargination
+
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 5;
+
+    //make filter base on order Status
+    const filter = req.query.filter || '';
+    const filterCondition = filter ? {orderStatus: filter} : '';
+
+    const {count, rows} = await Order.findAndCountAll({
+      where: {userId: userId, ...filterCondition},
       include: [
         {
           model: OrderDetail,
@@ -49,13 +59,18 @@ exports.getMyOrder = async (req, res, next) => {
           required: true,
         },
       ],
+      order: [['createdAt', 'DESC']],
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
     });
 
-    if (!result) {
-      return res.status(404).json(resMsg.getMsg(40401));
-    }
-
-    res.status(200).json({...resMsg.getMsg(200), result});
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }

@@ -99,7 +99,7 @@ exports.getProductBySubCategory = async (req, res, next) => {
     const pageNo = parseInt(page) || 1;
     const pageSizeLimit = parseInt(pageSize) || 4;
 
-    const searchCondition = search ? {text: {[Op.like]: `%${search}%`}} : {};
+    // const searchCondition = search ? {text: {[Op.like]: `%${search}%`}} : {};
     const filterCondition = filters
       ? {[Op.or]: filters.map((item) => ({text: {[Op.eq]: item.text}}))}
       : {};
