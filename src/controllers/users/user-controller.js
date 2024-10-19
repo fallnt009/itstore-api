@@ -1,5 +1,6 @@
 const {User} = require('../../models');
-const createError = require('../../utils/create-error');
+const bcrypt = require('bcrypt');
+
 const resMsg = require('../../config/messages');
 
 exports.getAllUser = async (req, res, next) => {
@@ -14,33 +15,54 @@ exports.getAllUser = async (req, res, next) => {
     res.status(500).json(resMsg.getMsg(500));
   }
 };
-exports.updateProfileInfo = async (req, res, next) => {
+// exports.updateProfileInfo = async (req, res, next) => {
+//   try {
+//     //deprecated
+//   } catch (err) {
+//     res.status(500).json(resMsg.getMsg(500));
+//   }
+// };
+// exports.updateProfileImage = async (req, res, next) => {
+//   try {
+//     //deprecated
+
+//     //check image if uploaded
+//     if (!req.file) {
+//       return res.status(403).json(resMsg.getMsg(40300));
+//     }
+
+//     //Get image
+//     const imageName = req.file.filename;
+//     //Make URL
+//     const url = process.env.USER_IMAGE_URL + imageName;
+
+//     //Update user profileImage
+//     await User.update({profileImage: url}, {where: {id: req.user.id}});
+
+//     //Response
+//     res.status(200).json(resMsg.getMsg(200));
+//   } catch (err) {
+//     res.status(500).json(resMsg.getMsg(500));
+//   }
+// };
+exports.updateProfile = async (req, res, next) => {
   try {
-  } catch (err) {
-    res.status(500).json(resMsg.getMsg(500));
-  }
-};
-exports.updateProfileImage = async (req, res, next) => {
-  try {
-    //check image if uploaded
-    if (!req.file) {
-      return res.status(403).json(resMsg.getMsg(40300));
-    }
+    const {userId} = req.params;
 
-    //Get image
-    const imageName = req.file.filename;
-    //Make URL
-    const url = process.env.USER_IMAGE_URL + imageName;
+    console.log(userId, req.body);
+    console.log(req.file);
 
-    //Update user profileImage
-    await User.update({profileImage: url}, {where: {id: req.user.id}});
+    //get img file
+    //get info body
 
-    //Response
+    //if old Password === current password update if not return err
+    //update together
     res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
 };
+
 exports.deleteUser = async (req, res, next) => {
   try {
   } catch (err) {
