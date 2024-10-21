@@ -57,8 +57,8 @@ exports.login = async (req, res, next) => {
         mobile: user.mobile,
         profileImage: user.profileImage,
         roles: user.roles,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
+        // createdAt: user.createdAt,
+        // updatedAt: user.updatedAt,
       },
       process.env.JWT_SECRET_KEY,
       {
@@ -114,8 +114,8 @@ exports.updatePassword = async (req, res, next) => {
       mobile: user.mobile,
       profileImage: user.profileImage,
       roles: user.roles,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      // createdAt: user.createdAt,
+      // updatedAt: user.updatedAt,
     };
 
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, {

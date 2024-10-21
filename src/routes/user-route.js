@@ -12,16 +12,13 @@ const router = express.Router();
 
 //If Login ?
 router.use(authenticate);
-
-// router.route('/updateme').patch(userController.updateProfileInfo);
-// router.patch(
-//   '/updateimg',
-//   upload.single('profileImage'),
-//   userController.updateProfileImage
-// );
+//get User
+router.route('/info/:userId').get(userController.getUserById);
 
 //UPDATE PROFILE INFO WITH PICTURE
-router.route('/updateinfo/:userId').patch(userController.updateProfile);
+router
+  .route('/updateinfo/:userId')
+  .patch(upload.single('profileImage'), userController.updateProfile);
 
 router.use(authController.restrictTo(EMPLOYEE));
 
