@@ -1,10 +1,10 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const {User, Cart} = require('../../models');
 const {
   validateRegister,
   validateLogin,
 } = require('../../validators/auth-validate');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const resMsg = require('../../config/messages');
 
 exports.register = async (req, res, next) => {
@@ -72,9 +72,13 @@ exports.login = async (req, res, next) => {
 };
 exports.updatePassword = async (req, res, next) => {
   try {
-    const {userId} = req.params;
+    const {id: userId} = req.user;
+
+    // const {userId} = req.params;
     const {currentPassword, newPassword, confirmNewPassword} = req.body;
     //get and decode old password
+    // console.log(req.body);
+
     const user = await User.findOne({
       where: {id: userId},
     });
@@ -82,24 +86,24 @@ exports.updatePassword = async (req, res, next) => {
     if (!user) {
       return res.status(404).json(resMsg.getMsg(40402));
     }
+    // console.log('Compared Beginning');
+
     //compare old password and current password
     const compareOldPassword = await bcrypt.compare(
       currentPassword,
-      user.newPassword
+      user.password
     );
+
     //if not pass return error password mismatch
     if (!compareOldPassword) {
-      return res.status(401).json(resMsg.getMsg(40102));
+      return res.status(401).json(resMsg.getMsg(40103));
     }
     //if pass
     //compare new password and confirmed password
-    const compareNewPassword = await bcrypt.compare(
-      newPassword,
-      confirmNewPassword
-    );
+
     //if not return error new password mismatch
-    if (!compareNewPassword) {
-      return res.status(401).json(resMsg.getMsg(40102));
+    if (newPassword !== confirmNewPassword) {
+      return res.status(401).json(resMsg.getMsg(40103));
     }
     //create new password and update password
     const hashedPassword = await bcrypt.hash(newPassword, 12);
@@ -123,6 +127,8 @@ exports.updatePassword = async (req, res, next) => {
     });
     res.status(200).json({...resMsg.getMsg(200), accessToken});
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

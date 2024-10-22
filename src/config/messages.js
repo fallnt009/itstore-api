@@ -34,6 +34,14 @@ msg[40103] = {
   descEn: 'Invalid password',
   desc: 'รหัสผ่านไม่ถูกต้อง',
 };
+msg[40104] = {
+  descEn: 'Invalid current password',
+  desc: 'รหัสผ่านปัจจุบันไม่ถูกต้อง',
+};
+msg[40105] = {
+  descEn: 'Invalid new password',
+  desc: 'รหัสผ่านใหม่ไม่ถูกต้อง',
+};
 msg[403] = {
   descEn: 'Forbidden',
   desc: 'ไม่สามารถเข้าถึงได้',
