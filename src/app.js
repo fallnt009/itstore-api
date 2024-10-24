@@ -32,7 +32,7 @@ app.use('/api/categories', categoryRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/address', addressRoute);
-app.use('/api/wish', wishlistRoute);
+app.use('/api/wishlist', wishlistRoute);
 app.use('/api/mock', mockDataRoute);
 app.use('/api/cart', cartRoute);
 app.use('/api/order', orderRoute);

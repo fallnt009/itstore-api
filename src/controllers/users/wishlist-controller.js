@@ -1,5 +1,6 @@
 const {
   Product,
+  ProductImage,
   Wishlist,
   User,
   ProductSubCategory,
@@ -11,6 +12,19 @@ const {
   Discount,
 } = require('../../models');
 const resMsg = require('../../config/messages');
+
+exports.getMyInWishlistById = async (req, res, next) => {
+  try {
+    //get userId
+    const userId = req.user.id;
+
+    //get all wishlist for userId
+    const result = await Wishlist.findAll({where: {userId: userId}});
+    res.status(201).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
 
 exports.createWishlist = async (req, res, next) => {
   try {
@@ -26,16 +40,16 @@ exports.createWishlist = async (req, res, next) => {
       return res.status(409).json(resMsg.getMsg(40900));
     }
     //if not generated new
-    const newWishlist = await Wishlist.create({
+    await Wishlist.create({
       userId: req.user.id,
       productId: req.params.id,
     });
     //show wishlish
-    const wishlist = await Wishlist.findOne({
-      where: {id: newWishlist.id},
-      include: {model: User},
+    const result = await Wishlist.findAll({
+      where: {userId: req.user.id},
+      // include: {model: User},
     });
-    res.status(201).json({...resMsg.getMsg(200), wishlist});
+    res.status(201).json({...resMsg.getMsg(200), result});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
@@ -113,6 +127,9 @@ exports.getMyWishlist = async (req, res, next) => {
                   model: Discount,
                 },
               ],
+            },
+            {
+              model: ProductImage,
             },
           ],
         },
