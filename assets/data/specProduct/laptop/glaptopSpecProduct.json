@@ -1,0 +1,162 @@
+[
+  {
+    "specSubcategoryId": 166,
+    "text": "ASUS"
+  },
+  {
+    "specSubcategoryId": 166,
+    "text": "MSI"
+  },
+  {
+    "specSubcategoryId": 166,
+    "text": "ALIENWARE"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Core i3 13th Gen"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Core i3 14th Gen"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Core i5 14th Gen"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Core i7 14th Gen"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Core i9 13th Gen"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Core i9 14th Gen"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Ryzen 5 7000 Series"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Ryzen 7 7000 Series"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Ryzen 7 8000 Series"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Ryzen 9 7000 Series"
+  },
+  {
+    "specSubcategoryId": 170,
+    "text": "Ryzen 9 8000 Series"
+  },
+  {
+    "specSubcategoryId": 171,
+    "text": "1920 x 1080"
+  },
+  {
+    "specSubcategoryId": 171,
+    "text": "1920 x 1200"
+  },
+  {
+    "specSubcategoryId": 171,
+    "text": "2560 x 1440"
+  },
+  {
+    "specSubcategoryId": 171,
+    "text": "2560 x 1600"
+  },
+  {
+    "specSubcategoryId": 171,
+    "text": "3840 x 2160"
+  },
+  {
+    "specSubcategoryId": 171,
+    "text": "3840 x 2400"
+  },
+  {
+    "specSubcategoryId": 172,
+    "text": "8 GB"
+  },
+  {
+    "specSubcategoryId": 172,
+    "text": "16 GB"
+  },
+  {
+    "specSubcategoryId": 172,
+    "text": "32 GB"
+  },
+  {
+    "specSubcategoryId": 172,
+    "text": "64 GB"
+  },
+  {
+    "specSubcategoryId": 172,
+    "text": "128 GB"
+  },
+  {
+    "specSubcategoryId": 173,
+    "text": "256 GB"
+  },
+  {
+    "specSubcategoryId": 173,
+    "text": "512 GB"
+  },
+  {
+    "specSubcategoryId": 173,
+    "text": "1 TB"
+  },
+  {
+    "specSubcategoryId": 173,
+    "text": "2 TB"
+  },
+  {
+    "specSubcategoryId": 173,
+    "text": "4 TB"
+  },
+  {
+    "specSubcategoryId": 173,
+    "text": "8 TB"
+  },
+  {
+    "specSubcategoryId": 173,
+    "text": "16 TB"
+  },
+  {
+    "specSubcategoryId": 174,
+    "text": "GeForce RTX 30 Series"
+  },
+  {
+    "specSubcategoryId": 174,
+    "text": "GeForce RTX 40 Series"
+  },
+  {
+    "specSubcategoryId": 174,
+    "text": "Radeon RX 6000 Series"
+  },
+  {
+    "specSubcategoryId": 175,
+    "text": "4 GB"
+  },
+  {
+    "specSubcategoryId": 175,
+    "text": "6 GB"
+  },
+  {
+    "specSubcategoryId": 175,
+    "text": "8 GB"
+  },
+  {
+    "specSubcategoryId": 175,
+    "text": "10 GB"
+  },
+  {
+    "specSubcategoryId": 175,
+    "text": "12 GB"
+  }
+]

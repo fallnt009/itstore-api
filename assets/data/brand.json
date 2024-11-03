@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "title": "ASUS",
+    "slug": "asus"
+  },
+  {
+    "id": 2,
+    "title": "ASROCK",
+    "slug": "asrock"
+  },
+  {
+    "id": 3,
+    "title": "GIGABYTE",
+    "slug": "gigabyte"
+  },
+  {
+    "id": 4,
+    "title": "MSI",
+    "slug": "msi"
+  },
+  {
+    "id": 5,
+    "title": "AMD",
+    "slug": "amd"
+  },
+  {
+    "id": 6,
+    "title": "INTEL",
+    "slug": "intel"
+  },
+  {
+    "id": 7,
+    "title": "AORUS",
+    "slug": "aorus"
+  },
+  {
+    "id": 8,
+    "title": "APACER",
+    "slug": "apacer"
+  },
+  {
+    "id": 9,
+    "title": "CORSAIR",
+    "slug": "corsair"
+  },
+  {
+    "id": 10,
+    "title": "GSKILL",
+    "slug": "gskill"
+  },
+  {
+    "id": 11,
+    "title": "KINGSTON",
+    "slug": "kingston"
+  },
+  {
+    "id": 12,
+    "title": "SEAGATE",
+    "slug": "seagate"
+  },
+  {
+    "id": 13,
+    "title": "SANDISK",
+    "slug": "sandisk"
+  },
+  {
+    "id": 14,
+    "title": "SAMSUNG",
+    "slug": "samsung"
+  },
+  {
+    "id": 15,
+    "title": "WESTERN DIGITAL",
+    "slug": "western-digital"
+  },
+  {
+    "id": 16,
+    "title": "NVIDIA",
+    "slug": "nvidia"
+  },
+  {
+    "id": 17,
+    "title": "GALAX",
+    "slug": "galax"
+  },
+  {
+    "id": 18,
+    "title": "ZOTAC",
+    "slug": "zotac"
+  },
+  {
+    "id": 19,
+    "title": "ANTEC",
+    "slug": "antec"
+  },
+  {
+    "id": 20,
+    "title": "COOLER MASTER",
+    "slug": "cooler-master"
+  },
+  {
+    "id": 21,
+    "title": "THERMALTAKE",
+    "slug": "thermaltake"
+  },
+  {
+    "id": 22,
+    "title": "NZXT",
+    "slug": "nzxt"
+  },
+  {
+    "id": 23,
+    "title": "NOCTUA",
+    "slug": "noctua"
+  },
+  {
+    "id": 24,
+    "title": "CREATIVE",
+    "slug": "creative"
+  },
+  {
+    "id": 25,
+    "title": "BEYERDYNAMIC",
+    "slug": "beyerdynamic"
+  },
+  {
+    "id": 26,
+    "title": "ALIENWARE",
+    "slug": "alienware"
+  },
+  {
+    "id": 27,
+    "title": "LOGITECH",
+    "slug": "logitech"
+  },
+  {
+    "id": 28,
+    "title": "ELGATO",
+    "slug": "elgato"
+  },
+  {
+    "id": 29,
+    "title": "DELL",
+    "slug": "dell"
+  },
+  {
+    "id": 30,
+    "title": "ZYXEL",
+    "slug": "zyxel"
+  },
+  {
+    "id": 31,
+    "title": "APC",
+    "slug": "apc"
+  },
+  {
+    "id": 32,
+    "title": "MICROSOFT",
+    "slug": "microsoft"
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "Component",
+    "slug": "component"
+  },
+  {
+    "id": 2,
+    "title": "Monitor",
+    "slug": "monitor"
+  },
+  {
+    "id": 3,
+    "title": "Gaming Gear",
+    "slug": "gaming-gear"
+  },
+  {
+    "id": 4,
+    "title": "Network",
+    "slug": "network"
+  },
+  {
+    "id": 5,
+    "title": "UPS",
+    "slug": "ups"
+  },
+  {
+    "id": 6,
+    "title": "Software",
+    "slug": "software"
+  },
+  {
+    "id": 7,
+    "title": "Comset",
+    "slug": "comset"
+  },
+  {
+    "id": 8,
+    "title": "Accessories",
+    "slug": "accessories"
+  },
+  {
+    "id": 9,
+    "title": "Desktop PC",
+    "slug": "desktop-pc"
+  },
+  {
+    "id": 10,
+    "title": "Laptop",
+    "slug": "laptop"
+  },
+  {
+    "id": 11,
+    "title": "Console",
+    "slug": "console"
+  }
+]

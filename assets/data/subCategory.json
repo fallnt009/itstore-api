@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "title": "CPU",
+    "slug": "cpu"
+  },
+  {
+    "id": 2,
+    "title": "Mainboard",
+    "slug": "mainboard"
+  },
+  {
+    "id": 3,
+    "title": "Ram",
+    "slug": "ram"
+  },
+  {
+    "id": 4,
+    "title": "Storage",
+    "slug": "storage"
+  },
+  {
+    "id": 5,
+    "title": "Graphic Card",
+    "slug": "graphic-card"
+  },
+  {
+    "id": 6,
+    "title": "Case",
+    "slug": "case"
+  },
+  {
+    "id": 7,
+    "title": "Power Supply",
+    "slug": "power-supply"
+  },
+  {
+    "id": 8,
+    "title": "CPU Cooler",
+    "slug": "cpu-cooler"
+  },
+  {
+    "id": 9,
+    "title": "Fan",
+    "slug": "fan"
+  },
+  {
+    "id": 10,
+    "title": "Sound Card",
+    "slug": "sound-card"
+  },
+  {
+    "id": 11,
+    "title": "Accessories",
+    "slug": "accessories"
+  },
+  {
+    "id": 12,
+    "title": "Keyboard",
+    "slug": "keyboard"
+  },
+  {
+    "id": 13,
+    "title": "Headset",
+    "slug": "headset"
+  },
+  {
+    "id": 14,
+    "title": "Mouse",
+    "slug": "mouse"
+  },
+  {
+    "id": 15,
+    "title": "Mouse Pad",
+    "slug": "mouse-pad"
+  },
+  {
+    "id": 16,
+    "title": "Chair",
+    "slug": "chair"
+  },
+  {
+    "id": 17,
+    "title": "Streaming",
+    "slug": "streaming"
+  },
+  {
+    "id": 18,
+    "title": "Speaker",
+    "slug": "speaker"
+  },
+  {
+    "id": 19,
+    "title": "Microphone",
+    "slug": "microphone"
+  },
+  {
+    "id": 20,
+    "title": "Desk",
+    "slug": "desk"
+  },
+  {
+    "id": 21,
+    "title": "LAN",
+    "slug": "lan"
+  },
+  {
+    "id": 22,
+    "title": "Router",
+    "slug": "router"
+  },
+  {
+    "id": 23,
+    "title": "Gaming Laptop",
+    "slug": "gaming-laptop"
+  },
+  {
+    "id": 24,
+    "title": "Working Laptop",
+    "slug": "working-laptop"
+  },
+  {
+    "id": 25,
+    "title": "Monitor",
+    "slug": "monitor"
+  },
+  {
+    "id": 26,
+    "title": "Desktop",
+    "slug": "desktop"
+  },
+  {
+    "id": 27,
+    "title": "UPS",
+    "slug": "ups"
+  },
+  {
+    "id": 28,
+    "title": "Software",
+    "slug": "software"
+  }
+]

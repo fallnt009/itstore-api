@@ -1,0 +1,374 @@
+[
+  {
+    "specSubcategoryId": 15,
+    "text": "ASUS"
+  },
+  {
+    "specSubcategoryId": 15,
+    "text": "ASROCK"
+  },
+  {
+    "specSubcategoryId": 15,
+    "text": "GIGABYTE"
+  },
+  {
+    "specSubcategoryId": 15,
+    "text": "MSI"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "B760 Pro RS"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "B760M PG Lightning"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "Z790 PG-ITX/TB4"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "PRIME H610I-PLUS D4-CSM"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "PRIME B760-PLUS D4"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "ProArt B760-CREATOR WIFI"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "X670E Pro RS"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "PRIME A620M-A-CSM"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "TUF GAMING B650M-PLUS WIFI"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "STRIX X670E-E GAMING WIFI"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "MAG B650 TOMAHAWK WIFI"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "MPG X670E CARBON WIFI"
+  },
+  {
+    "specSubcategoryId": 16,
+    "text": "MAG Z790 TOMAHAWK MAX WIFI"
+  },
+  {
+    "specSubcategoryId": 17,
+    "text": "LGA 1700"
+  },
+  {
+    "specSubcategoryId": 17,
+    "text": "AM5"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "Intel H610"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "Intel H670"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "Intel H770"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "Intel B760"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "Intel Z790"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "AMD A620"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "AMD B650"
+  },
+  {
+    "specSubcategoryId": 18,
+    "text": "AMD X670"
+  },
+  {
+    "specSubcategoryId": 19,
+    "text": "DDR4*"
+  },
+  {
+    "specSubcategoryId": 19,
+    "text": "DDR5 Non-ECC, Un-buffered Memory"
+  },
+  {
+    "specSubcategoryId": 20,
+    "text": "2"
+  },
+  {
+    "specSubcategoryId": 20,
+    "text": "4"
+  },
+  {
+    "specSubcategoryId": 21,
+    "text": "ROG SupremeFX 7.1 Surround Sound High Definition Audio CODEC ALC4080*"
+  },
+  {
+    "specSubcategoryId": 21,
+    "text": "Realtek 7.1 Surround Sound High Definition Audio CODEC*"
+  },
+  {
+    "specSubcategoryId": 22,
+    "text": "PCIe 3.0 x1 Slot"
+  },
+  {
+    "specSubcategoryId": 22,
+    "text": "PCIe 3.0 x16 Slot"
+  },
+  {
+    "specSubcategoryId": 22,
+    "text": "PCIe 4.0 x16 Slot"
+  },
+  {
+    "specSubcategoryId": 22,
+    "text": "PCIe 5.0 x16 Slot"
+  },
+  {
+    "specSubcategoryId": 23,
+    "text": "SATA 6Gb/s"
+  },
+  {
+    "specSubcategoryId": 23,
+    "text": "M.2 Socket (Key E)"
+  },
+  {
+    "specSubcategoryId": 23,
+    "text": "M.2 Socket (Key M) PCIe 3.0 x2"
+  },
+  {
+    "specSubcategoryId": 23,
+    "text": "M.2 Socket (Key M) PCIe 3.0 x4"
+  },
+  {
+    "specSubcategoryId": 23,
+    "text": "M.2 Socket (Key M), PCIe 4.0 x2"
+  },
+  {
+    "specSubcategoryId": 23,
+    "text": "M.2 Socket (Key M), PCIe 4.0 x4"
+  },
+  {
+    "specSubcategoryId": 23,
+    "text": "M.2 Socket (Key M), PCIe 5.0 x4"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "USB 2.0 port"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "USB 3.2 Gen 1 port"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "USB 3.2 Gen 2 Type C support"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "CPU Fan"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "Pump Fan"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "System Fan"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "Front Panel Audio"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "Chassis Fan"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "RGB LED Connector"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "TPM pin header"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "Clear CMOS Button"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "Thunderbolt header"
+  },
+  {
+    "specSubcategoryId": 24,
+    "text": "Speaker header"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "VGA port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "HDMI port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "DisplayPort port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "Antenna Mounting"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "PS/2 Mouse/Keyboard Port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "USB 2.0 port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "USB 3.2 Gen 2 port Type A"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "USB 3.2 Gen 2 port Type C"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "USB 3.2 Gen 1 port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "Thunderbolt port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "RJ-45 LAN port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "1Gb Ethernet port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "2.5Gb Ethernet port"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "Audio Jacks"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "BIOS FlashBack button"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "Clear CMOS button"
+  },
+  {
+    "specSubcategoryId": 25,
+    "text": "Optical S/PDIF Out connector"
+  },
+  {
+    "specSubcategoryId": 26,
+    "text": "1Gbps"
+  },
+  {
+    "specSubcategoryId": 26,
+    "text": "2.5Gbps"
+  },
+  {
+    "specSubcategoryId": 26,
+    "text": "Wi-Fi 5"
+  },
+  {
+    "specSubcategoryId": 26,
+    "text": "Wi-Fi 6"
+  },
+  {
+    "specSubcategoryId": 26,
+    "text": "Wi-Fi 6E"
+  },
+  {
+    "specSubcategoryId": 26,
+    "text": "Wi-Fi 7"
+  },
+  {
+    "specSubcategoryId": 27,
+    "text": "ITX"
+  },
+  {
+    "specSubcategoryId": 27,
+    "text": "Micro ATX"
+  },
+  {
+    "specSubcategoryId": 27,
+    "text": "ATX"
+  },
+  {
+    "specSubcategoryId": 27,
+    "text": "E-ATX"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "Celeron"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "Pentium Gold"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "Intel Core 12th Gen"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "Intel Core 13th Gen"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "Intel Core 14th Gen"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "AMD Ryzen 6000 Series"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "AMD Ryzen 7000 Series"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "AMD Ryzen 8000 Series"
+  },
+  {
+    "specSubcategoryId": 230,
+    "text": "AMD Ryzen 9000 Series"
+  }
+]

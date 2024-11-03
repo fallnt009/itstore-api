@@ -1,0 +1,58 @@
+[
+  {
+    "specSubcategoryId": 122,
+    "text": "ASUS"
+  },
+  {
+    "specSubcategoryId": 122,
+    "text": "ALIENWARE"
+  },
+  {
+    "specSubcategoryId": 122,
+    "text": "LOGITECH"
+  },
+  {
+    "specSubcategoryId": 124,
+    "text": "USB"
+  },
+  {
+    "specSubcategoryId": 124,
+    "text": "Bluetooth"
+  },
+  {
+    "specSubcategoryId": 124,
+    "text": "PS/2"
+  },
+  {
+    "specSubcategoryId": 125,
+    "text": "Standard"
+  },
+  {
+    "specSubcategoryId": 125,
+    "text": "Compact"
+  },
+  {
+    "specSubcategoryId": 126,
+    "text": "No"
+  },
+  {
+    "specSubcategoryId": 126,
+    "text": "Yes"
+  },
+  {
+    "specSubcategoryId": 129,
+    "text": "No"
+  },
+  {
+    "specSubcategoryId": 129,
+    "text": "Yes"
+  },
+  {
+    "specSubcategoryId": 130,
+    "text": "Wired"
+  },
+  {
+    "specSubcategoryId": 130,
+    "text": "Wireless"
+  }
+]
