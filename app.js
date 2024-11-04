@@ -12,7 +12,6 @@ const app = express();
 
 const productRoute = require('./modules/product/routes/product.route');
 const mockDataRoute = require('./modules/mock-data/routes/mock-data.route');
-// const categoryRoute = require('./routes/category-route');
 const authRoute = require('./modules/auth/routes/auth.routes');
 const userRoute = require('./modules/user/routes/user.route');
 const wishlistRoute = require('./modules/wishlist/routes/wishlist.route');

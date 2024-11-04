@@ -19,8 +19,9 @@ exports.register = async (req, res, next) => {
     });
 
     if (user) {
-      res.status(409).json(resMsg.getMsg(40902));
+      return res.status(409).json(resMsg.getMsg(40902));
     }
+
     value.password = await bcrypt.hash(value.password, 12);
     const newUser = await User.create(value);
     await Cart.create({userId: newUser.id});
