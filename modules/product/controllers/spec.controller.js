@@ -553,6 +553,7 @@ exports.deleteSpecProduct = async (req, res, next) => {
 exports.getSpecProductForFilter = async (req, res, next) => {
   try {
     const {subCategorySlug} = req.query;
+
     //spec items
     const result = await SpecProduct.findAll({
       attributes: ['id', 'text'],

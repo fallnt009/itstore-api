@@ -24,10 +24,6 @@ exports.updateProfile = async (req, res, next) => {
   try {
     const {userId} = req.params;
 
-    const imgFile = req.file;
-
-    const profileImg = process.env.USER_IMAGE_URL;
-
     //validate
     const value = validateProfile({
       firstName: req.body.firstName,
@@ -36,60 +32,11 @@ exports.updateProfile = async (req, res, next) => {
       mobile: req.body.mobile,
     });
 
-    const currentUser = await User.findOne({where: {id: userId}});
-    const oldImage = currentUser ? currentUser.profileImage : null;
+    const checkUser = await User.findOne({where: {id: userId}});
 
-    //+add profileImage
-    if (imgFile) {
-      value.profileImage = profileImg + imgFile.filename;
-
-      if (oldImage) {
-        console.log('Deleting old image...');
-
-        const oldImgPath = path.join(
-          __dirname,
-          '..',
-          '..',
-          '..',
-          'public',
-          'images',
-          'profile',
-          path.basename(oldImage)
-        );
-        fs.unlink(oldImgPath, (err) => {
-          if (err) {
-            console.error(`Failed to delete old image: ${err.message}`);
-          } else {
-            console.log(`Successfully deleted old image: ${oldImgPath}`);
-          }
-        });
-      }
-    } // if delete image and have old image in proceed to set to null
-    //null are string because append formData
-    else if (req.body.profileImage === 'null' && oldImage) {
-      console.log('Removing existing image...');
-
-      //set value Null
-      value.profileImage = null;
-
-      const oldImgPath = path.join(
-        __dirname,
-        '..',
-        '..',
-        '..',
-        'public',
-        'images',
-        'profile',
-        path.basename(oldImage)
-      );
-      //delete file
-      fs.unlink(oldImgPath, (err) => {
-        if (err) {
-          console.error(`Failed to delete old image: ${err.message}`);
-        } else {
-          console.log(`Successfully deleted old image: ${oldImgPath}`);
-        }
-      });
+    if (!checkUser) {
+      //404
+      return res.status(404).json(resMsg.getMsg(40401));
     }
 
     //updates USER
@@ -97,12 +44,52 @@ exports.updateProfile = async (req, res, next) => {
 
     //get updated USER
     const result = await User.findOne({where: {id: userId}});
-    // console.log(result);
 
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
-    console.log(err);
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
 
+exports.updateProfileImage = async (req, res, next) => {
+  try {
+    const {userId} = req.params;
+    const imgFile = req.file;
+    const profileImgURL = process.env.USER_IMAGE_URL;
+
+    //check current user image
+
+    const checkUser = await User.findOne({where: {id: userId}});
+
+    if (!checkUser) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    const oldImage = checkUser.profileImage;
+    let newProfileImage = oldImage;
+
+    // Handle new image upload
+    if (imgFile) {
+      newProfileImage = profileImgURL + imgFile.filename;
+
+      if (oldImage) {
+        deleteOldImage(oldImage);
+      }
+    }
+    // Handle image deletion if 'null' is sent in body
+    else if (req.body.profileImage === 'null' && oldImage) {
+      newProfileImage = null;
+      deleteOldImage(oldImage);
+    }
+
+    //updates USER
+    await User.update({profileImage: newProfileImage}, {where: {id: userId}});
+
+    //get updated USER
+    const result = await User.findOne({where: {id: userId}});
+
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
 };
@@ -113,4 +100,26 @@ exports.deleteUser = async (req, res, next) => {
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
+};
+
+//helper
+const deleteOldImage = (oldImage) => {
+  const oldImgPath = path.join(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'public',
+    'images',
+    'profile',
+    path.basename(oldImage)
+  );
+
+  fs.unlink(oldImgPath, (err) => {
+    if (err) {
+      console.error(`Failed to delete old image: ${err.message}`);
+    } else {
+      console.log(`Successfully deleted old image: ${oldImgPath}`);
+    }
+  });
 };

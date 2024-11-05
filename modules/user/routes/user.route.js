@@ -17,6 +17,9 @@ router.use(authenticate);
 router
   .route('/updateinfo/:userId')
   .patch(upload.single('profileImage'), userController.updateProfile);
+router
+  .route('/updateimg/:userId')
+  .patch(upload.single('profileImage'), userController.updateProfileImage);
 
 router.use(authController.restrictTo(EMPLOYEE));
 
