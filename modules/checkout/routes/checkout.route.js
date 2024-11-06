@@ -4,7 +4,6 @@ const authenticate = require('../../../middlewares/authenticate');
 
 const checkoutController = require('../controllers/checkout.controller');
 const serviceController = require('../controllers/service.controller');
-const paymentController = require('../controllers/payment.controller');
 
 const router = express.Router();
 
@@ -29,14 +28,5 @@ router
   .route('/service/:id')
   .patch(serviceController.updateService)
   .delete(serviceController.deleteService);
-//payment
-router
-  .route('/payment')
-  .get(paymentController.getAllPayment)
-  .post(paymentController.createPayment);
-router
-  .route('/payment/:id')
-  .patch(paymentController.updatePayment)
-  .delete(paymentController.deletePayment);
 
 module.exports = router;

@@ -20,6 +20,7 @@ const cartRoute = require('./modules/cart/routes/cart.routes');
 const orderRoute = require('./modules/order/routes/order.route');
 const checkoutRoute = require('./modules/checkout/routes/checkout.route');
 const discountRoute = require('./modules/discount/routes/discount.routes');
+const paymentRoute = require('./modules/payment/routes/payment.route');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -37,6 +38,7 @@ app.use('/api/cart', cartRoute);
 app.use('/api/order', orderRoute);
 app.use('/api/checkout', checkoutRoute);
 app.use('/api/discount', discountRoute);
+app.use('/api/payment', paymentRoute);
 
 //Middleware
 app.use(notFoundMiddleware);

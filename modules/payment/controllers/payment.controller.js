@@ -1,5 +1,5 @@
 const {Payment} = require('../../../models');
-const {validatePayment} = require('../validators/checkout-validate');
+const {validatePayment} = require('../validators/payment-validate');
 const resMsg = require('../../../config/messages');
 
 exports.getAllPayment = async (req, res, next) => {

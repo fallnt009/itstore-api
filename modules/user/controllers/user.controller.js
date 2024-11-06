@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 
 const {User} = require('../../../models');
@@ -73,13 +73,15 @@ exports.updateProfileImage = async (req, res, next) => {
       newProfileImage = profileImgURL + imgFile.filename;
 
       if (oldImage) {
-        deleteOldImage(oldImage);
+        await deleteOldImage(oldImage);
       }
     }
     // Handle image deletion if 'null' is sent in body
     else if (req.body.profileImage === 'null' && oldImage) {
+      console.log('run');
+
       newProfileImage = null;
-      deleteOldImage(oldImage);
+      await deleteOldImage(oldImage);
     }
 
     //updates USER
@@ -103,23 +105,20 @@ exports.deleteUser = async (req, res, next) => {
 };
 
 //helper
-const deleteOldImage = (oldImage) => {
-  const oldImgPath = path.join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    'public',
-    'images',
-    'profile',
-    path.basename(oldImage)
-  );
-
-  fs.unlink(oldImgPath, (err) => {
-    if (err) {
-      console.error(`Failed to delete old image: ${err.message}`);
-    } else {
-      console.log(`Successfully deleted old image: ${oldImgPath}`);
-    }
-  });
+const deleteOldImage = async (oldImage) => {
+  try {
+    const oldImgPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      'public',
+      'images',
+      'profile',
+      path.basename(oldImage)
+    );
+    await fs.unlink(oldImgPath);
+  } catch (err) {
+    throw err;
+  }
 };
