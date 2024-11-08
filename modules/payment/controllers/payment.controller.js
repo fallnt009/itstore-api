@@ -2,6 +2,8 @@ const {Payment} = require('../../../models');
 const {validatePayment} = require('../validators/payment-validate');
 const resMsg = require('../../../config/messages');
 
+const generateSlug = require('../../../utils/generateSlug');
+
 exports.getAllPayment = async (req, res, next) => {
   try {
     const result = await Payment.findAll();
@@ -17,9 +19,14 @@ exports.getAllPayment = async (req, res, next) => {
 exports.createPayment = async (req, res, next) => {
   try {
     const value = validatePayment(req.body);
+
+    value.slug = generateSlug(value.name);
+
     const result = await Payment.create(value);
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

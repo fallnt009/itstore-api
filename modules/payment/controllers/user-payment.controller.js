@@ -1,4 +1,4 @@
-const {UserPayment} = require('../../../models');
+const {UserPayment, Order} = require('../../../models');
 const resMsg = require('../../../config/messages');
 //get
 //update
@@ -22,10 +22,33 @@ exports.getUserPaymentById = async (req, res, next) => {
   }
 };
 
+exports.getUserPaymentByOrderId = async (req, res, next) => {
+  try {
+    const {orderId} = req.params;
+    const userId = req.user.id;
+
+    const result = await UserPayment.findOne({
+      where: {userId: userId},
+      include: [
+        {model: Order, where: {id: orderId}, attributes: ['id', 'userId']},
+      ],
+    });
+
+    if (!result) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
 //for Upload proof Payment doc
 exports.updateUserPayment = async (req, res, next) => {
   try {
-    const {userId} = req.params;
+    const {userPaymentId} = req.params;
+    console.log(userPaymentId);
 
     //get body
     const data = {
@@ -37,18 +60,16 @@ exports.updateUserPayment = async (req, res, next) => {
     const proofImageURL = process.env.PAYMENT_PROOF_URL;
 
     const checkUserPayment = await UserPayment.findOne({
-      where: {userId: userId},
+      where: {id: userPaymentId},
     });
 
     if (!checkUserPayment) {
       return res.status(404).json(resMsg.getMsg(40401));
     }
-    console.log(checkUserPayment);
 
     //check old image
     const oldImage = checkUserPayment.proofImage;
     let proofImagePath;
-    console.log(oldImage);
 
     //if have old image return resource exists
     if (oldImage) {
@@ -63,10 +84,12 @@ exports.updateUserPayment = async (req, res, next) => {
     //payment_date
     //proof_image
     //img_upload_date
-    await UserPayment.update(data, {where: {id: userId}});
+    await UserPayment.update(data, {where: {id: userPaymentId}});
 
     res.status(200).json({...resMsg.getMsg(200)});
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };
