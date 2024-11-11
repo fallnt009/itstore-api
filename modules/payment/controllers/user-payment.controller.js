@@ -1,4 +1,4 @@
-const {UserPayment, Order} = require('../../../models');
+const {UserPayment, Order, OrderDetail} = require('../../../models');
 const resMsg = require('../../../config/messages');
 //get
 //update
@@ -30,7 +30,12 @@ exports.getUserPaymentByOrderId = async (req, res, next) => {
     const result = await UserPayment.findOne({
       where: {userId: userId},
       include: [
-        {model: Order, where: {id: orderId}, attributes: ['id', 'userId']},
+        {
+          model: Order,
+          where: {id: orderId},
+          attributes: ['id', 'userId'],
+          include: [{model: OrderDetail, attributes: ['orderNumber']}],
+        },
       ],
     });
 

@@ -1,7 +1,8 @@
 const {
-  STATUS_PENDING,
-  STATUS_CANCELED,
-  STATUS_COMPLETED,
+  TRANSACTION_PENDING,
+  TRANSACTION_AWAITING,
+  TRANSACTION_COMPLETED,
+  TRANSACTION_REJECTED,
 } = require('../config/constants');
 
 module.exports = (sequelize, DataTypes) => {
@@ -13,9 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       paymentStatus: {
-        type: DataTypes.ENUM(STATUS_PENDING, STATUS_CANCELED, STATUS_COMPLETED),
+        type: DataTypes.ENUM(
+          TRANSACTION_PENDING,
+          TRANSACTION_AWAITING,
+          TRANSACTION_COMPLETED,
+          TRANSACTION_REJECTED
+        ),
         allowNull: false,
-        defaultValue: STATUS_PENDING,
+        defaultValue: TRANSACTION_PENDING,
       },
       paymentDate: {
         type: DataTypes.DATE,
