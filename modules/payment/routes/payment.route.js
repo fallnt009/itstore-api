@@ -8,11 +8,6 @@ const userPaymentController = require('../controllers/user-payment.controller');
 
 const router = express.Router();
 
-router.route('/user/:userPaymentId').patch(
-  upload.single('paymentProofImage'),
-  userPaymentController.updateUserPayment //for upload proof public
-);
-
 router.use(authenticate);
 //payment
 router
@@ -25,6 +20,12 @@ router
   .delete(paymentController.deletePayment);
 
 //userpayment by orderId
+router
+  .route('/user/:userPaymentId')
+  .patch(
+    upload.single('paymentImage'),
+    userPaymentController.updateUserPayment
+  );
 router
   .route('/user/pay/:orderId')
   .get(userPaymentController.getUserPaymentByOrderId);

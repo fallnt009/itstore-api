@@ -1,10 +1,7 @@
 const {UserPayment, Order, OrderDetail} = require('../../../models');
 const resMsg = require('../../../config/messages');
-//get
-//update
-//update when customer submit
-//check by if have upload slip or payment date
-//stamp verifyId by using req.user.id
+
+const {} = require('../../../config/constants');
 
 exports.getUserPaymentById = async (req, res, next) => {
   try {
@@ -53,10 +50,11 @@ exports.getUserPaymentByOrderId = async (req, res, next) => {
 exports.updateUserPayment = async (req, res, next) => {
   try {
     const {userPaymentId} = req.params;
-    console.log(userPaymentId);
+    const userId = req.user.id;
 
     //get body
     const data = {
+      paymentStatus: req.body.paymentStatus,
       paymentDate: req.body.paymentDate,
       imageUploadDate: Date.now(),
     };
@@ -64,8 +62,10 @@ exports.updateUserPayment = async (req, res, next) => {
     const proofImageFile = req.file;
     const proofImageURL = process.env.PAYMENT_PROOF_URL;
 
+    //check user payment if not the same person or exist
+
     const checkUserPayment = await UserPayment.findOne({
-      where: {id: userPaymentId},
+      where: {id: userPaymentId, userId: userId},
     });
 
     if (!checkUserPayment) {

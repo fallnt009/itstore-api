@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
       case 'productImage':
         uploadFolder = 'public/images/products';
         break;
-      case 'paymentProofImage':
+      case 'paymentImage':
         uploadFolder = 'public/images/payment-proof';
         break;
       default:
