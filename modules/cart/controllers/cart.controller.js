@@ -1,4 +1,10 @@
-const {Product, Cart, CartItem} = require('../../../models');
+const {
+  Product,
+  ProductDiscount,
+  Discount,
+  Cart,
+  CartItem,
+} = require('../../../models');
 
 const {validateCart} = require('../validators/cart-validate');
 
@@ -15,7 +21,12 @@ exports.getMyCart = async (req, res, next) => {
         {
           model: CartItem,
           attributes: ['id', 'qty', 'cartId', 'productId'],
-          include: [{model: Product}],
+          include: [
+            {
+              model: Product,
+              include: [{model: ProductDiscount, include: [{model: Discount}]}],
+            },
+          ],
         },
       ],
     });

@@ -173,6 +173,12 @@ exports.createOrder = async (req, res, next) => {
     // sent on req.body.order
     req.body.order = order;
 
+    //Clear CartItems after create order
+    await CartItem.destroy({
+      where: {id: cartItems.map((item) => item.id)},
+      transaction: od,
+    });
+
     //transaction commit
     await od.commit();
 
