@@ -51,6 +51,8 @@ exports.createWishlist = async (req, res, next) => {
     });
     res.status(201).json({...resMsg.getMsg(200), result});
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

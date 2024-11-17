@@ -1,5 +1,10 @@
 const {
   Product,
+  ProductSubCategory,
+  BrandCategorySub,
+  BrandCategory,
+  MainCategory,
+  SubCategory,
   ProductDiscount,
   Discount,
   Cart,
@@ -24,7 +29,40 @@ exports.getMyCart = async (req, res, next) => {
           include: [
             {
               model: Product,
-              include: [{model: ProductDiscount, include: [{model: Discount}]}],
+              include: [
+                {
+                  model: ProductSubCategory,
+                  required: true,
+                  attributes: ['id'],
+                  include: [
+                    {
+                      model: BrandCategorySub,
+                      required: true,
+                      attributes: ['id'],
+                      include: [
+                        {
+                          model: SubCategory,
+                          required: true,
+                          attributes: ['title', 'slug'],
+                        },
+                        {
+                          model: BrandCategory,
+                          required: true,
+                          attributes: ['id'],
+                          include: [
+                            {
+                              model: MainCategory,
+                              required: true,
+                              attributes: ['title', 'slug'],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {model: ProductDiscount, include: [{model: Discount}]},
+              ],
             },
           ],
         },
