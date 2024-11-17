@@ -62,6 +62,9 @@ exports.getMyCart = async (req, res, next) => {
                   ],
                 },
                 {model: ProductDiscount, include: [{model: Discount}]},
+                {
+                  model: ProductImage,
+                },
               ],
             },
           ],
