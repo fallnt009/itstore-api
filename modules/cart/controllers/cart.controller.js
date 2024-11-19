@@ -1,5 +1,6 @@
 const {
   Product,
+  ProductImage,
   ProductSubCategory,
   BrandCategorySub,
   BrandCategory,

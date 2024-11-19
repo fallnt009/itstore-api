@@ -15,6 +15,7 @@ router.use(authenticate);
 router.route('/myorder').get(orderController.getMyOrder);
 router.route('/myorder/:orderId').delete(orderController.cancelOrder);
 router.route('/create').post(orderController.createOrder);
+router.route('/create/test').post(orderController.createOrderTest);
 
 router.use(authController.restrictTo(EMPLOYEE));
 router

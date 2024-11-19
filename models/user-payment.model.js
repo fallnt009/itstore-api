@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     'UserPayment',
     {
       amount: {
-        type: DataTypes.STRING,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
       paymentStatus: {

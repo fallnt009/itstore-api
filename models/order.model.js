@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      orderDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
       expireDate: {
         type: DataTypes.DATE,
         allowNull: false,

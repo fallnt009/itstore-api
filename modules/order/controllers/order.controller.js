@@ -10,6 +10,9 @@ const {
   UserPayment,
   UserAddress,
   Product,
+  ProductImage,
+  ProductDiscount,
+  Discount,
   Address,
   sequelize,
 } = require('../../../models');
@@ -95,6 +98,13 @@ exports.createOrder = async (req, res, next) => {
             'qtyInStock',
             'productCode',
           ],
+          include: [
+            {
+              model: ProductDiscount,
+              attributes: ['id', 'discountId'],
+              include: [{model: Discount, attributes: ['amount']}],
+            },
+          ],
         },
         {
           model: Cart,
@@ -108,6 +118,15 @@ exports.createOrder = async (req, res, next) => {
     //Check Cart Item if empty
     if (cartItems.length === 0) {
       return res.status(400).json(resMsg.getMsg(40005));
+    }
+
+    //validate qty in stock
+    for (const item of cartItems) {
+      if (item.qty > item.Product.qtyInStock) {
+        return res.status(400).json({
+          message: `Insufficient stock for product ${item.Product.title}`,
+        });
+      }
     }
 
     //findCheckout that userId
@@ -150,20 +169,48 @@ exports.createOrder = async (req, res, next) => {
         userPaymentId: userPayment.id,
         orderDetailId: orderDetail.id,
         totalAmount: req.body.subTotal,
-        //before vat calculate
+        orderDate: Date.now(),
       },
       {transaction: od}
     );
 
-    // Pack data into array
+    // Calculate Price
     const orderItemsData = [];
+
     for (const item of cartItems) {
+      const price = parseFloat(item.Product.price);
+      const discountedProduct = item.Product.ProductDiscount;
+
+      let finalPrice = price;
+      let discountValue = null;
+
+      if (discountedProduct) {
+        // Apply discount if it exists
+        const discountAmount = discountedProduct.Discount.amount / 100; // Assuming discount amount is a percentage
+        const discountPrice = price * discountAmount;
+
+        finalPrice = price - discountPrice;
+        discountValue = discountedProduct.Discount.amount;
+      }
+
       orderItemsData.push({
         orderId: order.id,
         productId: item.productId,
+        isDiscounted: !!discountedProduct,
+        discountValue: discountValue,
+        unitPrice: price,
+        finalPrice: finalPrice,
         qty: item.qty,
-        price: item.Product.price,
+        totalPrice: finalPrice * item.qty,
       });
+    }
+
+    //Reduce Stock by update Product
+    for (const item of cartItems) {
+      await Product.update(
+        {qtyInStock: item.Product.qtyInStock - item.qty},
+        {where: {id: item.productId}, transaction: od}
+      );
     }
 
     //and send into Order Item
@@ -188,6 +235,7 @@ exports.createOrder = async (req, res, next) => {
         'id',
         'orderStatus',
         'totalAmount',
+        'orderDate',
         'expireDate',
         'createdAt',
         'orderDetailId',
@@ -215,6 +263,9 @@ exports.createOrder = async (req, res, next) => {
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
     await od.rollback();
+
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };
@@ -416,10 +467,10 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
 
     const orderItem = await OrderItem.findAll({
       where: {orderId: order.id},
-      attributes: ['id', 'qty', 'price', 'orderId', 'productId'],
       include: {
         model: Product,
         attributes: ['title', 'price', 'description', 'slug'],
+        include: [{model: ProductImage}],
       },
     });
 
@@ -427,6 +478,211 @@ exports.getOrderByOrderNumber = async (req, res, next) => {
       .status(200)
       .json({...resMsg.getMsg(200), result: order, product: orderItem});
   } catch (err) {
+    console.log(err);
+
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+exports.createOrderTest = async (req, res, next) => {
+  const od = await sequelize.transaction();
+  try {
+    const userId = req.user.id;
+
+    const cartItems = await CartItem.findAll({
+      attributes: ['id', 'qty', 'productId'],
+      include: [
+        {
+          model: Product,
+          attributes: [
+            'id',
+            'title',
+            'productImage',
+            'price',
+            'qtyInStock',
+            'productCode',
+          ],
+          include: [
+            {
+              model: ProductDiscount,
+              attributes: ['id', 'discountId'],
+              include: [{model: Discount, attributes: ['amount']}],
+            },
+          ],
+        },
+        {
+          model: Cart,
+          where: {userId: userId},
+          attributes: ['id', 'userId'],
+        },
+      ],
+      transaction: od,
+    });
+
+    //Check Cart Item if empty
+    if (cartItems.length === 0) {
+      return res.status(400).json(resMsg.getMsg(40005));
+    }
+
+    //validate qty in stock
+    for (const item of cartItems) {
+      if (item.qty > item.Product.qtyInStock) {
+        return res.status(400).json({
+          message: `Insufficient stock for product ${item.Product.title}`,
+        });
+      }
+    }
+
+    //findCheckout that userId
+    const checkout = await Checkout.findOne(
+      {
+        where: {userId: userId},
+      },
+      {transaction: od}
+    );
+
+    if (!checkout) {
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+
+    //create order-detail
+    // const orderDetail = await OrderDetail.create(
+    //   {
+    //     orderNumber: generateOrderNumber(1), //generate Order Number,unique
+    //     senderAddress: req.body.senderAddress,
+    //     receiverAddress: req.body.receiverAddress,
+    //     userAddressId: checkout.userAddressId,
+    //     serviceId: checkout.serviceId,
+    //   },
+    //   {transaction: od}
+    // );
+
+    // Create UserPayment
+    // const userPayment = await UserPayment.create(
+    //   {
+    //     amount: req.body.totalAmount,
+    //     userId: userId,
+    //     paymentId: checkout.paymentId,
+    //   },
+    //   {transaction: od}
+    // );
+    // Create Order
+    // const order = await Order.create(
+    //   {
+    //     userId: userId,
+    //     userPaymentId: userPayment.id,
+    //     orderDetailId: orderDetail.id,
+    //     totalAmount: req.body.subTotal,
+    //     //before vat calculate
+    //   },
+    //   {transaction: od}
+    // );
+
+    //Analysis
+    //if Product have ProductDiscount ? isDiscounted === true : false
+    //
+
+    // Pack data into array
+    // const orderItemsData = [];
+    // for (const item of cartItems) {
+    //   orderItemsData.push({
+    //     orderId: order.id,
+    //     productId: item.productId,
+    //     qty: item.qty,
+    //     unitPrice: item.Product.price,
+    //   });
+    // }
+    const orderItemsData = [];
+
+    for (const item of cartItems) {
+      const price = parseFloat(item.Product.price);
+      const discountedProduct = item.Product.ProductDiscount;
+
+      let finalPrice = price;
+      let discountValue = null;
+
+      if (discountedProduct) {
+        // Apply discount if it exists
+        const discountAmount = discountedProduct.Discount.amount / 100; // Assuming discount amount is a percentage
+        const discountPrice = price * discountAmount;
+        finalPrice = price - discountPrice;
+
+        discountValue = discountedProduct.Discount.amount;
+      }
+
+      orderItemsData.push({
+        // orderId: order.id,
+        // productId: item.productId,
+        isDiscounted: !!discountedProduct,
+        discountValue: discountValue,
+        unitPrice: price,
+        finalPrice: finalPrice,
+        qty: item.qty,
+        totalPrice: finalPrice * item.qty,
+      });
+    }
+    console.log(orderItemsData);
+
+    //Reduce Stock by update Product
+    // for (const item of cartItems) {
+    //   await Product.update(
+    //     {qtyInStock: item.Product.qtyInStock - item.qty},
+    //     {where: {id: item.productId}, transaction: od}
+    //   );
+    // }
+
+    //and send into Order Item
+    // await OrderItem.bulkCreate(orderItemsData, {
+    //   transaction: od,
+    // });
+    // sent on req.body.order
+    // req.body.order = order;
+
+    //Clear CartItems after create order
+    // await CartItem.destroy({
+    //   where: {id: cartItems.map((item) => item.id)},
+    //   transaction: od,
+    // });
+
+    //transaction commit
+    await od.commit();
+
+    // const result = await Order.findOne({
+    //   where: {id: order.id},
+    //   attributes: [
+    //     'id',
+    //     'orderStatus',
+    //     'totalAmount',
+    //     'orderDate',
+    //     'expireDate',
+    //     'createdAt',
+    //     'orderDetailId',
+    //     'userId',
+    //     'userPaymentId',
+    //   ],
+    //   include: [
+    //     {
+    //       model: OrderDetail,
+    //       attributes: [
+    //         'orderNumber',
+    //         'senderAddress',
+    //         'receiverAddress',
+    //         'deliveryDate',
+    //         'eddDate',
+    //         'deliveryName',
+    //         'trackingNumber',
+    //         'userAddressId',
+    //         'serviceId',
+    //       ],
+    //     },
+    //   ],
+    // });
+
+    res.status(200).json({...resMsg.getMsg(200), result: cartItems});
+  } catch (err) {
+    console.log(err);
+    await od.rollback();
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };
