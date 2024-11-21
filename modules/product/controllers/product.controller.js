@@ -31,7 +31,7 @@ exports.getNewProduct = async (req, res, next) => {
 
   try {
     const {count, rows} = await Product.findAndCountAll({
-      where: {isActive: true},
+      where: {isActive: true, isNewArrival: true},
       include: [
         {
           model: ProductSubCategory,
