@@ -25,6 +25,7 @@ const paymentRoute = require('./modules/payment/routes/payment.route');
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use('/static', express.static('public'));
 
 //Routes

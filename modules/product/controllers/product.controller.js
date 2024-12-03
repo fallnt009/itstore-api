@@ -563,22 +563,39 @@ exports.getProductFilter = async (req, res, next) => {
 
 //GET ALL for Admin only
 exports.getAllProduct = async (req, res, next) => {
-  const page = parseInt(req.query.page) || 1;
-  const pageSize = parseInt(req.query.pageSize) || 4;
-  const order = req.query.order || 'ASC';
-  const brandId = req.query.brandId || '';
-  const subCategoryId = req.query.subCategoryId || '';
   try {
-    //query filter
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 4;
 
-    const filters = {};
-    if (brandId)
-      filters['$ProductSubCategory.BrandCategorySub.BrandCategory.Brand.id$'] =
-        brandId;
+    const sortBy = req.query.sortBy || 'price';
+    const sortValue = req.query.sortValue || 'ASC';
 
-    if (subCategoryId)
-      filters['$ProductSubCategory.BrandCategorySub.SubCategory.id$'] =
-        subCategoryId;
+    //search
+    const searchQuery = req.query.search ? req.query.search : '';
+
+    let whereConditions = {};
+
+    //Filter Condition
+    const filters = req.query.filters ? JSON.parse(req.query.filters) : [];
+
+    filters.forEach((filter) => {
+      if (filter.isActive !== undefined) {
+        whereConditions.isActive = filter.isActive;
+      }
+
+      //Instock
+      if (filter.inStock !== undefined) {
+        if (filter.inStock) {
+          whereConditions.qtyInStock = {[Op.gte]: 1};
+        } else {
+          whereConditions.qtyInStock = {[Op.lte]: 0};
+        }
+      }
+    });
+
+    if (searchQuery) {
+      whereConditions.title = {[Op.like]: `%${searchQuery}%`};
+    }
 
     //fetch product
     const {count, rows} = await Product.findAndCountAll({
@@ -651,8 +668,8 @@ exports.getAllProduct = async (req, res, next) => {
           ],
         },
       ],
-      where: filters,
-      order: [['createdAt', order]],
+      where: whereConditions,
+      order: [[sortBy, sortValue]],
       limit: pageSize,
       offset: (page - 1) * pageSize,
     });
@@ -668,6 +685,8 @@ exports.getAllProduct = async (req, res, next) => {
       result: rows,
     });
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

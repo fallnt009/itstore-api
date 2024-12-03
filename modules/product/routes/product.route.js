@@ -39,6 +39,8 @@ router
 //for Admin below
 router.use(authenticate);
 router.use(authController.restrictTo(EMPLOYEE));
+//fetch All product
+router.route('/all').get(productController.getAllProduct);
 
 //crud product
 router.post(
