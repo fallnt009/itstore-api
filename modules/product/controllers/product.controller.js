@@ -567,8 +567,10 @@ exports.getAllProduct = async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 4;
 
-    const sortBy = req.query.sortBy || 'price';
-    const sortValue = req.query.sortValue || 'ASC';
+    //sorts
+    const sorts = req.query.sorts ? JSON.parse(req.query.sorts) : {}; //{sortBy:'price',sortValue:'ASC'}
+
+    const {sortBy = 'createdAt', sortValue = 'ASC'} = sorts;
 
     //search
     const searchQuery = req.query.search ? req.query.search : '';
@@ -576,27 +578,26 @@ exports.getAllProduct = async (req, res, next) => {
     let whereConditions = {};
 
     //Filter Condition
-    const filters = req.query.filters ? JSON.parse(req.query.filters) : [];
+    const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
 
-    filters.forEach((filter) => {
-      if (filter.isActive !== undefined) {
-        whereConditions.isActive = filter.isActive;
-      }
+    const {isActive = true, inStock = true} = filters;
 
-      //Instock
-      if (filter.inStock !== undefined) {
-        if (filter.inStock) {
-          whereConditions.qtyInStock = {[Op.gte]: 1};
-        } else {
-          whereConditions.qtyInStock = {[Op.lte]: 0};
-        }
+    if (filters.isActive !== undefined) {
+      whereConditions.isActive = isActive;
+    }
+
+    //Instock
+    if (inStock !== undefined) {
+      if (inStock) {
+        whereConditions.qtyInStock = {[Op.gte]: 1};
+      } else {
+        whereConditions.qtyInStock = {[Op.lte]: 0};
       }
-    });
+    }
 
     if (searchQuery) {
       whereConditions.title = {[Op.like]: `%${searchQuery}%`};
     }
-
     //fetch product
     const {count, rows} = await Product.findAndCountAll({
       distinct: true,
