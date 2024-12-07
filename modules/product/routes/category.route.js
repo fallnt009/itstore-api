@@ -44,8 +44,8 @@ router
   .post(brandController.createBrand);
 router
   .route('/brand/:id')
-  .get(brandController.getOneBrand)
-  .patch(brandController.updateBrand)
-  .delete(brandController.deleteBrand);
+  // .get(brandController.getOneBrand)
+  .patch(brandController.updateBrand);
+// .delete(brandController.deleteBrand);
 
 module.exports = router;

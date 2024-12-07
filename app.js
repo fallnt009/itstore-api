@@ -21,6 +21,7 @@ const orderRoute = require('./modules/order/routes/order.route');
 const checkoutRoute = require('./modules/checkout/routes/checkout.route');
 const discountRoute = require('./modules/discount/routes/discount.routes');
 const paymentRoute = require('./modules/payment/routes/payment.route');
+const categoryRoute = require('./modules/product/routes/category.route');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -30,6 +31,7 @@ app.use('/static', express.static('public'));
 
 //Routes
 app.use('/api/products', productRoute);
+app.use('/api/categories', categoryRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/address', addressRoute);

@@ -16,7 +16,7 @@ exports.getAllBrand = async (req, res, next) => {
       if (!result) {
         return res.status(404).json(resMsg.getMsg(40401));
       }
-      res.status(200).json({amount: result.length, result});
+      res.status(200).json({...resMsg.getMsg(200), result});
     } catch (err) {
       res.status(500).json(resMsg.getMsg(500));
     }
@@ -120,8 +120,10 @@ exports.updateBrand = async (req, res, next) => {
 exports.getBrandTag = async (req, res, next) => {
   try {
     const brandId = req.params.id;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 6;
 
-    const result = await BrandCategorySub.findAll({
+    const {count, rows} = await BrandCategorySub.findAndCountAll({
       attributes: ['id', 'subCategoryId', 'brandCategoryId'],
       include: [
         {
@@ -141,11 +143,19 @@ exports.getBrandTag = async (req, res, next) => {
           required: true,
         },
       ],
+      limit: pageSize,
+      offset: (page - 1) * pageSize,
     });
-    if (!result) {
+    if (!rows) {
       return res.status(404).json(resMsg.getMsg(40401));
     }
-    res.status(200).json({...resMsg.getMsg(200), result});
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      totalItems: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
