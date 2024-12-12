@@ -5,15 +5,20 @@ const productSchema = Joi.object({
   title: Joi.string().trim().required().messages({
     'string.empty': 'title is required',
   }),
-  price: Joi.string().trim().required().messages({
-    'string.empty': 'price is required',
+  price: Joi.number().precision(2).positive().required().messages({
+    'number.base': 'price must be a number',
+    'number.positive': 'price must be a positive value',
+    'any.required': 'price is required',
   }),
   description: Joi.string().trim().required().messages({
     'string.empty': 'description is required',
   }),
   isActive: Joi.boolean().default(true),
-  qtyInStock: Joi.number().required().messages({
-    'string.empty': 'quantity is required',
+  qtyInStock: Joi.number().integer().positive().required().messages({
+    'number.base': 'quantity must be a number',
+    'number.integer': 'quantity must be an integer',
+    'number.positive': 'quantity must be a positive value',
+    'any.required': 'quantity is required',
   }),
 });
 

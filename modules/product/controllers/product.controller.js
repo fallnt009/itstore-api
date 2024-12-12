@@ -362,7 +362,7 @@ exports.createProduct = async (req, res, next) => {
   const t = await sequelize.transaction();
 
   try {
-    //get BCS Id by params
+    // //get BCS Id by params
     const bcsId = req.params.id;
 
     const {title, price, description, qtyInStock} = req.body;
@@ -377,9 +377,9 @@ exports.createProduct = async (req, res, next) => {
       qtyInStock: qtyInStock,
     });
 
-    //Create Slug by title
+    // //Create Slug by title
     value.slug = generateSlug(value.title);
-    //generate productCode
+    // //generate productCode
     value.productCode = generateNumber.generateProductCode(6);
 
     const existingCode = await Product.findOne({
@@ -396,7 +396,7 @@ exports.createProduct = async (req, res, next) => {
 
     const product = await Product.create(value, {transaction: t});
 
-    //create PSC
+    // //create PSC
     await ProductSubCategory.create(
       {
         productId: product.id,
@@ -418,7 +418,7 @@ exports.createProduct = async (req, res, next) => {
     // Commit the transaction
     await t.commit();
 
-    //getProductByPk
+    // //getProductByPk
     const result = await Product.findByPk(product.id);
 
     res.status(200).json({...resMsg.getMsg(200), result});
