@@ -14,10 +14,10 @@ const productSchema = Joi.object({
     'string.empty': 'description is required',
   }),
   isActive: Joi.boolean().default(true),
-  qtyInStock: Joi.number().integer().positive().required().messages({
+  qtyInStock: Joi.number().integer().min(0).required().messages({
     'number.base': 'quantity must be a number',
     'number.integer': 'quantity must be an integer',
-    'number.positive': 'quantity must be a positive value',
+    'number.min': 'quantity must be at least 0',
     'any.required': 'quantity is required',
   }),
 });

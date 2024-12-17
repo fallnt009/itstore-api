@@ -344,7 +344,13 @@ exports.getProductById = async (req, res, next) => {
         {
           model: ProductSubCategory,
           attributes: ['brandCategorySubId'],
-          include: [{model: BrandCategorySub, attributes: ['subCategoryId']}],
+          include: [
+            {
+              model: BrandCategorySub,
+              attributes: ['id', 'brandCategoryId'],
+              include: [{model: BrandCategory, attributes: ['brandId']}],
+            },
+          ],
         },
         {
           model: ProductImage,
@@ -498,6 +504,8 @@ exports.updateProduct = async (req, res, next) => {
 
     res.status(200).json(resMsg.getMsg(200));
   } catch (err) {
+    console.log(err);
+
     await pd.rollback();
     res.status(500).json(resMsg.getMsg(500));
   }
@@ -580,14 +588,14 @@ exports.getAllProduct = async (req, res, next) => {
     //Filter Condition
     const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
 
-    const {isActive = true, inStock = true} = filters;
+    const {isActive = '', inStock = ''} = filters;
 
-    if (filters.isActive !== undefined) {
+    if (filters.isActive !== '') {
       whereConditions.isActive = isActive;
     }
 
     //Instock
-    if (inStock !== undefined) {
+    if (inStock !== '') {
       if (inStock) {
         whereConditions.qtyInStock = {[Op.gte]: 1};
       } else {
@@ -598,9 +606,13 @@ exports.getAllProduct = async (req, res, next) => {
     if (searchQuery) {
       whereConditions.title = {[Op.like]: `%${searchQuery}%`};
     }
+
+    //count product
+    const count = await Product.count({
+      where: whereConditions,
+    });
     //fetch product
-    const {count, rows} = await Product.findAndCountAll({
-      distinct: true,
+    const rows = await Product.findAll({
       include: [
         {
           model: ProductSubCategory,
@@ -647,7 +659,6 @@ exports.getAllProduct = async (req, res, next) => {
         },
         {
           model: ProductSubSpec,
-          // attributes: ['specProductId'],
           include: [
             {
               model: SpecProduct,
@@ -656,13 +667,7 @@ exports.getAllProduct = async (req, res, next) => {
                 {
                   model: SpecSubcategory,
                   attributes: ['specItemId', 'subCategoryId'],
-                  include: [
-                    {model: SpecItem, attributes: ['title']},
-                    // {
-                    //   model: SubCategory,
-                    //   attributes: ['title'],
-                    // },
-                  ],
+                  include: [{model: SpecItem, attributes: ['title']}],
                 },
               ],
             },
@@ -686,8 +691,6 @@ exports.getAllProduct = async (req, res, next) => {
       result: rows,
     });
   } catch (err) {
-    console.log(err);
-
     res.status(500).json(resMsg.getMsg(500));
   }
 };
