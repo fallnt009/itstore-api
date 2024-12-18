@@ -10,8 +10,8 @@ const productSchema = Joi.object({
     'number.positive': 'price must be a positive value',
     'any.required': 'price is required',
   }),
-  description: Joi.string().trim().required().messages({
-    'string.empty': 'description is required',
+  description: Joi.string().trim().allow(null, '').optional().messages({
+    'string.base': 'Description must be a character',
   }),
   isActive: Joi.boolean().default(true),
   qtyInStock: Joi.number().integer().min(0).required().messages({
