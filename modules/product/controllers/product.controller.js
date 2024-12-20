@@ -259,8 +259,6 @@ exports.getProductBySubCategory = async (req, res, next) => {
       result: rows,
     });
   } catch (err) {
-    console.log(err);
-
     res.status(500).json(resMsg.getMsg(500));
   }
 };

@@ -8,19 +8,31 @@ const {
 const resMsg = require('../../../config/messages');
 const validateBrand = require('../validators/brand-validate');
 
-exports.getAllBrand = async (req, res, next) => {
-  try {
-    try {
-      const result = await Brand.findAll();
+const paginate = require('../../../utils/paginate');
 
-      if (!result) {
-        return res.status(404).json(resMsg.getMsg(40401));
-      }
-      res.status(200).json({...resMsg.getMsg(200), result});
-    } catch (err) {
-      res.status(500).json(resMsg.getMsg(500));
+exports.getAllBrand = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+
+  try {
+    const {count, rows} = await Brand.findAndCountAll(
+      paginate({}, {page, pageSize})
+    );
+
+    if (count === 0) {
+      return res.status(404).json(resMsg.getMsg(40401));
     }
-  } catch (err) {}
+
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      count: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
+  } catch (err) {
+    res.status(500).json(resMsg.getMsg(500));
+  }
 };
 exports.getBrandById = async (req, res, next) => {
   try {

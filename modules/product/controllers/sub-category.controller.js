@@ -5,14 +5,27 @@ const {
 } = require('../../../models');
 const resMsg = require('../../../config/messages');
 
-exports.getAllSubCategory = async (req, res, next) => {
-  try {
-    const result = await SubCategory.findAll();
+const paginate = require('../../../utils/paginate');
 
-    if (!result) {
+exports.getAllSubCategory = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+
+  try {
+    const {count, rows} = await SubCategory.findAndCountAll(
+      paginate({}, {page, pageSize})
+    );
+
+    if (count === 0) {
       return res.status(404).json(resMsg.getMsg(40401));
     }
-    res.status(200).json({amount: result.length, result});
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      count: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
