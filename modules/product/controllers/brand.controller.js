@@ -14,9 +14,28 @@ exports.getAllBrand = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const pageSize = parseInt(req.query.pageSize) || 10;
 
+  //fetch all
+  const fetchAll = req.query.all === 'true';
+
   try {
+    //if fetch all true
+    if (fetchAll) {
+      const allBrands = await Brand.findAll({
+        attributes: ['id', 'title', 'slug'],
+      });
+
+      if (allBrands.length === 0) {
+        return res.status(404).json(resMsg.getMsg(40401));
+      }
+
+      return res.status(200).json({
+        ...resMsg.getMsg(200),
+        count: allBrands.length,
+        result: allBrands,
+      });
+    }
     const {count, rows} = await Brand.findAndCountAll(
-      paginate({}, {page, pageSize})
+      paginate({attributes: ['id', 'title', 'slug']}, {page, pageSize})
     );
 
     if (count === 0) {
