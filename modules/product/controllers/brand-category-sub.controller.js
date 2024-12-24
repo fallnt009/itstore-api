@@ -7,49 +7,59 @@ const {
 } = require('../../../models');
 
 const resMsg = require('../../../config/messages');
+const paginate = require('../../../utils/paginate');
 
 exports.getBrandCategorySub = async (req, res, next) => {
-  const {brandName, mainCategoryName, subCategoryName} = req.query;
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
 
-  const brandCondition = brandName ? {title: brandName} : {};
-  const mainCategoryCondition = mainCategoryName
-    ? {title: mainCategoryName}
-    : {};
-  const subCategoryCondition = subCategoryName ? {title: subCategoryName} : {};
+  const {brandSlug, categorySlug, subCategorySlug} = req.query.filters || {};
+
+  const brandCondition = brandSlug ? {slug: brandSlug} : {};
+  const mainCategoryCondition = categorySlug ? {slug: categorySlug} : {};
+  const subCategoryCondition = subCategorySlug ? {slug: subCategorySlug} : {};
+
   try {
-    const brandSubCategory = await BrandCategorySub.findAll({
-      attributes: ['id', 'subCategoryId', 'brandCategoryId'],
-      include: [
+    const {count, rows} = await BrandCategorySub.findAndCountAll(
+      paginate(
         {
-          model: SubCategory,
-          attributes: ['title'],
-          where: subCategoryCondition,
-        },
-        {
-          model: BrandCategory,
-          attributes: ['brandId', 'mainCategoryId'],
-          required: true,
+          attributes: ['id', 'subCategoryId', 'brandCategoryId'],
           include: [
             {
-              model: Brand,
-              attributes: ['title'],
-              where: brandCondition,
+              model: SubCategory,
+              attributes: ['title', 'slug'],
+              where: subCategoryCondition,
             },
             {
-              model: MainCategory,
-              attributes: ['title'],
-              where: mainCategoryCondition,
+              model: BrandCategory,
+              attributes: ['brandId', 'mainCategoryId'],
+              required: true,
+              include: [
+                {
+                  model: Brand,
+                  attributes: ['title', 'slug'],
+                  where: brandCondition,
+                },
+                {
+                  model: MainCategory,
+                  attributes: ['title', 'slug'],
+                  where: mainCategoryCondition,
+                },
+              ],
             },
           ],
         },
-      ],
+        {page, pageSize}
+      )
+    );
+
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      count: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
     });
-
-    if (!brandSubCategory) {
-      return res.status(404).json(resMsg.getMsg(40401));
-    }
-
-    res.status(200).json({...resMsg.getMsg(200), brandSubCategory});
   } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }

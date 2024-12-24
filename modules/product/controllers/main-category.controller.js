@@ -9,7 +9,26 @@ exports.getAllCategory = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const pageSize = parseInt(req.query.pageSize) || 10;
 
+  //fetch all
+  const fetchAll = req.query.all === 'true';
+
   try {
+    if (fetchAll) {
+      const allCategory = await MainCategory.findAll({
+        attributes: ['id', 'title', 'slug'],
+      });
+
+      if (allCategory.length === 0) {
+        return res.status(404).json(resMsg.getMsg(40401));
+      }
+
+      return res.status(200).json({
+        ...resMsg.getMsg(200),
+        count: allCategory.length,
+        result: allCategory,
+      });
+    }
+
     const {count, rows} = await MainCategory.findAndCountAll(
       paginate({}, {page, pageSize})
     );
@@ -25,6 +44,8 @@ exports.getAllCategory = async (req, res, next) => {
       result: rows,
     });
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

@@ -11,7 +11,26 @@ exports.getAllSubCategory = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const pageSize = parseInt(req.query.pageSize) || 10;
 
+  //fetch all
+  const fetchAll = req.query.all === 'true';
+
   try {
+    if (fetchAll) {
+      const allSubCategory = await SubCategory.findAll({
+        attributes: ['id', 'title', 'slug'],
+      });
+
+      if (allSubCategory.length === 0) {
+        return res.status(404).json(resMsg.getMsg(40401));
+      }
+
+      return res.status(200).json({
+        ...resMsg.getMsg(200),
+        count: allSubCategory.length,
+        result: allSubCategory,
+      });
+    }
+
     const {count, rows} = await SubCategory.findAndCountAll(
       paginate({}, {page, pageSize})
     );
