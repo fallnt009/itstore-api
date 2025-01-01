@@ -60,12 +60,14 @@ module.exports = (sequelize, DataTypes) => {
         name: 'userId',
         allowNull: false,
       },
+      as: 'Payments',
       onDelete: 'RESTRICT',
     });
     User.hasMany(db.UserPayment, {
       foreignKey: {
         name: 'verifierId',
       },
+      as: 'VerifiedPayments',
       onDelete: 'RESTRICT',
     });
     User.hasOne(db.Cart, {

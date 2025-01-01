@@ -51,12 +51,14 @@ module.exports = (sequelize, DataTypes) => {
         name: 'userId',
         allowNull: false,
       },
+      as: 'User',
       onDelete: 'RESTRICT',
     });
     UserPayment.belongsTo(db.User, {
       foreignKey: {
         name: 'verifierId',
       },
+      as: 'Verifier',
       onDelete: 'RESTRICT',
     });
     UserPayment.belongsTo(db.Payment, {

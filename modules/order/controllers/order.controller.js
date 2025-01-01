@@ -7,6 +7,7 @@ const {
   Checkout,
   Service,
   Payment,
+  User,
   UserPayment,
   UserAddress,
   Product,
@@ -17,6 +18,8 @@ const {
   sequelize,
 } = require('../../../models');
 
+const {Op} = require('sequelize');
+
 const {
   STATUS_PENDING,
   STATUS_PROCESSING,
@@ -26,6 +29,8 @@ const {
 const {generateOrderNumber} = require('../../../utils/generateNumber');
 
 const resMsg = require('../../../config/messages');
+
+const paginate = require('../../../utils/paginate');
 
 exports.getMyOrder = async (req, res, next) => {
   try {
@@ -683,6 +688,117 @@ exports.createOrderTest = async (req, res, next) => {
     console.log(err);
     await od.rollback();
 
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+
+exports.getAllOrder = async (req, res, next) => {
+  try {
+    //pagination (page,pageSize,order)
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 5;
+
+    //sorts
+    const sorts = req.query.sorts ? JSON.parse(req.query.sorts) : {}; //{sortBy:'price',sortValue:'ASC'}
+
+    const {sortBy = 'createdAt', sortValue = 'ASC'} = sorts;
+
+    //fetch unreviewed verifierId &&& verifierDate === null
+    //unpaid = paymentStatus === Pending
+    //completed = paymentStatus === Completed
+    //canceled = orderStatus === canceled
+
+    //{paymentStatus='',orderStatus='',startDate,endDate,verifierId,verifyDate}
+
+    const PaymentFiltersCondition = {};
+    const OrderFiltersCondition = {};
+    const DateFiltersCondition = {};
+
+    const {
+      paymentStatus,
+      orderStatus,
+      startDate,
+      endDate,
+      verifierId,
+      verifyDate,
+    } = req.body;
+
+    if (paymentStatus) {
+      PaymentFiltersCondition.paymentStatus = paymentStatus;
+    }
+    if (orderStatus) {
+      OrderFiltersCondition.orderStatus = orderStatus;
+    }
+
+    if (verifierId && verifyDate) {
+      // Filtering for unreviewed orders (verifierId and verifyDate are null)
+      PaymentFiltersCondition.verifierId = null;
+      PaymentFiltersCondition.verifyDate = null;
+    }
+
+    if (startDate && endDate) {
+      DateFiltersCondition.orderDate = {
+        [Op.between]: [startDate, endDate],
+      };
+    }
+
+    //get all order with pagination
+    const count = await Order.count({
+      where: {...OrderFiltersCondition, ...DateFiltersCondition},
+      include: [
+        {
+          model: UserPayment,
+          where: PaymentFiltersCondition, // Apply payment filters to UserPayment
+        },
+      ],
+    });
+
+    const rows = await Order.findAll(
+      paginate(
+        {
+          attributes: ['id', 'orderDate', 'createdAt'],
+          where: {...OrderFiltersCondition, ...DateFiltersCondition},
+          include: [
+            {
+              model: OrderItem,
+              attributes: ['id', 'qty'],
+            },
+            {
+              model: OrderDetail,
+              attributes: ['id', 'deliveryDate'],
+            },
+            {
+              model: UserPayment,
+              attributes: [
+                'id',
+                'amount',
+                'paymentStatus',
+                'verifierId',
+                'verifyDate',
+                'userId',
+              ],
+              where: PaymentFiltersCondition,
+              include: [
+                {
+                  model: User,
+                  as: 'User',
+                  attributes: ['firstName', 'lastName'],
+                },
+              ],
+            },
+          ],
+        },
+        {page, pageSize, sortBy, sortValue}
+      )
+    );
+    res.status(200).json({
+      ...resMsg.getMsg(200),
+      count: count,
+      totalPages: Math.ceil(count / pageSize),
+      currentPage: page,
+      result: rows,
+    });
+  } catch (err) {
     res.status(500).json(resMsg.getMsg(500));
   }
 };

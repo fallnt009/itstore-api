@@ -12,6 +12,7 @@ router
   .get(orderController.getOrderByOrderNumber);
 
 router.use(authenticate);
+router.route('/all').get(orderController.getAllOrder);
 router.route('/myorder').get(orderController.getMyOrder);
 router.route('/myorder/:orderId').delete(orderController.cancelOrder);
 router.route('/create').post(orderController.createOrder);
