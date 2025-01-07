@@ -21,6 +21,10 @@ msg[40005] = {
   descEn: 'Cart is Empty',
   desc: 'ตระกร้าสินค้าว่าง',
 };
+msg[40006] = {
+  descEn: 'Invalid Start Date and End Date',
+  desc: 'วันที่ไม่ถูกต้อง',
+};
 msg[401] = {descEn: 'Unauthorized', desc: 'ไม่ได้รับอนุญาติ'};
 msg[40101] = {
   descEn: 'Token not match or Token expired',

@@ -27,14 +27,30 @@ module.exports = (sequelize, DataTypes) => {
     });
     UserAddress.hasOne(db.Checkout, {
       foreignKey: {
-        name: 'userAddressId',
+        name: 'shipmentAddressId',
       },
+      as: 'addressShipmentCheckout',
+      onDelete: 'RESTRICT',
+    });
+    UserAddress.hasOne(db.Checkout, {
+      foreignKey: {
+        name: 'billingAddressId',
+      },
+      as: 'addressBillingCheckout',
       onDelete: 'RESTRICT',
     });
     UserAddress.hasOne(db.OrderDetail, {
       foreignKey: {
-        name: 'userAddressId',
+        name: 'shipmentAddressId',
       },
+      as: 'addressShipment',
+      onDelete: 'RESTRICT',
+    });
+    UserAddress.hasOne(db.OrderDetail, {
+      foreignKey: {
+        name: 'billingAddressId',
+      },
+      as: 'addressBilling',
       onDelete: 'RESTRICT',
     });
   };

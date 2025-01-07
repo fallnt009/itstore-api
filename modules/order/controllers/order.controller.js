@@ -703,42 +703,40 @@ exports.getAllOrder = async (req, res, next) => {
 
     const {sortBy = 'createdAt', sortValue = 'ASC'} = sorts;
 
-    //fetch unreviewed verifierId &&& verifierDate === null
-    //unpaid = paymentStatus === Pending
-    //completed = paymentStatus === Completed
-    //canceled = orderStatus === canceled
-
-    //{paymentStatus='',orderStatus='',startDate,endDate,verifierId,verifyDate}
-
     const PaymentFiltersCondition = {};
     const OrderFiltersCondition = {};
     const DateFiltersCondition = {};
 
-    const {
-      paymentStatus,
-      orderStatus,
-      startDate,
-      endDate,
-      verifierId,
-      verifyDate,
-    } = req.body;
+    const {dates, filters} = req.query;
 
-    if (paymentStatus) {
-      PaymentFiltersCondition.paymentStatus = paymentStatus;
-    }
-    if (orderStatus) {
-      OrderFiltersCondition.orderStatus = orderStatus;
+    //validate Date
+    if (
+      dates.startDate &&
+      dates.endDate &&
+      new Date(dates.startDate) > new Date(dates.endDate)
+    ) {
+      return res.status(400).json(resMsg.getMsg(40006));
     }
 
-    if (verifierId && verifyDate) {
-      // Filtering for unreviewed orders (verifierId and verifyDate are null)
-      PaymentFiltersCondition.verifierId = null;
-      PaymentFiltersCondition.verifyDate = null;
+    if (filters) {
+      if (filters.paymentStatus) {
+        PaymentFiltersCondition.paymentStatus = filters.paymentStatus;
+      }
+      if (filters.orderStatus) {
+        OrderFiltersCondition.orderStatus = filters.orderStatus;
+      }
+
+      if (filters.isVerify === 'false') {
+        // Filtering for unreviewed orders (verifierId and verifyDate are null)
+        PaymentFiltersCondition.verifierId = null;
+        PaymentFiltersCondition.verifyDate = null;
+      }
     }
 
-    if (startDate && endDate) {
+    if (dates.startDate && dates.endDate) {
+      //check date if endDate earlier than startDate
       DateFiltersCondition.orderDate = {
-        [Op.between]: [startDate, endDate],
+        [Op.between]: [dates.startDate, dates.endDate],
       };
     }
 
@@ -799,6 +797,8 @@ exports.getAllOrder = async (req, res, next) => {
       result: rows,
     });
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };

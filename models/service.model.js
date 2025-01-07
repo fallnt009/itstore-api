@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {type: DataTypes.STRING, allowNull: false},
       slug: {type: DataTypes.STRING, allowNull: false, unique: true},
-      price: {type: DataTypes.STRING, allowNull: false},
+      price: {type: DataTypes.DECIMAL(10, 2), allowNull: false},
       description: {type: DataTypes.STRING, allowNull: false},
     },
     {underscored: true}

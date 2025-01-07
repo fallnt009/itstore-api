@@ -17,6 +17,12 @@ exports.getMyCheckout = async (req, res, next) => {
       include: [
         {
           model: UserAddress,
+          as: 'checkoutShipmentAddress',
+          include: [{model: Address}],
+        },
+        {
+          model: UserAddress,
+          as: 'checkoutBillingAddress',
           include: [{model: Address}],
         },
         {
@@ -29,6 +35,8 @@ exports.getMyCheckout = async (req, res, next) => {
     });
     res.status(200).json({...resMsg.getMsg(200), result});
   } catch (err) {
+    console.log(err);
+
     res.status(500).json(resMsg.getMsg(500));
   }
 };
@@ -41,13 +49,13 @@ exports.createCheckout = async (req, res, next) => {
     const userid = req.user.id;
 
     //Check UserAddress if already have any default address
-    const useraddress = await UserAddress.findOne({
-      where: {userId: userid, isDefault: true},
-      transaction,
-    });
+    // const useraddress = await UserAddress.findOne({
+    //   where: {userId: userid, isDefault: true},
+    //   transaction,
+    // });
 
     //check if useraddress default valid return id else null
-    const useraddressId = useraddress ? useraddress.id : null;
+    // const useraddressId = useraddress ? useraddress.id : null;
     //if already have Check out with this user Id
     const existingCheckout = await Checkout.findOne({
       where: {userId: userid},
@@ -58,7 +66,6 @@ exports.createCheckout = async (req, res, next) => {
       //if checkout not exist
       const newCheckout = await Checkout.create(
         {
-          userAddressId: useraddressId,
           serviceId: null,
           paymentId: null,
           userId: userid,
@@ -80,6 +87,8 @@ exports.createCheckout = async (req, res, next) => {
       res.status(200).json({...resMsg.getMsg(200), result: existingCheckout});
     }
   } catch (err) {
+    console.log(err);
+
     await transaction.rollback();
     res.status(500).json(resMsg.getMsg(500));
   }

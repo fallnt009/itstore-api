@@ -4,8 +4,16 @@ module.exports = (sequelize, DataTypes) => {
   Checkout.associate = (db) => {
     Checkout.belongsTo(db.UserAddress, {
       foreignKey: {
-        name: 'userAddressId',
+        name: 'shipmentAddressId',
       },
+      as: 'checkoutShipmentAddress',
+      onDelete: 'RESTRICT',
+    });
+    Checkout.belongsTo(db.UserAddress, {
+      foreignKey: {
+        name: 'billingAddressId',
+      },
+      as: 'checkoutBillingAddress',
       onDelete: 'RESTRICT',
     });
     Checkout.belongsTo(db.Service, {

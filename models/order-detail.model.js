@@ -7,12 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      senderAddress: {
-        type: DataTypes.STRING,
-      },
-      receiverAddress: {
-        type: DataTypes.STRING,
-      },
       deliveryDate: {
         type: DataTypes.DATE,
       },
@@ -38,8 +32,17 @@ module.exports = (sequelize, DataTypes) => {
     });
     OrderDetail.belongsTo(db.UserAddress, {
       foreignKey: {
-        name: 'userAddressId',
+        name: 'shipmentAddressId',
       },
+      as: 'shipmentAddress',
+
+      onDelete: 'RESTRICT',
+    });
+    OrderDetail.belongsTo(db.UserAddress, {
+      foreignKey: {
+        name: 'billingAddressId',
+      },
+      as: 'billingAddress',
       onDelete: 'RESTRICT',
     });
     OrderDetail.belongsTo(db.Service, {
