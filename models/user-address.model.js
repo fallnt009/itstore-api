@@ -2,7 +2,11 @@ module.exports = (sequelize, DataTypes) => {
   const UserAddress = sequelize.define(
     'UserAddress',
     {
-      isDefault: {
+      isDefaultShipping: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      isDefaultBilling: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },

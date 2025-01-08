@@ -97,7 +97,7 @@ exports.getMyAddress = async (req, res, next) => {
   }
 };
 
-exports.updateAddressDefault = async (req, res, next) => {
+exports.updateShippingAddressDefault = async (req, res, next) => {
   const t = await sequelize.transaction();
 
   try {
@@ -112,18 +112,58 @@ exports.updateAddressDefault = async (req, res, next) => {
     }
     //update userAddress that already default
     await UserAddress.update(
-      {isDefault: false},
-      {where: {userId: req.user.id, isDefault: true}, transaction: t}
+      {isDefaultShipping: false},
+      {where: {userId: req.user.id, isDefaultShipping: true}, transaction: t}
     );
     //update selected address
-    await userAddress.update({isDefault: true}, {transaction: t});
+    await userAddress.update({isDefaultShipping: true}, {transaction: t});
     //find address that isDefault true
     const result = await Address.findOne({
       where: {id: req.params.id},
       include: [
         {
           model: UserAddress,
-          where: {userId: req.user.id, isDefault: true},
+          where: {userId: req.user.id, isDefaultShipping: true},
+          requried: true,
+        },
+      ],
+      transaction: t,
+    });
+
+    await t.commit();
+    res.status(200).json({...resMsg.getMsg(200), result});
+  } catch (err) {
+    await t.rollback();
+    res.status(500).json(resMsg.getMsg(500));
+  }
+};
+exports.updateBillingAddressDefault = async (req, res, next) => {
+  const t = await sequelize.transaction();
+
+  try {
+    //check if useraddress exist
+    const userAddress = await UserAddress.findOne({
+      where: {addressId: req.params.id, userId: req.user.id},
+      transaction: t,
+    });
+    if (!userAddress) {
+      await t.rollback();
+      return res.status(404).json(resMsg.getMsg(40401));
+    }
+    //update userAddress that already default
+    await UserAddress.update(
+      {isDefaultBilling: false},
+      {where: {userId: req.user.id, isDefaultBilling: true}, transaction: t}
+    );
+    //update selected address
+    await userAddress.update({isDefaultBilling: true}, {transaction: t});
+    //find address that isDefault true
+    const result = await Address.findOne({
+      where: {id: req.params.id},
+      include: [
+        {
+          model: UserAddress,
+          where: {userId: req.user.id, isDefaultBilling: true},
           requried: true,
         },
       ],

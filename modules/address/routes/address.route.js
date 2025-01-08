@@ -14,6 +14,11 @@ router
   .patch(addressController.updateAddress)
   .delete(addressController.deleteAddress);
 
-router.route('/default/:id').patch(addressController.updateAddressDefault);
+router
+  .route('/default/shipping/:id')
+  .patch(addressController.updateShippingAddressDefault);
+router
+  .route('/default/billing/:id')
+  .patch(addressController.updateBillingAddressDefault);
 
 module.exports = router;
